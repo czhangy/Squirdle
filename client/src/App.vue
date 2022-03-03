@@ -1,24 +1,43 @@
 <template>
-	<router-view />
+	<Navbar />
+	<Squirdle />
 </template>
+
+<script>
+// Import global components
+import Navbar from "@/components/Navbar.vue";
+import Squirdle from "@/components/Squirdle.vue";
+
+export default {
+	name: "App",
+	components: {
+		Navbar,
+		Squirdle,
+	},
+};
+</script>
+
 
 <style lang="scss">
 #app {
-	font-family: 'Helvetica Neue', Arial, sans-serif;
+	font-family: "Helvetica Neue", Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-  // Site color
-  background: lighten(black, 10);
-  // Site sizing
-  height: 100vh;
-  width: 100vw;
+	// Site color
+	background: $main-color;
+	// Site sizing
+	height: 100vh;
+	width: 100vw;
 }
 
 * {
+  // Remove default spacing
 	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	outline: none;
+}
+
+html {
+  // Handle background on overscroll
+  background: $main-color;
 }
 </style>
