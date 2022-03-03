@@ -45,8 +45,8 @@ export default {
 
         img {
             // Icon sizing
-            height: 32px;
-            width: 32px;
+            height: 24px;
+            width: 24px;
         }
 	}
 
@@ -56,6 +56,13 @@ export default {
 		font-weight: bold;
 		font-size: 3rem;
 		letter-spacing: 3px;
+	}
+}
+
+// Mobile design
+@media screen and (max-width: 600px) {
+	#navbar > #title {
+		font-size: 2rem;
 	}
 }
 </style>
