@@ -16,15 +16,15 @@ app.use(express.json());
 app.use(history());
 
 // Force SSL
-app.use((req, res, next) => {
-  if (process.env.NODE_ENV === 'production') {
-      if (req.headers['x-forwarded-proto'] !== 'https')
-          return res.redirect('https://' + req.headers.host + req.url);
-      else
-          return next();
-  } else
-      return next();
-});
+// app.use((req, res, next) => {
+//   if (process.env.NODE_ENV === 'production') {
+//       if (req.headers['x-forwarded-proto'] !== 'https')
+//           return res.redirect('https://' + req.headers.host + req.url);
+//       else
+//           return next();
+//   } else
+//       return next();
+// });
 
 // Apply route
 const pokemonRouter = require("./routes/pokemon.route.js");
