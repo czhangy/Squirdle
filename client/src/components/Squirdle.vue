@@ -5,7 +5,7 @@
 				id="guess-input"
 				type="search"
 				list="guess-list"
-				placeholder="Guess 1 of 8"
+				placeholder="Guess 1 of 6"
 				v-model="guess"
 			/>
 			<datalist id="guess-list">
@@ -15,6 +15,20 @@
 			</datalist>
 			<input type="submit" id="guess-button" value="→" />
 		</form>
+		<div id="game-grid">
+			<div id="game-grid-labels">
+				<label class="game-grid-label">Guess</label>
+				<label class="game-grid-label">Gen</label>
+				<label class="game-grid-label">Type</label>
+				<label class="game-grid-label">Stage</label>
+				<label class="game-grid-label">Color</label>
+			</div>
+			<hr id="separator" />
+			<div class="game-grid-row" v-for="i in 6" :key="i">
+				<SpriteTile />
+				<TextTile v-for="j in 4" :key="j" />
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -22,8 +36,16 @@
 // Import global library
 import axios from "axios";
 
+// Import components
+import SpriteTile from "@/components/SpriteTile.vue";
+import TextTile from "@/components/TextTile.vue";
+
 export default {
 	name: "Squirdle",
+	components: {
+		SpriteTile,
+		TextTile,
+	},
 	data() {
 		return {
 			// Global vars
@@ -89,7 +111,7 @@ export default {
 			// Update placeholder
 			document.getElementById("guess-input").placeholder = `Guess ${
 				this.guesses.length + 1
-			} of 8`;
+			} of 6`;
 		},
 	},
 	mounted() {
@@ -110,6 +132,8 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		// Spacing
+		margin-bottom: 36px;
 
 		#guess-input {
 			// Bar styling
@@ -125,7 +149,6 @@ export default {
 			color: $accent-color;
 			font-family: "Helvetica Neue", Arial, sans-serif;
 			font-size: 2rem;
-			font-weight: bold;
 			letter-spacing: 2px;
 			// Spacing
 			padding: 0 12px;
@@ -172,6 +195,45 @@ export default {
 			background: $main-color;
 			// Clickable
 			cursor: pointer;
+		}
+	}
+
+	#game-grid {
+		// Centering
+		margin: 0 auto;
+		// Sizing
+		width: 350px;
+
+		#game-grid-labels {
+			// Layout
+			display: flex;
+			justify-content: space-between;
+
+			.game-grid-label {
+				// Typography
+				color: $accent-color;
+				letter-spacing: 2px;
+				// Sizing
+				width: 65px;
+			}
+		}
+
+		#separator {
+			// Bar styling
+			height: 1px;
+			background: $accent-color;
+			// Spacing
+			margin: 10px 0;
+			// Remove default styling
+			border: none;
+		}
+
+		.game-grid-row {
+			// Spacing
+			margin-bottom: 5px;
+			// Layout
+			display: flex;
+			justify-content: space-between;
 		}
 	}
 }
