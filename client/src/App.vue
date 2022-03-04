@@ -1,18 +1,16 @@
 <template>
 	<Navbar />
-	<Squirdle />
+	<router-view />
 </template>
 
 <script>
 // Import global components
 import Navbar from "@/components/Navbar.vue";
-import Squirdle from "@/components/Squirdle.vue";
 
 export default {
 	name: "App",
 	components: {
 		Navbar,
-		Squirdle,
 	},
 };
 </script>
