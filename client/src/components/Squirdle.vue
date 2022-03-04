@@ -54,19 +54,39 @@ export default {
 			VALID: 2,
 			// State
 			guess: "",
-			guesses: [],
 			pokemonObjs: null,
+			guesses: [],
+			// Target
+			targetObj: {},
 		};
 	},
 	methods: {
 		// Fetch list of Pokemon
-		fetchPokemon: function () {
-			// Set route
-			const uri = "/api/pokemon";
+		fetchPokemonList: async function () {
+			const url = "/api/pokemon";
 			// Fetch
-			axios.get(uri).then((response) => {
+			await axios.get(url).then((response) => {
 				this.pokemonObjs = response.data.results;
 			});
+		},
+		// Fetch specific Pokemon
+		fetchPokemon: async function (url) {
+			const pokemon = {};
+			// Fetch name and species
+			await axios.get(url).then(async (response1) => {
+				pokemon.name = response1.data.name;
+				// Fetch generation and color
+				await axios
+					.get(response1.data.species.url)
+					.then((response2) => {
+						pokemon.generation = response2.data.generation.name
+							.split("-")[1]
+							.toUpperCase();
+						pokemon.color = response2.data.color.name;
+						console.log(pokemon);
+					});
+			});
+			return pokemon;
 		},
 		// Capitalize Pokemon name
 		formatPokemonName: function (name) {
@@ -86,13 +106,16 @@ export default {
 			}
 		},
 		// On submit
-		submitGuess: function () {
+		submitGuess: async function () {
 			// Guess is not a valid Pokemon
 			if (this.validateGuess() === this.INVALID) {
 				// Pokemon has already been guessed
 			} else if (this.validateGuess() === this.DUPLICATE) {
+			} else {
 				// Guess is valid
-			} else this.updateGuess();
+				await this.updateGrid();
+				this.updateGuess();
+			}
 		},
 		// Handle validation
 		validateGuess: function () {
@@ -113,9 +136,71 @@ export default {
 				this.guesses.length + 1
 			} of 6`;
 		},
+		// Update the game board
+		updateGrid: async function () {
+			// Fetch
+			const guessURL = this.pokemonObjs.find(
+				(obj) => obj.name === this.guess.toLowerCase()
+			).url;
+			const pokemon = await this.fetchPokemon(guessURL);
+			// Update display data
+			await this.updateSpriteTile(guessURL);
+			await this.updateTextTiles(pokemon);
+			// Update tile statuses
+			this.updateTileStatuses(pokemon);
+			// Flip tiles
+			this.flipTiles();
+		},
+		// Update sprite tile
+		updateSpriteTile: async function (url) {
+			// Fetch box sprite
+			await axios.get(url).then((response) => {
+				document.getElementsByClassName("sprite")[
+					this.guesses.length
+				].src =
+					response.data.sprites.versions[
+						"generation-viii"
+					].icons.front_default;
+			});
+		},
+		// Update other tiles
+		updateTextTiles: async function (pokemon) {
+			const baseInd = this.guesses.length * 4;
+			const tiles = document.getElementsByClassName("text");
+			// Update generation
+			tiles[baseInd].innerHTML = pokemon.generation;
+		},
+		// Set status of tiles
+		updateTileStatuses: function (pokemon) {
+			const baseInd = this.guesses.length * 4;
+			const textTiles = document.getElementsByClassName("text-tile-back");
+			// Update sprite tile
+			if (this.guess.toLowerCase() === this.targetObj.name)
+				document
+					.getElementsByClassName("sprite-tile-back")
+					[this.guesses.length].classList.add("correct");
+			// Update generation tile
+			if (pokemon.generation === this.targetObj.generation)
+				textTiles[baseInd].classList.add("correct");
+		},
+		// Flip tiles animation
+		flipTiles: function () {
+			const baseInd = this.guesses.length * 4;
+			const textTiles =
+				document.getElementsByClassName("text-tile-inner");
+			// Flip sprite tile
+			document
+				.getElementsByClassName("sprite-tile-inner")
+				[this.guesses.length].classList.add("rotated");
+			// Flip other tiles
+			for (let i = 0; i < 4; i++)
+				textTiles[baseInd + i].classList.add("rotated");
+		},
 	},
-	mounted() {
-		this.fetchPokemon();
+	mounted: async function () {
+		const tempURL = "https://pokeapi.co/api/v2/pokemon/1/";
+		await this.fetchPokemonList();
+		this.targetObj = await this.fetchPokemon(tempURL);
 	},
 };
 </script>
