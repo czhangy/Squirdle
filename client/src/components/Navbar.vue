@@ -60,7 +60,7 @@ export default {
 }
 
 // Mobile design
-@media screen and (max-width: 600px) {
+@media screen and (max-width: $mobile) {
 	#navbar > #title {
 		font-size: 2rem;
 	}
