@@ -27,8 +27,8 @@ app.use(history());
 // });
 
 // Apply route
-const pokemonRouter = require("./routes/pokemon.route.js");
-app.use("/api/pokemon", pokemonRouter);
+// const pokemonRouter = require("./routes/pokemon.route.js");
+// app.use("/api/pokemon", pokemonRouter);
 
 // Handle production
 if (process.env.NODE_ENV === "production") {

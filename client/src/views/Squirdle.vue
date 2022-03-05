@@ -198,9 +198,9 @@ export default {
 		},
 	},
 	mounted: async function () {
-		const tempURL = "https://pokeapi.co/api/v2/pokemon/1/";
-		await this.fetchPokemonList();
-		this.targetObj = await this.fetchPokemon(tempURL);
+		// const tempURL = "https://pokeapi.co/api/v2/pokemon/1/";
+		// await this.fetchPokemonList();
+		// this.targetObj = await this.fetchPokemon(tempURL);
 	},
 };
 </script>
