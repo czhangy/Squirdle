@@ -144,7 +144,7 @@ export default {
 
 			.color-text {
 				// Typography
-				font-size: 0.8rem;
+				font-size: 0.7rem;
 			}
 		}
 

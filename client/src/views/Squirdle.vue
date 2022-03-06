@@ -365,10 +365,8 @@ export default {
 			height: var(--input-height);
 			width: 300px;
 			// Border
-			border: 2px solid $accent-color;
+			border: 2px solid $tile-color;
 			border-right: none;
-			border-radius: 5px 0 0 5px;
-			box-sizing: border-box;
 			// Typography
 			color: $accent-color;
 			font-family: "Helvetica Neue", Arial, sans-serif;
@@ -406,8 +404,7 @@ export default {
 
 		#guess-button {
 			// Border
-			border: 2px solid $accent-color;
-			border-radius: 0 5px 5px 0;
+			border: 2px solid $tile-color;
 			// Button sizing
 			height: var(--input-height);
 			// Spacing
@@ -415,13 +412,13 @@ export default {
 			// Typography
 			color: $accent-color;
 			font-size: 1rem;
-			// Button styling
-			background: $main-color;
 		}
 
 		.active-button {
 			// Clickable
 			cursor: pointer;
+            // Button styling
+			background: $main-color;
 		}
 	}
 
