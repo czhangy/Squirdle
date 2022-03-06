@@ -16,7 +16,6 @@
 		<hr />
 		<p class="help-text"><strong>Examples:</strong></p>
 		<br />
-		<br />
 		<div class="tile-container">
 			<div class="tile">
 				<img
@@ -35,11 +34,9 @@
 				/>
 			</div>
 			<div class="tile">I</div>
-			<div class="tile"><p class="color-text">Green</p></div>
+			<div class="tile"><p class="color-text">GREEN</p></div>
 		</div>
-		<br />
 		<p class="help-text">The Pokémon's generation is within 1.</p>
-		<br />
 		<br />
 		<div class="tile-container">
 			<div class="tile">
@@ -56,11 +53,9 @@
 				/>
 			</div>
 			<div class="tile">I</div>
-			<div class="tile"><p class="color-text">Red</p></div>
+			<div class="tile"><p class="color-text">RED</p></div>
 		</div>
-		<br />
 		<p class="help-text">The Pokémon's type is partially correct.</p>
-		<br />
 		<br />
 		<div class="tile-container">
 			<div class="tile correct">
@@ -77,9 +72,8 @@
 				/>
 			</div>
 			<div class="tile correct">I</div>
-			<div class="tile correct"><p class="color-text">Blue</p></div>
-		</div>
-		<br />
+			<div class="tile correct"><p class="color-text">BLUE</p></div>
+            </div>
 		<p class="help-text">The Pokémon is Squirtle!</p>
 	</div>
 </template>
@@ -128,6 +122,8 @@ export default {
 		// Centering
 		margin: 0 auto;
 		width: 70%;
+        // Spacing
+        margin-bottom: 8px;
 
 		.tile {
 			// Border
