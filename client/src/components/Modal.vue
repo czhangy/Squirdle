@@ -67,7 +67,7 @@ export default {
 		transform: translateY(40px);
 		opacity: 0;
 		// Spacing
-		padding: 32px;
+		padding: 24px;
 	}
 
 	.modal-close {

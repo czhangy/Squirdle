@@ -107,7 +107,7 @@ export default {
 	hr {
 		// Spacing
 		display: block;
-		margin: 16px 0;
+		margin: 12px 0;
 		// Bar styling
 		height: 1px;
 		background: white;
