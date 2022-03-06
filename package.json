@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.6.0",
     "express": "^4.17.3",
+    "mongoose": "^6.2.4",
     "nodemon": "^2.0.15",
     "pokeapi-js-wrapper": "^1.2.2",
     "vue": "^3.0.0",

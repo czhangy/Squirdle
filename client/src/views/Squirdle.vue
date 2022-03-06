@@ -6,11 +6,12 @@
 				type="search"
 				list="guess-list"
 				placeholder="Guess 1 of 6"
+                spellcheck="false"
 				v-model="guess"
 			/>
 			<datalist id="guess-list">
 				<option v-for="(pokemon, i) in pokemonObjs" :key="i">
-					{{ formatPokemonName(pokemon.name) }}
+					{{ pokemon.name }}
 				</option>
 			</datalist>
 			<input type="submit" id="guess-button" value="→" />
@@ -63,47 +64,13 @@ export default {
 	methods: {
 		// Fetch list of Pokemon
 		fetchPokemonList: async function () {
-			const url = "/api/pokemon";
 			// Fetch
-			await axios.get(url).then((response) => {
-				this.pokemonObjs = response.data.results;
+			await axios.get("/api/pokemon").then(async (response) => {
+                // Sort by dex number
+				this.pokemonObjs = response.data.sort(
+					(a, b) => a.dex_num - b.dex_num
+				);
 			});
-		},
-		// Fetch specific Pokemon
-		fetchPokemon: async function (url) {
-			const pokemon = {};
-			// Fetch name and species
-			await axios.get(url).then(async (response1) => {
-				pokemon.name = response1.data.name;
-				// Fetch generation and color
-				await axios
-					.get(response1.data.species.url)
-					.then((response2) => {
-						pokemon.generation = response2.data.generation.name
-							.split("-")[1]
-							.toUpperCase();
-						pokemon.color = response2.data.color.name;
-						console.log(pokemon);
-					});
-			});
-			return pokemon;
-		},
-		// Capitalize Pokemon name
-		formatPokemonName: function (name) {
-			// Handle edge cases
-			if (name === "mr-mime") return "Mr. Mime";
-			else if (name === "mime-jr") return "Mime Jr.";
-			else {
-				// Replace hyphens with spaces
-				name = name.replace(/-/g, " ");
-				// Capitalize beginning of each word
-				name = name
-					.toLowerCase()
-					.split(" ")
-					.map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-					.join(" ");
-				return name;
-			}
 		},
 		// On submit
 		submitGuess: async function () {
@@ -120,7 +87,7 @@ export default {
 		// Handle validation
 		validateGuess: function () {
 			const validNames = this.pokemonObjs.map((pokemon) => pokemon.name);
-			const guess = this.guess.toLowerCase();
+			const guess = this.guess;
 			if (!validNames.includes(guess)) return this.INVALID;
 			else if (this.guesses.includes(guess)) return this.DUPLICATE;
 			else return this.VALID;
@@ -128,7 +95,7 @@ export default {
 		// Update guess
 		updateGuess: function () {
 			// Add to prior guesses
-			this.guesses.push(this.guess.toLowerCase());
+			this.guesses.push(this.guess);
 			// Clear guess
 			this.guess = "";
 			// Update placeholder
@@ -139,48 +106,43 @@ export default {
 		// Update the game board
 		updateGrid: async function () {
 			// Fetch
-			const guessURL = this.pokemonObjs.find(
-				(obj) => obj.name === this.guess.toLowerCase()
-			).url;
-			const pokemon = await this.fetchPokemon(guessURL);
+			const ind = this.pokemonObjs.findIndex(
+				(obj) => obj.name === this.guess
+			);
 			// Update display data
-			await this.updateSpriteTile(guessURL);
-			await this.updateTextTiles(pokemon);
+			await this.updateSpriteTile(ind);
+			await this.updateTextTiles(this.pokemonObjs[ind]);
 			// Update tile statuses
-			this.updateTileStatuses(pokemon);
+			this.updateTileStatuses(this.pokemonObjs[ind]);
 			// Flip tiles
 			this.flipTiles();
 		},
 		// Update sprite tile
-		updateSpriteTile: async function (url) {
+		updateSpriteTile: async function (ind) {
+			const dexNum = (ind + 1).toString().padStart(3, '0');
 			// Fetch box sprite
-			await axios.get(url).then((response) => {
-				document.getElementsByClassName("sprite")[
-					this.guesses.length
-				].src =
-					response.data.sprites.versions[
-						"generation-viii"
-					].icons.front_default;
-			});
+			document.getElementsByClassName("sprite")[
+				this.guesses.length
+			].src = `https://www.serebii.net/pokedex-swsh/icon/${dexNum}.png`;
 		},
 		// Update other tiles
 		updateTextTiles: async function (pokemon) {
 			const baseInd = this.guesses.length * 4;
 			const tiles = document.getElementsByClassName("text");
 			// Update generation
-			tiles[baseInd].innerHTML = pokemon.generation;
+			tiles[baseInd].innerHTML = pokemon.gen;
 		},
 		// Set status of tiles
 		updateTileStatuses: function (pokemon) {
 			const baseInd = this.guesses.length * 4;
 			const textTiles = document.getElementsByClassName("text-tile-back");
 			// Update sprite tile
-			if (this.guess.toLowerCase() === this.targetObj.name)
+			if (this.guess === this.targetObj.name)
 				document
 					.getElementsByClassName("sprite-tile-back")
 					[this.guesses.length].classList.add("correct");
 			// Update generation tile
-			if (pokemon.generation === this.targetObj.generation)
+			if (pokemon.gen === this.targetObj.gen)
 				textTiles[baseInd].classList.add("correct");
 		},
 		// Flip tiles animation
@@ -198,9 +160,8 @@ export default {
 		},
 	},
 	mounted: async function () {
-		// const tempURL = "https://pokeapi.co/api/v2/pokemon/1/";
-		// await this.fetchPokemonList();
-		// this.targetObj = await this.fetchPokemon(tempURL);
+		await this.fetchPokemonList();
+        this.targetObj = this.pokemonObjs[0];
 	},
 };
 </script>

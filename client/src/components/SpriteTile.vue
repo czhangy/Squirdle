@@ -63,7 +63,7 @@ export default {
 			// Centering
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             // Tile styling
             background-color: $tile-color;
 			// Animate
