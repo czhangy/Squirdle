@@ -38,7 +38,7 @@ export default {
 		width: 100%;
 		height: 100%;
 		// Animate
-		transition: transform 0.8s;
+		transition: transform 1s;
 		transform-style: preserve-3d;
 
 		.sprite-tile-front,

@@ -6,7 +6,7 @@
 				type="search"
 				list="guess-list"
 				placeholder="Guess 1 of 6"
-                spellcheck="false"
+				spellcheck="false"
 				v-model="guess"
 			/>
 			<datalist id="guess-list">
@@ -66,7 +66,7 @@ export default {
 		fetchPokemonList: async function () {
 			// Fetch
 			await axios.get("/api/pokemon").then(async (response) => {
-                // Sort by dex number
+				// Sort by dex number
 				this.pokemonObjs = response.data.sort(
 					(a, b) => a.dex_num - b.dex_num
 				);
@@ -113,13 +113,13 @@ export default {
 			await this.updateSpriteTile(ind);
 			await this.updateTextTiles(this.pokemonObjs[ind]);
 			// Update tile statuses
-			this.updateTileStatuses(this.pokemonObjs[ind]);
+			this.setTileStatuses(this.pokemonObjs[ind]);
 			// Flip tiles
 			this.flipTiles();
 		},
 		// Update sprite tile
 		updateSpriteTile: async function (ind) {
-			const dexNum = (ind + 1).toString().padStart(3, '0');
+			const dexNum = (ind + 1).toString().padStart(3, "0");
 			// Fetch box sprite
 			document.getElementsByClassName("sprite")[
 				this.guesses.length
@@ -133,7 +133,7 @@ export default {
 			tiles[baseInd].innerHTML = pokemon.gen;
 		},
 		// Set status of tiles
-		updateTileStatuses: function (pokemon) {
+		setTileStatuses: function (pokemon) {
 			const baseInd = this.guesses.length * 4;
 			const textTiles = document.getElementsByClassName("text-tile-back");
 			// Update sprite tile
@@ -156,12 +156,14 @@ export default {
 				[this.guesses.length].classList.add("rotated");
 			// Flip other tiles
 			for (let i = 0; i < 4; i++)
-				textTiles[baseInd + i].classList.add("rotated");
+				setTimeout(function () {
+					textTiles[baseInd + i].classList.add("rotated");
+				}, 250 * (i + 1));
 		},
 	},
 	mounted: async function () {
 		await this.fetchPokemonList();
-        this.targetObj = this.pokemonObjs[0];
+		this.targetObj = this.pokemonObjs[0];
 	},
 };
 </script>
@@ -195,7 +197,7 @@ export default {
 			color: $accent-color;
 			font-family: "Helvetica Neue", Arial, sans-serif;
 			font-size: 2rem;
-			letter-spacing: 2px;
+			letter-spacing: 1px;
 			// Spacing
 			padding: 0 12px;
 
