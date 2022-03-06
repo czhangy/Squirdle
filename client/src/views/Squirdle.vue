@@ -1,6 +1,13 @@
 <template>
 	<div id="squirdle">
-		<Modal id="game-over-modal" :onClose="closeGameOverModal" />
+		<Modal id="game-over-modal" :onClose="closeGameOverModal">
+			<GameOver
+				v-if="targetObj"
+				:win="win"
+				:guesses="guesses.length"
+				:target="targetObj"
+			/>
+		</Modal>
 		<form id="guess" @submit.prevent="submitGuess">
 			<input
 				id="guess-input"
@@ -49,12 +56,14 @@ import axios from "axios";
 
 // Import components
 import Modal from "@/components/Modal.vue";
+import GameOver from "@/components/GameOver.vue";
 import GameTile from "@/components/GameTile.vue";
 
 export default {
 	name: "Squirdle",
 	components: {
 		Modal,
+		GameOver,
 		GameTile,
 	},
 	data() {
@@ -69,7 +78,7 @@ export default {
 			guesses: [],
 			guessTypes: [],
 			numDualtypes: 0,
-            win: true,
+			win: true,
 			// Target
 			targetObj: {},
 		};
@@ -89,6 +98,15 @@ export default {
 		generateTarget: function () {
 			const ind = Math.floor(Math.random() * 151) + 1;
 			this.targetObj = this.pokemonObjs[ind];
+			// Set info on game over modal
+			document.getElementById(
+				"target-sprite"
+			).src = `https://www.serebii.net/swordshield/pokemon/${this.targetObj.dex_num
+				.toString()
+				.padStart(3, "0")}.png`;
+			document.getElementById("target-name").innerHTML = `
+				#${this.targetObj.dex_num.toString().padStart(3, "0")}: 
+				${this.targetObj.name}`;
 		},
 		// On submit
 		submitGuess: function () {
@@ -295,8 +313,6 @@ export default {
 		// Handle game end conditions
 		handleWin: function () {
 			const input = document.getElementById("guess-input");
-			// Change placeholder
-			input.placeholder = `You guessed it!`;
 			// Disable input
 			input.disabled = true;
 			document
@@ -309,16 +325,13 @@ export default {
 		},
 		handleLoss: function () {
 			const input = document.getElementById("guess-input");
-			// Change placeholder
-			document.getElementById("guess-input").placeholder =
-				"Aww, better luck next time!";
 			// Disable input
 			input.disabled = true;
 			document
 				.getElementById("guess-button")
 				.classList.remove("active-button");
-            this.win = false;
-            // Pop up loss modal
+			this.win = false;
+			// Pop up loss modal
 			setTimeout(() => {
 				this.openGameOverModal();
 			}, 2500);
@@ -367,6 +380,7 @@ export default {
 			// Border
 			border: 2px solid $tile-color;
 			border-right: none;
+            border-radius: 0;
 			// Typography
 			color: $accent-color;
 			font-family: "Helvetica Neue", Arial, sans-serif;
@@ -405,6 +419,7 @@ export default {
 		#guess-button {
 			// Border
 			border: 2px solid $tile-color;
+            border-radius: 0;
 			// Button sizing
 			height: var(--input-height);
 			// Spacing
@@ -417,7 +432,7 @@ export default {
 		.active-button {
 			// Clickable
 			cursor: pointer;
-            // Button styling
+			// Button styling
 			background: $main-color;
 		}
 	}
