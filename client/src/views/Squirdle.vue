@@ -81,6 +81,11 @@ export default {
 				);
 			});
 		},
+        // Randomly select target Pokemon
+        generateTarget: function () {
+            const ind = Math.floor(Math.random() * 151) + 1;
+            this.targetObj = this.pokemonObjs[ind];
+        },
 		// On submit
 		submitGuess: function () {
 			// Guess is not a valid Pokemon
@@ -290,7 +295,7 @@ export default {
 	},
 	mounted: async function () {
 		await this.fetchPokemonList();
-		this.targetObj = this.pokemonObjs[0];
+		this.generateTarget();
 	},
 };
 </script>
