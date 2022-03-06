@@ -31,6 +31,7 @@ export default {
 * {
 	// Remove default spacing
 	margin: 0;
+    box-sizing: border-box;
 }
 
 html {

@@ -66,6 +66,8 @@ export default {
 		// Reset transition
 		transform: translateY(40px);
 		opacity: 0;
+		// Spacing
+		padding: 32px;
 	}
 
 	.modal-close {
@@ -73,9 +75,9 @@ export default {
 		position: absolute;
 		top: 16px;
 		right: 16px;
-        // Sizing
-        height: 32px;
-        width: 32px;
+		// Sizing
+		height: 32px;
+		width: 32px;
 		// Clickable
 		cursor: pointer;
 	}

@@ -1,7 +1,11 @@
 <template>
 	<div id="navbar">
-		<Modal id="help-modal" :onClose="closeHelpModal" />
-        <Modal id="settings-modal" :onClose="closeSettingsModal" />
+		<Modal id="help-modal" :onClose="closeHelpModal">
+			<Help />
+		</Modal>
+		<Modal id="settings-modal" :onClose="closeSettingsModal">
+            <Settings />
+            </Modal>
 		<button id="help" @click="openHelpModal">
 			<img src="@/assets/icons/help.png" alt="Help" id="help-icon" />
 		</button>
@@ -19,11 +23,15 @@
 <script>
 // Import components
 import Modal from "@/components/Modal.vue";
+import Help from "@/components/Help.vue";
+import Settings from "@/components/Settings.vue";
 
 export default {
 	name: "Navbar",
 	components: {
 		Modal,
+        Help,
+        Settings,
 	},
 	methods: {
 		// Help modal control
@@ -39,7 +47,7 @@ export default {
 					.classList.remove("overlay");
 			}, 400);
 		},
-        // Settings modal control
+		// Settings modal control
 		openSettingsModal: function () {
 			document.getElementById("settings-modal").classList.add("overlay");
 			document.getElementById("settings-modal").classList.add("show");
@@ -52,6 +60,12 @@ export default {
 					.classList.remove("overlay");
 			}, 400);
 		},
+	},
+	mounted: function () {
+		// Pop up how to play
+		setTimeout(() => {
+			this.openHelpModal();
+		}, 500);
 	},
 };
 </script>
