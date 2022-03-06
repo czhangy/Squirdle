@@ -4,7 +4,7 @@
 </template>
 
 <script>
-// Import global components
+// Import components
 import Navbar from "@/components/Navbar.vue";
 
 export default {
@@ -14,7 +14,6 @@ export default {
 	},
 };
 </script>
-
 
 <style lang="scss">
 #app {
@@ -30,12 +29,12 @@ export default {
 }
 
 * {
-  // Remove default spacing
+	// Remove default spacing
 	margin: 0;
 }
 
 html {
-  // Handle background on overscroll
-  background: $main-color;
+	// Handle background on overscroll
+	background: $main-color;
 }
 </style>

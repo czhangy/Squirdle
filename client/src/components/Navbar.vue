@@ -1,10 +1,12 @@
 <template>
 	<div id="navbar">
-		<button id="help">
+		<Modal id="help-modal" :onClose="closeHelpModal" />
+        <Modal id="settings-modal" :onClose="closeSettingsModal" />
+		<button id="help" @click="openHelpModal">
 			<img src="@/assets/icons/help.png" alt="Help" id="help-icon" />
 		</button>
 		<h1 id="title">SQUIRDLE</h1>
-		<button id="settings">
+		<button id="settings" @click="openSettingsModal">
 			<img
 				src="@/assets/icons/settings.png"
 				alt="Settings"
@@ -15,8 +17,42 @@
 </template>
 
 <script>
+// Import components
+import Modal from "@/components/Modal.vue";
+
 export default {
 	name: "Navbar",
+	components: {
+		Modal,
+	},
+	methods: {
+		// Help modal control
+		openHelpModal: function () {
+			document.getElementById("help-modal").classList.add("overlay");
+			document.getElementById("help-modal").classList.add("show");
+		},
+		closeHelpModal: function () {
+			document.getElementById("help-modal").classList.remove("show");
+			setTimeout(() => {
+				document
+					.getElementById("help-modal")
+					.classList.remove("overlay");
+			}, 400);
+		},
+        // Settings modal control
+		openSettingsModal: function () {
+			document.getElementById("settings-modal").classList.add("overlay");
+			document.getElementById("settings-modal").classList.add("show");
+		},
+		closeSettingsModal: function () {
+			document.getElementById("settings-modal").classList.remove("show");
+			setTimeout(() => {
+				document
+					.getElementById("settings-modal")
+					.classList.remove("overlay");
+			}, 400);
+		},
+	},
 };
 </script>
 
@@ -43,11 +79,11 @@ export default {
 		// Clickable
 		cursor: pointer;
 
-        img {
-            // Icon sizing
-            height: 24px;
-            width: 24px;
-        }
+		img {
+			// Icon sizing
+			height: 24px;
+			width: 24px;
+		}
 	}
 
 	#title {

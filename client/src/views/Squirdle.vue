@@ -47,11 +47,13 @@
 import axios from "axios";
 
 // Import components
+import Modal from "@/components/Modal.vue";
 import GameTile from "@/components/GameTile.vue";
 
 export default {
 	name: "Squirdle",
 	components: {
+        Modal,
 		GameTile,
 	},
 	data() {
@@ -81,11 +83,11 @@ export default {
 				);
 			});
 		},
-        // Randomly select target Pokemon
-        generateTarget: function () {
-            const ind = Math.floor(Math.random() * 151) + 1;
-            this.targetObj = this.pokemonObjs[ind];
-        },
+		// Randomly select target Pokemon
+		generateTarget: function () {
+			const ind = Math.floor(Math.random() * 151) + 1;
+			this.targetObj = this.pokemonObjs[ind];
+		},
 		// On submit
 		submitGuess: function () {
 			// Guess is not a valid Pokemon
@@ -225,6 +227,7 @@ export default {
 			else if (this.similarColor(pokemon.color))
 				tiles[baseInd + 4].classList.add("hint");
 		},
+        // Define what colors are similar
 		similarColor: function (color) {
 			const targetColor = this.targetObj.color;
 			switch (color) {
@@ -268,29 +271,45 @@ export default {
 		updateGuess: function () {
 			// Add to prior guesses
 			this.guesses.push(this.guess);
-			// Update placeholder
-			document.getElementById("guess-input").placeholder = `Guess ${
-				this.guesses.length + 1
-			} of 6`;
-			this.checkWin();
-			// Clear guess
-			this.guess = "";
-		},
-		checkWin: function () {
 			// Get object for comparison
 			const pokemon = this.pokemonObjs.find(
 				(obj) => obj.name === this.guess
 			);
-			// Check win condition
-			if (pokemon === this.targetObj) {
-				let input = document.getElementById("guess-input");
-				input.placeholder = `You guessed it!`;
-				// Disable input
-				input.disabled = true;
-				document
-					.getElementById("guess-button")
-					.classList.remove("active-button");
+			// Check for win
+			if (pokemon === this.targetObj) this.handleWin();
+			else if (this.guesses.length === 6)
+				// Check for loss
+				this.handleLoss();
+			else {
+				// Update placeholder
+				document.getElementById("guess-input").placeholder = `Guess ${
+					this.guesses.length + 1
+				} of 6`;
 			}
+
+			// Clear guess
+			this.guess = "";
+		},
+        // Handle game end conditions
+		handleWin: function () {
+			const input = document.getElementById("guess-input");
+			// Change placeholder
+			input.placeholder = `You guessed it!`;
+			// Disable input
+			input.disabled = true;
+			document
+				.getElementById("guess-button")
+				.classList.remove("active-button");
+		},
+		handleLoss: function () {
+			const input = document.getElementById("guess-input");
+			// Change placeholder
+			document.getElementById("guess-input").placeholder = "Aww, better luck next time!";
+			// Disable input
+			input.disabled = true;
+			document
+				.getElementById("guess-button")
+				.classList.remove("active-button");
 		},
 	},
 	mounted: async function () {
