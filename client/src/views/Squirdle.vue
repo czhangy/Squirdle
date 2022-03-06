@@ -26,8 +26,12 @@
 			</div>
 			<hr id="separator" />
 			<div class="game-grid-row" v-for="i in 6" :key="i">
-				<SpriteTile />
-				<TextTile v-for="j in 4" :key="j" />
+				<GameTile type="sprite" />
+				<GameTile />
+				<GameTile v-if="guessTypes[i - 1]" type="monotype" />
+				<GameTile v-else type="dualtype" />
+				<GameTile />
+				<GameTile type="color" />
 			</div>
 		</div>
 	</div>
@@ -38,14 +42,12 @@
 import axios from "axios";
 
 // Import components
-import SpriteTile from "@/components/SpriteTile.vue";
-import TextTile from "@/components/TextTile.vue";
+import GameTile from "@/components/GameTile.vue";
 
 export default {
 	name: "Squirdle",
 	components: {
-		SpriteTile,
-		TextTile,
+		GameTile,
 	},
 	data() {
 		return {
@@ -57,6 +59,8 @@ export default {
 			guess: "",
 			pokemonObjs: null,
 			guesses: [],
+			guessTypes: [],
+			numDualtypes: 0,
 			// Target
 			targetObj: {},
 		};
@@ -73,14 +77,14 @@ export default {
 			});
 		},
 		// On submit
-		submitGuess: async function () {
+		submitGuess: function () {
 			// Guess is not a valid Pokemon
 			if (this.validateGuess() === this.INVALID) {
 				// Pokemon has already been guessed
 			} else if (this.validateGuess() === this.DUPLICATE) {
 			} else {
 				// Guess is valid
-				await this.updateGrid();
+				this.updateGrid();
 				this.updateGuess();
 			}
 		},
@@ -92,73 +96,189 @@ export default {
 			else if (this.guesses.includes(guess)) return this.DUPLICATE;
 			else return this.VALID;
 		},
-		// Update guess
-		updateGuess: function () {
-			// Add to prior guesses
-			this.guesses.push(this.guess);
-			// Clear guess
-			this.guess = "";
-			// Update placeholder
-			document.getElementById("guess-input").placeholder = `Guess ${
-				this.guesses.length + 1
-			} of 6`;
-		},
 		// Update the game board
-		updateGrid: async function () {
-			// Fetch
+		updateGrid: function () {
+			// Find in array
 			const ind = this.pokemonObjs.findIndex(
 				(obj) => obj.name === this.guess
 			);
+			// Add to types
+			this.guessTypes[this.guesses.length] =
+				this.pokemonObjs[ind].type_2 === "" ? true : false;
 			// Update display data
-			await this.updateSpriteTile(ind);
-			await this.updateTextTiles(this.pokemonObjs[ind]);
+			this.updateSpriteTile(ind);
+			this.updateTextTiles(this.pokemonObjs[ind]);
+			this.updateTypeTile(this.pokemonObjs[ind]);
 			// Update tile statuses
 			this.setTileStatuses(this.pokemonObjs[ind]);
 			// Flip tiles
 			this.flipTiles();
 		},
 		// Update sprite tile
-		updateSpriteTile: async function (ind) {
+		updateSpriteTile: function (ind) {
 			const dexNum = (ind + 1).toString().padStart(3, "0");
 			// Fetch box sprite
 			document.getElementsByClassName("sprite")[
 				this.guesses.length
 			].src = `https://www.serebii.net/pokedex-swsh/icon/${dexNum}.png`;
 		},
-		// Update other tiles
-		updateTextTiles: async function (pokemon) {
-			const baseInd = this.guesses.length * 4;
-			const tiles = document.getElementsByClassName("text");
-			// Update generation
-			tiles[baseInd].innerHTML = pokemon.gen;
+		// Update text tiles
+		updateTextTiles: function (pokemon) {
+			const baseInd = this.guesses.length * 3;
+			const textTiles = document.getElementsByClassName("text");
+			// Update gen tile
+			textTiles[baseInd].innerHTML = this.intToRoman(pokemon.gen);
+			// Update stage tile
+			textTiles[baseInd + 1].innerHTML = this.intToRoman(pokemon.stage);
+			// Update color tile
+			textTiles[baseInd + 2].innerHTML = pokemon.color;
+		},
+		// Update type tile
+		updateTypeTile: function (pokemon) {
+			const primaryType = pokemon.type_1.toLowerCase();
+			// Check if mono or dual type
+			if (pokemon.type_2 !== "") {
+				const secondaryType = pokemon.type_2.toLowerCase();
+				// Handle primary type
+				document.getElementsByClassName("monotype")[
+					this.guesses.length
+				].src = `https://www.serebii.net/pokedex-bw/type/${primaryType}.gif`;
+				// Handle secondary type
+				document.getElementsByClassName("dualtype")[
+					this.numDualtypes
+				].src = `https://www.serebii.net/pokedex-bw/type/${secondaryType}.gif`;
+				this.numDualtypes++;
+			} else {
+				this.$nextTick(() => {
+					document.getElementsByClassName("monotype")[
+						this.guesses.length - 1
+					].src = `https://www.serebii.net/pokedex-bw/type/${primaryType}.gif`;
+				});
+			}
+		},
+		// Convert numbers to roman numerals
+		intToRoman: function (num) {
+			switch (num) {
+				case 1:
+					return "I";
+				case 2:
+					return "II";
+				case 3:
+					return "III";
+				case 4:
+					return "IV";
+				case 5:
+					return "V";
+				case 6:
+					return "VI";
+				case 7:
+					return "VII";
+				case 8:
+					return "VIII";
+			}
 		},
 		// Set status of tiles
 		setTileStatuses: function (pokemon) {
-			const baseInd = this.guesses.length * 4;
-			const textTiles = document.getElementsByClassName("text-tile-back");
+			const baseInd = this.guesses.length * 5;
+			const tiles = document.getElementsByClassName("game-tile-back");
 			// Update sprite tile
 			if (this.guess === this.targetObj.name)
-				document
-					.getElementsByClassName("sprite-tile-back")
-					[this.guesses.length].classList.add("correct");
+				tiles[baseInd].classList.add("correct");
 			// Update generation tile
 			if (pokemon.gen === this.targetObj.gen)
-				textTiles[baseInd].classList.add("correct");
+				tiles[baseInd + 1].classList.add("correct");
+			else if (Math.abs(pokemon.gen - this.targetObj.gen) === 1)
+				tiles[baseInd + 1].classList.add("hint");
+			// Update type tile
+			this.$nextTick(() => {
+				if (
+					pokemon.type_1 === this.targetObj.type_1 &&
+					pokemon.type_2 === this.targetObj.type_2
+				)
+					tiles[baseInd + 2].classList.add("correct");
+				else if (
+					pokemon.type_1 === this.targetObj.type_2 ||
+					pokemon.type_1 === this.targetObj.type_1 ||
+					pokemon.type_2 === this.targetObj.type_1 ||
+					pokemon.type_2 === this.targetObj.type_2
+				)
+					tiles[baseInd + 2].classList.add("hint");
+			});
+			// Update stage tile
+			if (pokemon.stage === this.targetObj.stage)
+				tiles[baseInd + 3].classList.add("correct");
+			else if (Math.abs(pokemon.stage - this.targetObj.stage) === 1)
+				tiles[baseInd + 3].classList.add("hint");
+			// Update color tile
+			if (pokemon.color === this.targetObj.color)
+				tiles[baseInd + 4].classList.add("correct");
+			else if (this.similarColor(pokemon.color))
+				tiles[baseInd + 4].classList.add("hint");
+		},
+		similarColor: function (color) {
+			const targetColor = this.targetObj.color;
+			switch (color) {
+				case "Red":
+					return (
+						targetColor === "Brown" ||
+						targetColor === "Yellow" ||
+						targetColor === "Pink"
+					);
+				case "Blue":
+					return targetColor === "Purple" || targetColor === "Green";
+				case "Yellow":
+					return targetColor === "Red";
+				case "Green":
+					return targetColor === "Blue";
+				case "Black":
+					return targetColor === "Brown" || targetColor === "Gray";
+				case "Brown":
+					return targetColor === "Black" || targetColor === "Red";
+				case "Purple":
+					return targetColor === "Blue" || targetColor === "Red";
+				case "Gray":
+					return targetColor === "Black" || targetColor === "White";
+				case "White":
+					return targetColor === "Gray";
+				case "Pink":
+					return targetColor === "Red";
+			}
 		},
 		// Flip tiles animation
 		flipTiles: function () {
-			const baseInd = this.guesses.length * 4;
-			const textTiles =
-				document.getElementsByClassName("text-tile-inner");
-			// Flip sprite tile
-			document
-				.getElementsByClassName("sprite-tile-inner")
-				[this.guesses.length].classList.add("rotated");
-			// Flip other tiles
-			for (let i = 0; i < 4; i++)
+			const baseInd = this.guesses.length * 5;
+			const tiles = document.getElementsByClassName("game-tile-inner");
+			// Start animation at 0.25s intervals
+			for (let i = 0; i < 5; i++)
 				setTimeout(function () {
-					textTiles[baseInd + i].classList.add("rotated");
+					tiles[baseInd + i].classList.add("rotated");
 				}, 250 * (i + 1));
+		},
+		// Update guess
+		updateGuess: function () {
+			// Add to prior guesses
+			this.guesses.push(this.guess);
+            // Update placeholder
+			document.getElementById("guess-input").placeholder = `Guess ${
+				this.guesses.length + 1
+			} of 6`;
+            this.checkWin();
+			// Clear guess
+			this.guess = "";
+			
+		},
+		checkWin: function () {
+			// Get object for comparison
+			const pokemon = this.pokemonObjs.find(
+				(obj) => obj.name === this.guess
+			);
+			// Check win condition
+			if (pokemon === this.targetObj) {
+				let input = document.getElementById("guess-input");
+				input.placeholder = `You guessed it!`;
+				// Disable input
+				input.disabled = true;
+			}
 		},
 	},
 	mounted: async function () {
