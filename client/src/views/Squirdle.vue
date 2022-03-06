@@ -1,5 +1,6 @@
 <template>
 	<div id="squirdle">
+		<Modal id="game-over-modal" :onClose="closeGameOverModal" />
 		<form id="guess" @submit.prevent="submitGuess">
 			<input
 				id="guess-input"
@@ -53,7 +54,7 @@ import GameTile from "@/components/GameTile.vue";
 export default {
 	name: "Squirdle",
 	components: {
-        Modal,
+		Modal,
 		GameTile,
 	},
 	data() {
@@ -68,6 +69,7 @@ export default {
 			guesses: [],
 			guessTypes: [],
 			numDualtypes: 0,
+            win: true,
 			// Target
 			targetObj: {},
 		};
@@ -227,7 +229,7 @@ export default {
 			else if (this.similarColor(pokemon.color))
 				tiles[baseInd + 4].classList.add("hint");
 		},
-        // Define what colors are similar
+		// Define what colors are similar
 		similarColor: function (color) {
 			const targetColor = this.targetObj.color;
 			switch (color) {
@@ -290,7 +292,7 @@ export default {
 			// Clear guess
 			this.guess = "";
 		},
-        // Handle game end conditions
+		// Handle game end conditions
 		handleWin: function () {
 			const input = document.getElementById("guess-input");
 			// Change placeholder
@@ -300,16 +302,39 @@ export default {
 			document
 				.getElementById("guess-button")
 				.classList.remove("active-button");
+			// Pop up win modal
+			setTimeout(() => {
+				this.openGameOverModal();
+			}, 2500);
 		},
 		handleLoss: function () {
 			const input = document.getElementById("guess-input");
 			// Change placeholder
-			document.getElementById("guess-input").placeholder = "Aww, better luck next time!";
+			document.getElementById("guess-input").placeholder =
+				"Aww, better luck next time!";
 			// Disable input
 			input.disabled = true;
 			document
 				.getElementById("guess-button")
 				.classList.remove("active-button");
+            this.win = false;
+            // Pop up loss modal
+			setTimeout(() => {
+				this.openGameOverModal();
+			}, 2500);
+		},
+		// Game over modal control
+		openGameOverModal: function () {
+			document.getElementById("game-over-modal").classList.add("overlay");
+			document.getElementById("game-over-modal").classList.add("show");
+		},
+		closeGameOverModal: function () {
+			document.getElementById("game-over-modal").classList.remove("show");
+			setTimeout(() => {
+				document
+					.getElementById("game-over-modal")
+					.classList.remove("overlay");
+			}, 400);
 		},
 	},
 	mounted: async function () {
