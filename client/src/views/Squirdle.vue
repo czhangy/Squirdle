@@ -14,7 +14,12 @@
 					{{ pokemon.name }}
 				</option>
 			</datalist>
-			<input type="submit" id="guess-button" value="→" />
+			<input
+				type="submit"
+				id="guess-button"
+				class="active-button"
+				value="→"
+			/>
 		</form>
 		<div id="game-grid">
 			<div id="game-grid-labels">
@@ -258,14 +263,13 @@ export default {
 		updateGuess: function () {
 			// Add to prior guesses
 			this.guesses.push(this.guess);
-            // Update placeholder
+			// Update placeholder
 			document.getElementById("guess-input").placeholder = `Guess ${
 				this.guesses.length + 1
 			} of 6`;
-            this.checkWin();
+			this.checkWin();
 			// Clear guess
 			this.guess = "";
-			
 		},
 		checkWin: function () {
 			// Get object for comparison
@@ -278,6 +282,9 @@ export default {
 				input.placeholder = `You guessed it!`;
 				// Disable input
 				input.disabled = true;
+				document
+					.getElementById("guess-button")
+					.classList.remove("active-button");
 			}
 		},
 	},
@@ -361,6 +368,9 @@ export default {
 			font-size: 1rem;
 			// Button styling
 			background: $main-color;
+		}
+
+		.active-button {
 			// Clickable
 			cursor: pointer;
 		}
@@ -408,7 +418,7 @@ export default {
 
 // Sticky hover
 @media (hover: hover) {
-	#squirdle > #guess > #guess-button:hover {
+	#squirdle > #guess > .active-button:hover {
 		// Animate
 		background: black;
 	}
