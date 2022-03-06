@@ -313,6 +313,8 @@ export default {
 		// Handle game end conditions
 		handleWin: function () {
 			const input = document.getElementById("guess-input");
+			// Change placeholder
+			input.placeholder = "";
 			// Disable input
 			input.disabled = true;
 			document
@@ -325,6 +327,8 @@ export default {
 		},
 		handleLoss: function () {
 			const input = document.getElementById("guess-input");
+			// Change placeholder
+			document.getElementById("guess-input").placeholder = "";
 			// Disable input
 			input.disabled = true;
 			document
@@ -380,7 +384,7 @@ export default {
 			// Border
 			border: 2px solid $tile-color;
 			border-right: none;
-            border-radius: 0;
+			border-radius: 0;
 			// Typography
 			color: $accent-color;
 			font-family: "Helvetica Neue", Arial, sans-serif;
@@ -419,7 +423,7 @@ export default {
 		#guess-button {
 			// Border
 			border: 2px solid $tile-color;
-            border-radius: 0;
+			border-radius: 0;
 			// Button sizing
 			height: var(--input-height);
 			// Spacing
