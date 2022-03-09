@@ -4,8 +4,8 @@
 			<Help />
 		</Modal>
 		<Modal id="settings-modal" :onClose="closeSettingsModal">
-            <Settings />
-            </Modal>
+			<Settings />
+		</Modal>
 		<button id="help" @click="openHelpModal">
 			<img src="@/assets/icons/help.png" alt="Help" id="help-icon" />
 		</button>
@@ -30,8 +30,8 @@ export default {
 	name: "Navbar",
 	components: {
 		Modal,
-        Help,
-        Settings,
+		Help,
+		Settings,
 	},
 	methods: {
 		// Help modal control
@@ -63,9 +63,10 @@ export default {
 	},
 	mounted: function () {
 		// Pop up how to play
-		setTimeout(() => {
-			this.openHelpModal();
-		}, 500);
+		if (this.$route.name === 'Squirdle')
+			setTimeout(() => {
+				this.openHelpModal();
+			}, 500);
 	},
 };
 </script>
@@ -102,9 +103,11 @@ export default {
 
 	#title {
 		// Typography
+		font-family: $alt-font;
 		color: $accent-color;
 		font-weight: bold;
 		font-size: 3rem;
+		line-height: 3rem;
 		letter-spacing: 3px;
 	}
 }
@@ -113,6 +116,7 @@ export default {
 @media screen and (max-width: $mobile) {
 	#navbar > #title {
 		font-size: 2rem;
+		line-height: 2rem;
 	}
 }
 </style>

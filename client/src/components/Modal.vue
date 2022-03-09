@@ -55,7 +55,6 @@ export default {
 	.modal-content {
 		// Sizing
 		width: 400px;
-		height: 80%;
 		position: absolute;
 		// Color
 		background: $main-color;

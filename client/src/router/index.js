@@ -6,11 +6,11 @@ const routes = [
         name: "Squirdle",
         component: () => import("@/views/Squirdle.vue"),
     },
-    //   {
-    //     path: "/:catchAll(.*)",
-    //     name: "Error",
-    //     component: () => import("@/views/Error.vue"),
-    //   },
+      {
+        path: "/:catchAll(.*)",
+        name: "PageNotFound",
+        component: () => import("@/views/PageNotFound.vue"),
+      },
 ];
 
 const router = createRouter({

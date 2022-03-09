@@ -1,5 +1,5 @@
 <template>
-	<Navbar />
+	<Navbar v-if="validRoute" />
 	<router-view />
 </template>
 
@@ -12,12 +12,20 @@ export default {
 	components: {
 		Navbar,
 	},
+    computed: {
+        validRoute: function () {
+            return this.$route.name === 'Squirdle';
+        }
+    }
 };
 </script>
 
 <style lang="scss">
+// Import font
+@import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
+
 #app {
-	font-family: "Helvetica Neue", Arial, sans-serif;
+	font-family: $main-font;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
@@ -31,7 +39,7 @@ export default {
 * {
 	// Remove default spacing
 	margin: 0;
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 html {

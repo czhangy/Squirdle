@@ -11,7 +11,8 @@
 		<br />
 		<img id="target-sprite" alt="Target Pokemon" />
 		<br />
-		<p id="target-name" class="game-over-text">THE POKÉMON WAS:</p>
+        <br />
+		<p id="target-name" class="game-over-text" />
 	</div>
 </template>
 
@@ -43,7 +44,9 @@ export default {
 
 	#game-over-header {
 		// Typography
+        font-family: $alt-font;
 		font-size: 1.2rem;
+        line-height: 1.2rem;
 		color: white;
 		text-decoration: underline;
 		// Spacing
@@ -56,5 +59,12 @@ export default {
 		font-weight: bold;
 		font-size: 1.5rem;
 	}
+
+    #target-name {
+        // Typography
+        font-family: $alt-font;
+        line-height: 1.5rem;
+        letter-spacing: 2px;
+    }
 }
 </style>

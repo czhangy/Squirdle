@@ -89,8 +89,8 @@ export default {
 			.text {
 				// Typography
 				font-size: 2rem;
-				color: white;
-				font-weight: bold;
+                font-family: $alt-font;
+                color: white;
 			}
 
 			.small-text {

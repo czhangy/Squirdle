@@ -386,8 +386,8 @@ export default {
 			border-right: none;
 			border-radius: 0;
 			// Typography
+            font-family: $alt-font;
 			color: $accent-color;
-			font-family: "Helvetica Neue", Arial, sans-serif;
 			font-size: 2rem;
 			letter-spacing: 1px;
 			// Spacing

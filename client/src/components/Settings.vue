@@ -21,7 +21,10 @@ export default {
 
 	#settings-header {
 		// Typography
+        font-family: $alt-font;
 		font-size: 1.5rem;
+        line-height: 1.5rem;
+        letter-spacing: 2px;
 		color: white;
 		text-decoration: underline;
 		// Spacing
