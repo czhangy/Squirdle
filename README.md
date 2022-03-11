@@ -23,8 +23,8 @@ This project is still under development. The base game is functional, but featur
 - [ ] Add credits to settings modal
 - [ ] Add cries on game over screen
 - [ ] Implement daily resets
-- [ ] Implement local tracking
 - [ ] Add hard mode and volume to settings
+- [ ] Implement user system
 
 ## Installation and Setup
 
