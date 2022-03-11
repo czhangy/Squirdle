@@ -101,14 +101,16 @@ export default {
 				.then((response) => {
 					this.target = response.data;
 					// Set info on game over modal
-					document.getElementById(
-						"target-sprite"
-					).src = `https://www.serebii.net/swordshield/pokemon/${this.target.dex_num
-						.toString()
-						.padStart(3, "0")}.png`;
-					document.getElementById("target-name").innerHTML = `
+					this.$nextTick(() => {
+						document.getElementById(
+							"target-sprite"
+						).src = `https://www.serebii.net/swordshield/pokemon/${this.target.dex_num
+							.toString()
+							.padStart(3, "0")}.png`;
+						document.getElementById("target-name").innerHTML = `
 				#${this.target.dex_num.toString().padStart(3, "0")}: 
 				${this.target.name}`;
+					});
 				});
 		},
 		// On submit
@@ -120,7 +122,7 @@ export default {
 			} else {
 				// Guess is valid
 				axios.get(`/api/pokemon/${this.guess}`).then((response) => {
-					pokemon = response.data;
+					let pokemon = response.data;
 					this.updateGrid(pokemon);
 					this.updateGuess(pokemon);
 				});
@@ -216,42 +218,42 @@ export default {
 			const baseInd = this.guesses.length * 5;
 			const tiles = document.getElementsByClassName("game-tile-back");
 			// Update sprite tile
-			if (this.guess === this.targetObj.name)
+			if (this.guess === this.target.name)
 				tiles[baseInd].classList.add("correct");
 			// Update generation tile
-			if (pokemon.gen === this.targetObj.gen)
+			if (pokemon.gen === this.target.gen)
 				tiles[baseInd + 1].classList.add("correct");
-			else if (Math.abs(pokemon.gen - this.targetObj.gen) === 1)
+			else if (Math.abs(pokemon.gen - this.target.gen) === 1)
 				tiles[baseInd + 1].classList.add("hint");
 			// Update type tile
 			this.$nextTick(() => {
 				if (
-					pokemon.type_1 === this.targetObj.type_1 &&
-					pokemon.type_2 === this.targetObj.type_2
+					pokemon.type_1 === this.target.type_1 &&
+					pokemon.type_2 === this.target.type_2
 				)
 					tiles[baseInd + 2].classList.add("correct");
 				else if (
-					pokemon.type_1 === this.targetObj.type_2 ||
-					pokemon.type_1 === this.targetObj.type_1 ||
-					pokemon.type_2 === this.targetObj.type_1 ||
-					pokemon.type_2 === this.targetObj.type_2
+					pokemon.type_1 === this.target.type_2 ||
+					pokemon.type_1 === this.target.type_1 ||
+					pokemon.type_2 === this.target.type_1 ||
+					pokemon.type_2 === this.target.type_2
 				)
 					tiles[baseInd + 2].classList.add("hint");
 			});
 			// Update stage tile
-			if (pokemon.stage === this.targetObj.stage)
+			if (pokemon.stage === this.target.stage)
 				tiles[baseInd + 3].classList.add("correct");
-			else if (Math.abs(pokemon.stage - this.targetObj.stage) === 1)
+			else if (Math.abs(pokemon.stage - this.target.stage) === 1)
 				tiles[baseInd + 3].classList.add("hint");
 			// Update color tile
-			if (pokemon.color === this.targetObj.color)
+			if (pokemon.color === this.target.color)
 				tiles[baseInd + 4].classList.add("correct");
 			else if (this.similarColor(pokemon.color))
 				tiles[baseInd + 4].classList.add("hint");
 		},
 		// Define what colors are similar
 		similarColor: function (color) {
-			const targetColor = this.targetObj.color;
+			const targetColor = this.target.color;
 			switch (color) {
 				case "Red":
 					return (
