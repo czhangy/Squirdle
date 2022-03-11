@@ -2,10 +2,10 @@
 	<div id="squirdle">
 		<Modal id="game-over-modal" :onClose="closeGameOverModal">
 			<GameOver
-				v-if="targetObj"
+				v-if="target"
 				:win="win"
 				:guesses="guesses.length"
-				:target="targetObj"
+				:target="target"
 			/>
 		</Modal>
 		<form id="guess" @submit.prevent="submitGuess">
@@ -18,8 +18,8 @@
 				v-model="guess"
 			/>
 			<datalist id="guess-list">
-				<option v-for="(pokemon, i) in pokemonObjs" :key="i">
-					{{ pokemon.name }}
+				<option v-for="(pokemon, i) in pokemonList" :key="i">
+					{{ pokemon }}
 				</option>
 			</datalist>
 			<input
@@ -74,39 +74,44 @@ export default {
 			VALID: 2,
 			// State
 			guess: "",
-			pokemonObjs: null,
+			pokemonList: null,
 			guesses: [],
 			guessTypes: [],
 			numDualtypes: 0,
 			win: true,
 			// Target
-			targetObj: {},
+			target: null,
 		};
 	},
 	methods: {
 		// Fetch list of Pokemon
 		fetchPokemonList: async function () {
 			// Fetch
-			await axios.get("/api/pokemon").then(async (response) => {
-				// Sort by dex number
-				this.pokemonObjs = response.data.sort(
-					(a, b) => a.dex_num - b.dex_num
-				);
+			await axios.get("/api/pokemon/").then((response) => {
+				this.pokemonList = response.data;
 			});
 		},
 		// Randomly select target Pokemon
 		generateTarget: function () {
-			const ind = Math.floor(Math.random() * 151) + 1;
-			this.targetObj = this.pokemonObjs[ind];
-			// Set info on game over modal
-			document.getElementById(
-				"target-sprite"
-			).src = `https://www.serebii.net/swordshield/pokemon/${this.targetObj.dex_num
-				.toString()
-				.padStart(3, "0")}.png`;
-			document.getElementById("target-name").innerHTML = `
-				#${this.targetObj.dex_num.toString().padStart(3, "0")}: 
-				${this.targetObj.name}`;
+			// Randomly select dex number
+			const ind = Math.floor(Math.random() * 151);
+			// Fetch target Pokemon by name
+			axios
+				.get(`/api/pokemon/${this.pokemonList[ind]}`)
+				.then((response) => {
+					this.target = response.data;
+					// Set info on game over modal
+					this.$nextTick(() => {
+						document.getElementById(
+							"target-sprite"
+						).src = `https://www.serebii.net/swordshield/pokemon/${this.target.dex_num
+							.toString()
+							.padStart(3, "0")}.png`;
+						document.getElementById("target-name").innerHTML = `
+				#${this.target.dex_num.toString().padStart(3, "0")}: 
+				${this.target.name}`;
+					});
+				});
 		},
 		// On submit
 		submitGuess: function () {
@@ -116,39 +121,38 @@ export default {
 			} else if (this.validateGuess() === this.DUPLICATE) {
 			} else {
 				// Guess is valid
-				this.updateGrid();
-				this.updateGuess();
+				axios.get(`/api/pokemon/${this.guess}`).then((response) => {
+					let pokemon = response.data;
+					this.updateGrid(pokemon);
+					this.updateGuess(pokemon);
+				});
 			}
 		},
 		// Handle validation
 		validateGuess: function () {
-			const validNames = this.pokemonObjs.map((pokemon) => pokemon.name);
-			const guess = this.guess;
-			if (!validNames.includes(guess)) return this.INVALID;
-			else if (this.guesses.includes(guess)) return this.DUPLICATE;
+			// Check if valid Pokemon
+			if (!this.pokemonList.includes(this.guess)) return this.INVALID;
+			// Check if Pokemon already guessed
+			else if (this.guesses.includes(this.guess)) return this.DUPLICATE;
 			else return this.VALID;
 		},
 		// Update the game board
-		updateGrid: function () {
-			// Find in array
-			const ind = this.pokemonObjs.findIndex(
-				(obj) => obj.name === this.guess
-			);
+		updateGrid: function (pokemon) {
 			// Add to types
 			this.guessTypes[this.guesses.length] =
-				this.pokemonObjs[ind].type_2 === "" ? true : false;
+				pokemon.type_2 === "" ? true : false;
 			// Update display data
-			this.updateSpriteTile(ind);
-			this.updateTextTiles(this.pokemonObjs[ind]);
-			this.updateTypeTile(this.pokemonObjs[ind]);
+			this.updateSpriteTile(pokemon);
+			this.updateTextTiles(pokemon);
+			this.updateTypeTile(pokemon);
 			// Update tile statuses
-			this.setTileStatuses(this.pokemonObjs[ind]);
+			this.setTileStatuses(pokemon);
 			// Flip tiles
 			this.flipTiles();
 		},
 		// Update sprite tile
-		updateSpriteTile: function (ind) {
-			const dexNum = (ind + 1).toString().padStart(3, "0");
+		updateSpriteTile: function (pokemon) {
+			const dexNum = pokemon.dex_num.toString().padStart(3, "0");
 			// Fetch box sprite
 			document.getElementsByClassName("sprite")[
 				this.guesses.length
@@ -214,42 +218,42 @@ export default {
 			const baseInd = this.guesses.length * 5;
 			const tiles = document.getElementsByClassName("game-tile-back");
 			// Update sprite tile
-			if (this.guess === this.targetObj.name)
+			if (this.guess === this.target.name)
 				tiles[baseInd].classList.add("correct");
 			// Update generation tile
-			if (pokemon.gen === this.targetObj.gen)
+			if (pokemon.gen === this.target.gen)
 				tiles[baseInd + 1].classList.add("correct");
-			else if (Math.abs(pokemon.gen - this.targetObj.gen) === 1)
+			else if (Math.abs(pokemon.gen - this.target.gen) === 1)
 				tiles[baseInd + 1].classList.add("hint");
 			// Update type tile
 			this.$nextTick(() => {
 				if (
-					pokemon.type_1 === this.targetObj.type_1 &&
-					pokemon.type_2 === this.targetObj.type_2
+					pokemon.type_1 === this.target.type_1 &&
+					pokemon.type_2 === this.target.type_2
 				)
 					tiles[baseInd + 2].classList.add("correct");
 				else if (
-					pokemon.type_1 === this.targetObj.type_2 ||
-					pokemon.type_1 === this.targetObj.type_1 ||
-					pokemon.type_2 === this.targetObj.type_1 ||
-					pokemon.type_2 === this.targetObj.type_2
+					pokemon.type_1 === this.target.type_2 ||
+					pokemon.type_1 === this.target.type_1 ||
+					pokemon.type_2 === this.target.type_1 ||
+					pokemon.type_2 === this.target.type_2
 				)
 					tiles[baseInd + 2].classList.add("hint");
 			});
 			// Update stage tile
-			if (pokemon.stage === this.targetObj.stage)
+			if (pokemon.stage === this.target.stage)
 				tiles[baseInd + 3].classList.add("correct");
-			else if (Math.abs(pokemon.stage - this.targetObj.stage) === 1)
+			else if (Math.abs(pokemon.stage - this.target.stage) === 1)
 				tiles[baseInd + 3].classList.add("hint");
 			// Update color tile
-			if (pokemon.color === this.targetObj.color)
+			if (pokemon.color === this.target.color)
 				tiles[baseInd + 4].classList.add("correct");
 			else if (this.similarColor(pokemon.color))
 				tiles[baseInd + 4].classList.add("hint");
 		},
 		// Define what colors are similar
 		similarColor: function (color) {
-			const targetColor = this.targetObj.color;
+			const targetColor = this.target.color;
 			switch (color) {
 				case "Red":
 					return (
@@ -288,25 +292,19 @@ export default {
 				}, 250 * (i + 1));
 		},
 		// Update guess
-		updateGuess: function () {
+		updateGuess: function (pokemon) {
 			// Add to prior guesses
 			this.guesses.push(this.guess);
-			// Get object for comparison
-			const pokemon = this.pokemonObjs.find(
-				(obj) => obj.name === this.guess
-			);
 			// Check for win
-			if (pokemon === this.targetObj) this.handleWin();
-			else if (this.guesses.length === 6)
-				// Check for loss
-				this.handleLoss();
+			if (pokemon.name === this.target.name) this.handleWin();
+			// Check for loss
+			else if (this.guesses.length === 6) this.handleLoss();
 			else {
 				// Update placeholder
 				document.getElementById("guess-input").placeholder = `Guess ${
 					this.guesses.length + 1
 				} of 6`;
 			}
-
 			// Clear guess
 			this.guess = "";
 		},
@@ -386,7 +384,7 @@ export default {
 			border-right: none;
 			border-radius: 0;
 			// Typography
-            font-family: $alt-font;
+			font-family: $alt-font;
 			color: $accent-color;
 			font-size: 2rem;
 			letter-spacing: 1px;
