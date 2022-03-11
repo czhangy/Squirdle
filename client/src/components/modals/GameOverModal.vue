@@ -1,11 +1,11 @@
 <template>
 	<Modal id="game-over-modal" ref="game-over-modal" modalID="game-over-modal">
 		<div id="game-over">
-			<h2 v-if="win && guesses === 1" id="game-over-header">
-				YOU GOT IT IN {{ guesses }} GUESS!
+			<h2 v-if="win && numGuesses === 1" id="game-over-header">
+				YOU GOT IT IN {{ numGuesses }} GUESS!
 			</h2>
 			<h2 v-else-if="win" id="game-over-header">
-				YOU GOT IT IN {{ guesses }} GUESSES!
+				YOU GOT IT IN {{ numGuesses }} GUESSES!
 			</h2>
 			<h2 v-else id="game-over-header">BETTER LUCK NEXT TIME!</h2>
 			<p class="game-over-text">The Pokémon was:</p>
@@ -32,7 +32,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-		guesses: {
+		numGuesses: {
 			type: Number,
 			required: true,
 		},

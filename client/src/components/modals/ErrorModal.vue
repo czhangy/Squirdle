@@ -1,5 +1,10 @@
 <template>
-	<Modal id="error-modal" ref="error-modal" modalID="error-modal" :isClosable="false">
+	<Modal
+		id="error-modal"
+		ref="error-modal"
+		modalID="error-modal"
+		:isClosable="false"
+	>
 		<div id="error">
 			<p id="error-msg">{{ error }}</p>
 		</div>
@@ -15,16 +20,20 @@ export default {
 	components: {
 		Modal,
 	},
-	props: {
-		error: {
-			type: String,
-			required: true,
-		},
+	data() {
+		return {
+			error: {
+				type: String,
+				default: "",
+			},
+		};
 	},
 	methods: {
-		openModal: function () {
+		openModal: function (error) {
+			this.error = error;
+            // Display as pop-up
 			this.$refs["error-modal"].openModal();
-            setTimeout(() => {
+			setTimeout(() => {
 				this.$refs["error-modal"].closeModal();
 			}, 750);
 		},
@@ -38,11 +47,11 @@ export default {
 	height: 100%;
 	width: 100%;
 
-    #error-msg {
-        // Typography
-        color: white;
-        font-size: 1.5rem;
-        letter-spacing: 2px;
-    }
+	#error-msg {
+		// Typography
+		color: white;
+		font-size: 1.5rem;
+		letter-spacing: 2px;
+	}
 }
 </style>
