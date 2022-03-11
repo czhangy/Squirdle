@@ -1,12 +1,12 @@
 <template>
 	<div class="modal">
-		<div class="modal-backdrop" @click="onClose" />
+		<div class="modal-backdrop" @click="closeModal" />
 		<div class="modal-content">
 			<img
 				src="@/assets/icons/close.png"
 				alt="Close Modal"
 				class="modal-close"
-				@click="onClose"
+				@click="closeModal"
 			/>
 			<slot ref="slot" />
 		</div>
@@ -17,9 +17,21 @@
 export default {
 	name: "Modal",
 	props: {
-		onClose: {
-			type: Function,
+		modalID: {
+			type: String,
 			required: true,
+		},
+	},
+	methods: {
+		openModal: function () {
+			document.getElementById(this.modalID).classList.add("overlay");
+			document.getElementById(this.modalID).classList.add("show");
+		},
+		closeModal: function () {
+			document.getElementById(this.modalID).classList.remove("show");
+			setTimeout(() => {
+				document.getElementById(this.modalID).classList.remove("overlay");
+			}, 400);
 		},
 	},
 };
@@ -96,7 +108,7 @@ export default {
 }
 
 .overlay {
-	// Overlay
-	z-index: 999;
+    // Overlay
+	z-index: 999; 
 }
 </style>
