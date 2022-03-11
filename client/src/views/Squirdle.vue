@@ -7,6 +7,7 @@
 			:guesses="guesses.length"
 			:target="target"
 		/>
+		<ErrorModal ref="error-modal" :error="error" />
 		<form id="guess" @submit.prevent="submitGuess">
 			<input
 				id="guess-input"
@@ -37,12 +38,14 @@
 import axios from "axios";
 
 // Import components
+import ErrorModal from "@/components/modals/ErrorModal.vue";
 import GameOverModal from "@/components/modals/GameOverModal.vue";
 import GameGrid from "@/components/squirdle/GameGrid.vue";
 
 export default {
 	name: "Squirdle",
 	components: {
+		ErrorModal,
 		GameOverModal,
 		GameGrid,
 	},
@@ -57,6 +60,7 @@ export default {
 			pokemonList: null,
 			guesses: [],
 			win: true,
+			error: "",
 			// Target
 			target: null,
 		};
@@ -93,10 +97,12 @@ export default {
 		},
 		// On submit
 		submitGuess: function () {
-			// Guess is not a valid Pokemon
 			if (this.validateGuess() === this.INVALID) {
-				// Pokemon has already been guessed
+				this.error = "Not a valid Pokémon!";
+				this.$refs["error-modal"].openModal();
 			} else if (this.validateGuess() === this.DUPLICATE) {
+				this.error = "Pokémon already guessed!";
+				this.$refs["error-modal"].openModal();
 			} else {
 				// Guess is valid
 				axios.get(`/api/pokemon/${this.guess}`).then((response) => {

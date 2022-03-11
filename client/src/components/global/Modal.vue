@@ -3,6 +3,7 @@
 		<div class="modal-backdrop" @click="closeModal" />
 		<div class="modal-content">
 			<img
+				v-if="isClosable"
 				src="@/assets/icons/close.png"
 				alt="Close Modal"
 				class="modal-close"
@@ -21,6 +22,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		isClosable: {
+			type: Boolean,
+			default: true,
+		},
 	},
 	methods: {
 		openModal: function () {
@@ -30,7 +35,9 @@ export default {
 		closeModal: function () {
 			document.getElementById(this.modalID).classList.remove("show");
 			setTimeout(() => {
-				document.getElementById(this.modalID).classList.remove("overlay");
+				document
+					.getElementById(this.modalID)
+					.classList.remove("overlay");
 			}, 400);
 		},
 	},
@@ -108,7 +115,7 @@ export default {
 }
 
 .overlay {
-    // Overlay
-	z-index: 999; 
+	// Overlay
+	z-index: 999;
 }
 </style>
