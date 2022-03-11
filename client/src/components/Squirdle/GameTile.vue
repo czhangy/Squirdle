@@ -86,6 +86,11 @@ export default {
 			// Tile styling
 			background-color: $tile-color;
 
+            .sprite {
+                // Alignment
+                margin-top: -12px;
+            }
+
 			.text {
 				// Typography
 				font-size: 2rem;
