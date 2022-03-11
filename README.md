@@ -16,6 +16,7 @@ This project is still under development. The base game is functional, but featur
 
 #### To Do:
 
+- [ ] Make data lowercase
 - [ ] Reformat dropdown from datalist
 - [ ] Style + add box sprites to dropdown
 - [ ] Add Gen. II - VIII to the database
