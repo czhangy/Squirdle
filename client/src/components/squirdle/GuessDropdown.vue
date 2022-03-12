@@ -59,7 +59,7 @@ export default {
 		// On submit
 		submitGuess: function () {
             // Standardize capitalization
-            this.guess = this.guess.charAt(0).toUpperCase() + this.guess.slice(1).toLowerCase();
+            this.guess = this.guess.toLowerCase();
 			if (this.validateGuess() === this.INVALID)
 				this.onError("Not a valid Pokémon!");
 			else if (this.validateGuess() === this.DUPLICATE)

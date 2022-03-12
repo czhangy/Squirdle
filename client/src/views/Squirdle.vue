@@ -65,15 +65,15 @@ export default {
 				.then((response) => {
 					this.target = response.data;
 					// Set info on game over modal
+					const dexNum = this.target.dex_num
+						.toString()
+						.padStart(3, "0");
 					this.$nextTick(() => {
 						document.getElementById(
 							"target-sprite"
-						).src = `https://www.serebii.net/swordshield/pokemon/${this.target.dex_num
-							.toString()
-							.padStart(3, "0")}.png`;
+						).src = `https://www.serebii.net/swordshield/pokemon/${dexNum}.png`;
 						document.getElementById("target-name").innerHTML = `
-				#${this.target.dex_num.toString().padStart(3, "0")}: 
-				${this.target.name}`;
+				#${dexNum}: ${this.target.name}`;
 					});
 				});
 		},
@@ -83,8 +83,8 @@ export default {
 		},
 		// Guess handler
 		handleGuess: function (pokemon) {
-            this.numGuesses++;
-            // Check for win
+			this.numGuesses++;
+			// Check for win
 			if (pokemon.name === this.target.name) this.handleGameOver(true);
 			// Check for loss
 			else if (this.numGuesses === 6) this.handleGameOver(false);
@@ -94,9 +94,9 @@ export default {
 					this.numGuesses + 1
 				} of 6`;
 			}
-            // Update display
-            this.$refs["game-grid"].updateGrid(pokemon);
-        },
+			// Update display
+			this.$refs["game-grid"].updateGrid(pokemon);
+		},
 		// Handle game end conditions
 		handleGameOver: function (status) {
 			const input = document.getElementById("guess-input");
