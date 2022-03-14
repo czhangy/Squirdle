@@ -8,11 +8,9 @@
 				spellcheck="false"
 				v-model="guess"
 				@input="filterDropdown"
-				@focus="showDropdown"
-				@blur="hideDropdown"
 			/>
 			<div id="dropdown" class="dropdown">
-				<div
+				<button
 					class="dropdown-option"
 					v-for="(pokemon, i) in filteredList"
 					:key="i"
@@ -20,7 +18,7 @@
 				>
 					<img class="dropdown-icon" alt="" />
 					{{ pokemon }}
-				</div>
+				</button>
 			</div>
 		</div>
 		<input
@@ -85,16 +83,6 @@ export default {
 				)}.png`;
 			}
 		},
-		// Dropdown controls
-		showDropdown: function () {
-			document.getElementById("dropdown").classList.add("show");
-		},
-		hideDropdown: function () {
-			// Timeout to allow click handler to activate
-			setTimeout(() => {
-				document.getElementById("dropdown").classList.remove("show");
-			}, 100);
-		},
 		// Filter options
 		filterDropdown: function () {
 			// Hide all options on empty query
@@ -144,10 +132,10 @@ export default {
 			// Set sprites
 			this.$nextTick(() => this.setSprites());
 		},
-        guess: function () {
-            // Update filters
-            this.filterDropdown();
-        }
+		guess: function () {
+			// Update filters
+			this.filterDropdown();
+		},
 	},
 };
 </script>
@@ -202,21 +190,26 @@ export default {
 			overflow-y: scroll;
 			// Overlap tiles
 			z-index: $overlap;
+			// Border
+			border: 2px solid $tile-color;
+			border-top: none;
 
-            &::-webkit-scrollbar {
-                display: none;
-            }
+			&::-webkit-scrollbar {
+				display: none;
+			}
 
 			.dropdown-option {
 				// Clickable
 				cursor: pointer;
 				// Borders to separate
+                border: none;
 				border-bottom: 2px solid $tile-color;
 				// Box styling
 				background: $main-color;
 				// Typography
 				color: white;
 				font-family: $alt-font;
+                font-size: 1.2rem;
 				// Sizing
 				height: $option-height;
 				// Layout
@@ -226,6 +219,8 @@ export default {
 				padding-left: 100px;
 				// Positioning for children
 				position: relative;
+                // Sizing
+                width: 100%;
 
 				&:last-child {
 					border-bottom: none;
@@ -233,7 +228,7 @@ export default {
 
 				.dropdown-icon {
 					// Adjust for sprites
-					margin-top: -32px;
+					margin-top: -28px;
 					// Remove from flow to prevent jumpy loads
 					position: absolute;
 					left: 40px;
@@ -241,14 +236,10 @@ export default {
 			}
 		}
 
-		.show {
+		&:focus-within > .dropdown {
 			// Make visible
 			display: block;
-			height: fit-content;
 			max-height: 500px;
-			// Border
-			border: 2px solid $tile-color;
-			border-top: none;
 		}
 	}
 
