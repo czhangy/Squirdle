@@ -44,6 +44,15 @@ export default {
 		};
 	},
 	methods: {
+		// Translate edge cases
+		translateNames: function (name) {
+			// Handle all edge cases
+			if (name === "nidoran♀") return "nidoran-f";
+			else if (name === "nidoran♂") return "nidoran-m";
+			else if (name === "farfetch’d") return "farfetchd";
+			else if (name === "mr. mime") return "mr-mime";
+			else return name;
+		},
 		// Update the game board
 		updateGrid: function (pokemon) {
 			// Add to types
@@ -62,7 +71,9 @@ export default {
 			// Fetch box sprite
 			document.getElementsByClassName("sprite")[
 				this.ind
-			].src = `https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/regular/${pokemon.name.toLowerCase()}.png`;
+			].src = `https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/regular/${this.translateNames(
+				pokemon.name
+			)}.png`;
 		},
 		// Update text tiles
 		updateTextTiles: function (pokemon) {
@@ -77,33 +88,31 @@ export default {
 		},
 		// Update type tile
 		updateTypeTile: function (pokemon) {
-			const primaryType = pokemon.type_1.toLowerCase();
 			// Check if mono or dual type
 			if (pokemon.type_2 !== "") {
-				const secondaryType = pokemon.type_2.toLowerCase();
 				// Handle primary type
 				document.getElementsByClassName("monotype")[
 					this.ind
-				].src = `https://www.serebii.net/pokedex-bw/type/${primaryType}.gif`;
+				].src = `https://www.serebii.net/pokedex-bw/type/${pokemon.type_1}.gif`;
 				// Handle secondary type
 				document.getElementsByClassName("dualtype")[
 					this.numDualtypes
-				].src = `https://www.serebii.net/pokedex-bw/type/${secondaryType}.gif`;
+				].src = `https://www.serebii.net/pokedex-bw/type/${pokemon.type_2}.gif`;
 				this.numDualtypes++;
 			} else {
 				this.$nextTick(() => {
 					document.getElementsByClassName("monotype")[
 						this.ind - 1
-					].src = `https://www.serebii.net/pokedex-bw/type/${primaryType}.gif`;
+					].src = `https://www.serebii.net/pokedex-bw/type/${pokemon.type_1}.gif`;
 				});
 			}
 		},
-        // Set status of tiles
+		// Set status of tiles
 		setTileStatuses: function (pokemon) {
 			const baseInd = this.ind * 5;
 			const tiles = document.getElementsByClassName("game-tile-back");
 			// Update sprite tile
-			if (this.guess === this.target.name)
+			if (pokemon.name === this.target.name)
 				tiles[baseInd].classList.add("correct");
 			// Update generation tile
 			if (pokemon.gen === this.target.gen)

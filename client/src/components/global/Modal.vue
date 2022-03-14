@@ -57,7 +57,7 @@ export default {
 	justify-content: center;
 	align-items: center;
 	// Hide
-	z-index: -1;
+	z-index: $hidden;
 
 	.modal-backdrop {
 		// Sizing
@@ -116,6 +116,6 @@ export default {
 
 .overlay {
 	// Overlay
-	z-index: 999;
+	z-index: $overlay;
 }
 </style>
