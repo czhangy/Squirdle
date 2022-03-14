@@ -158,8 +158,8 @@ export default {
 			// Typography
 			font-size: 1.5rem;
 			color: white;
-			font-weight: bold;
 			line-height: 45px;
+            font-family: $alt-font;
 
             .demo-sprite {
                 // Alignment
