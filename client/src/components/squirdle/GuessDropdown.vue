@@ -1,5 +1,5 @@
 <template>
-	<form id="guess-dropdown" @submit.prevent="submitGuess">
+	<div id="guess-dropdown">
 		<div id="dropdown-container">
 			<input
 				id="guess-input"
@@ -21,13 +21,10 @@
 				</button>
 			</div>
 		</div>
-		<input
-			type="submit"
-			id="guess-button"
-			class="active-button"
-			value="→"
-		/>
-	</form>
+		<button id="guess-button" class="active-button" @click="submitGuess">
+			→
+		</button>
+	</div>
 </template>
 
 <script>
@@ -97,6 +94,8 @@ export default {
 		// Select option
 		setGuess: function (guess) {
 			this.guess = guess;
+			// Clear focus
+			if (document.activeElement) document.activeElement.blur();
 		},
 		// Handle validation
 		validateGuess: function () {
@@ -131,6 +130,11 @@ export default {
 		filteredList: function () {
 			// Set sprites
 			this.$nextTick(() => this.setSprites());
+            // Hide bottom border of dropdown on empty list
+            let dropdown = document.getElementById('dropdown');
+            if (this.filteredList.length === 0) dropdown.style.borderBottomWidth = '0';
+            else dropdown.style.borderBottomWidth = '2px';
+
 		},
 		guess: function () {
 			// Update filters
@@ -142,87 +146,68 @@ export default {
 
 <style lang="scss" scoped>
 #guess-dropdown {
-	// Vars
+	// Var
 	--input-height: 60px;
-	// Centering
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	// Spacing
 	margin-bottom: 36px;
 
 	#dropdown-container {
-		// Positioning for children
 		position: relative;
 
 		#guess-input {
-			// Bar styling
 			background: $main-color;
 			height: var(--input-height);
 			width: 300px;
-			// Border
 			border: 2px solid $tile-color;
 			border-radius: 0;
-			// Typography
 			font-family: $alt-font;
 			color: $accent-color;
 			font-size: 2rem;
 			letter-spacing: 1px;
-			// Spacing
 			padding: 0 12px;
 
 			&:focus {
-				// Remove default styling
 				outline: none;
-				// Highlight
 				background: black;
 			}
 		}
 
 		.dropdown {
-			// Hide
 			display: none;
-			// Sizing
 			width: 100%;
-			// Position outside of flow
 			position: absolute;
-			// Hide overflow
 			overflow-y: scroll;
 			// Overlap tiles
 			z-index: $overlap;
-			// Border
 			border: 2px solid $tile-color;
 			border-top: none;
+            // Initialize to hidden
+            border-bottom-width: 0;
 
 			&::-webkit-scrollbar {
 				display: none;
 			}
 
 			.dropdown-option {
-				// Clickable
 				cursor: pointer;
-				// Borders to separate
-                border: none;
+				// Separators
+				border: none;
 				border-bottom: 2px solid $tile-color;
-				// Box styling
 				background: $main-color;
-				// Typography
 				color: white;
 				font-family: $alt-font;
-                font-size: 1.2rem;
-				// Sizing
-				height: $option-height;
-				// Layout
+				font-size: 1.2rem;
 				display: flex;
 				justify-content: flex-start;
 				align-items: center;
 				padding-left: 100px;
-				// Positioning for children
 				position: relative;
-                // Sizing
-                width: 100%;
+				width: 100%;
 
 				&:last-child {
+					// Remove last divider
 					border-bottom: none;
 				}
 
@@ -237,30 +222,24 @@ export default {
 		}
 
 		&:focus-within > .dropdown {
-			// Make visible
+			// Keep dropdown open for click handler
 			display: block;
 			max-height: 500px;
 		}
 	}
 
 	#guess-button {
-		// Border
 		border: 2px solid $tile-color;
 		border-left: none;
 		border-radius: 0;
-		// Button sizing
 		height: var(--input-height);
-		// Spacing
 		padding: 0 18px;
-		// Typography
 		color: $accent-color;
 		font-size: 1rem;
 	}
 
 	.active-button {
-		// Clickable
 		cursor: pointer;
-		// Button styling
 		background: $main-color;
 	}
 }
@@ -273,7 +252,6 @@ export default {
 		}
 
 		.active-button:hover {
-			// Animate
 			background: black;
 		}
 	}
@@ -281,16 +259,8 @@ export default {
 
 // Mobile design
 @media screen and (max-width: $mobile) {
-	#squirdle {
-		// Reduce spacing
-		padding: 32px;
-		// Update var
-		--input-height: 48px;
-
-		#guess > #guess-input {
-			// Typography
-			font-size: 1.5rem;
-		}
+	#guess > #guess-input {
+		font-size: 1.5rem;
 	}
 }
 </style>

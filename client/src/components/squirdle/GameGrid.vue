@@ -44,6 +44,15 @@ export default {
 		};
 	},
 	methods: {
+		// Translate edge cases
+		translateNames: function (name) {
+			// Handle all edge cases
+			if (name === "nidoran♀") return "nidoran-f";
+			else if (name === "nidoran♂") return "nidoran-m";
+			else if (name === "farfetch’d") return "farfetchd";
+			else if (name === "mr. mime") return "mr-mime";
+			else return name;
+		},
 		// Update the game board
 		updateGrid: function (pokemon) {
 			// Add to types
@@ -62,7 +71,9 @@ export default {
 			// Fetch box sprite
 			document.getElementsByClassName("sprite")[
 				this.ind
-			].src = `https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/regular/${pokemon.name}.png`;
+			].src = `https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/regular/${this.translateNames(
+				pokemon.name
+			)}.png`;
 		},
 		// Update text tiles
 		updateTextTiles: function (pokemon) {
