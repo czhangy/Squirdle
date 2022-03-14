@@ -7,15 +7,21 @@
 				placeholder="Guess 1 of 6"
 				spellcheck="false"
 				v-model="guess"
-                @focus="showDropdown"
-                @blur="hideDropdown"
+				@input="filterDropdown"
+				@focus="showDropdown"
+				@blur="hideDropdown"
 			/>
 			<div id="dropdown" class="dropdown">
-                <div class="dropdown-option">
-                    <option>bulbasaur</option>
-                    <hr />
-                </div>
-            </div>
+				<div
+					class="dropdown-option"
+					v-for="(pokemon, i) in filteredList"
+					:key="i"
+					@click="setGuess(pokemon)"
+				>
+					<img class="dropdown-icon" alt="" />
+					{{ pokemon }}
+				</div>
+			</div>
 		</div>
 		<input
 			type="submit"
@@ -55,18 +61,55 @@ export default {
 			// State
 			guess: "",
 			guesses: [],
+			filteredList: [],
 		};
 	},
 	methods: {
-        // Dropdown controls
-        showDropdown: function () {
-            document.getElementById("dropdown").classList.add("show");
-            document.getElementById("dropdown").classList.add("overlay");
-        },
-        hideDropdown: function () {
-            document.getElementById("dropdown").classList.remove('show');
-            document.getElementById("dropdown").classList.remove("overlay");
-        },
+		// Translate edge cases
+		translateNames: function (name) {
+			// Handle all edge cases
+			if (name === "nidoran♀") return "nidoran-f";
+			else if (name === "nidoran♂") return "nidoran-m";
+			else if (name === "farfetch’d") return "farfetchd";
+			else if (name === "mr. mime") return "mr-mime";
+			else return name;
+		},
+		// Set dropdown sprites
+		setSprites: function () {
+			const sprites = document.getElementsByClassName("dropdown-icon");
+			for (let i = 0; i < sprites.length; i++) {
+				sprites[
+					i
+				].src = `https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen7x/regular/${this.translateNames(
+					this.filteredList[i]
+				)}.png`;
+			}
+		},
+		// Dropdown controls
+		showDropdown: function () {
+			document.getElementById("dropdown").classList.add("show");
+		},
+		hideDropdown: function () {
+			// Timeout to allow click handler to activate
+			setTimeout(() => {
+				document.getElementById("dropdown").classList.remove("show");
+			}, 100);
+		},
+		// Filter options
+		filterDropdown: function () {
+			// Hide all options on empty query
+			if (this.guess === "") this.filteredList = [];
+			else {
+				// Filter by substring
+				this.filteredList = this.pokemonList.filter((name) =>
+					name.includes(this.guess.toLowerCase())
+				);
+			}
+		},
+		// Select option
+		setGuess: function (guess) {
+			this.guess = guess;
+		},
 		// Handle validation
 		validateGuess: function () {
 			// Check if valid Pokemon
@@ -96,6 +139,16 @@ export default {
 			}
 		},
 	},
+	watch: {
+		filteredList: function () {
+			// Set sprites
+			this.$nextTick(() => this.setSprites());
+		},
+        guess: function () {
+            // Update filters
+            this.filterDropdown();
+        }
+	},
 };
 </script>
 
@@ -111,8 +164,8 @@ export default {
 	margin-bottom: 36px;
 
 	#dropdown-container {
-        // Positioning for children
-        position: relative;
+		// Positioning for children
+		position: relative;
 
 		#guess-input {
 			// Bar styling
@@ -139,38 +192,70 @@ export default {
 		}
 
 		.dropdown {
-            // Sizing
-			max-height: 500px;
-			width: 300px;
-            // Position outside of flow
-            position: absolute;
-            z-index: $hidden;
-            // Reset transition
-		    transform: translateY(-10px);
-            opacity: 0;
-            // Smooth animation
-		    transition: all 0.1s ease;
-            // Border
-            border: 2px solid $tile-color;
-            border-top: none;
+			// Hide
+			display: none;
+			// Sizing
+			width: 100%;
+			// Position outside of flow
+			position: absolute;
+			// Hide overflow
+			overflow-y: scroll;
+			// Overlap tiles
+			z-index: $overlap;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+			.dropdown-option {
+				// Clickable
+				cursor: pointer;
+				// Borders to separate
+				border-bottom: 2px solid $tile-color;
+				// Box styling
+				background: $main-color;
+				// Typography
+				color: white;
+				font-family: $alt-font;
+				// Sizing
+				height: $option-height;
+				// Layout
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				padding-left: 100px;
+				// Positioning for children
+				position: relative;
+
+				&:last-child {
+					border-bottom: none;
+				}
+
+				.dropdown-icon {
+					// Adjust for sprites
+					margin-top: -32px;
+					// Remove from flow to prevent jumpy loads
+					position: absolute;
+					left: 40px;
+				}
+			}
 		}
 
-        .show {
-            // Make visible
-            opacity: 1;
-            transform: translateY(0px);
-        }
-
-        .overlay {
-            // Move to front
-            z-index: $overlap;
-        }
+		.show {
+			// Make visible
+			display: block;
+			height: fit-content;
+			max-height: 500px;
+			// Border
+			border: 2px solid $tile-color;
+			border-top: none;
+		}
 	}
 
 	#guess-button {
 		// Border
 		border: 2px solid $tile-color;
-        border-left: none;
+		border-left: none;
 		border-radius: 0;
 		// Button sizing
 		height: var(--input-height);
@@ -191,9 +276,15 @@ export default {
 
 // Sticky hover
 @media (hover: hover) {
-	#guess-dropdown > .active-button:hover {
-		// Animate
-		background: black;
+	#guess-dropdown {
+		#dropdown-container > .dropdown > .dropdown-option:hover {
+			background: black;
+		}
+
+		.active-button:hover {
+			// Animate
+			background: black;
+		}
 	}
 }
 

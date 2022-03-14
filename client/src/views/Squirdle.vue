@@ -121,6 +121,6 @@ export default {
 <style lang="scss" scoped>
 #squirdle {
 	// Spacing
-	padding: 64px;
+	padding: 64px 0;
 }
 </style>
