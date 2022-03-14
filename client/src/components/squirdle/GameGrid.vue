@@ -101,7 +101,7 @@ export default {
 			const baseInd = this.ind * 5;
 			const tiles = document.getElementsByClassName("game-tile-back");
 			// Update sprite tile
-			if (this.guess === this.target.name)
+			if (pokemon.name === this.target.name)
 				tiles[baseInd].classList.add("correct");
 			// Update generation tile
 			if (pokemon.gen === this.target.gen)

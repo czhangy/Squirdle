@@ -65,15 +65,12 @@ export default {
 				.then((response) => {
 					this.target = response.data;
 					// Set info on game over modal
-					const dexNum = this.target.dex_num
-						.toString()
-						.padStart(3, "0");
 					this.$nextTick(() => {
 						document.getElementById(
 							"target-sprite"
-						).src = `https://www.serebii.net/swordshield/pokemon/${dexNum}.png`;
+						).src = `https://projectpokemon.org/images/normal-sprite/${this.target.name}.gif`;
 						document.getElementById("target-name").innerHTML = `
-				#${dexNum}: ${this.target.name}`;
+				#${this.target.dex_num.toString().padStart(3, "0")}: ${this.target.name}`;
 					});
 				});
 		},
