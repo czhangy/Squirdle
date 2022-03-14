@@ -40,7 +40,7 @@ export default {
 	// Tile sizing
 	height: 65px;
 	width: 65px;
-    z-index: 9;
+    z-index: $default;
 
 	.rotated {
 		// Animate

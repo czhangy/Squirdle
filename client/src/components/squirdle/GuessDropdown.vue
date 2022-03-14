@@ -1,12 +1,22 @@
 <template>
 	<form id="guess-dropdown" @submit.prevent="submitGuess">
-		<input
-			id="guess-input"
-			type="text"
-			placeholder="Guess 1 of 6"
-			spellcheck="false"
-			v-model="guess"
-		/>
+		<div id="dropdown-container">
+			<input
+				id="guess-input"
+				type="text"
+				placeholder="Guess 1 of 6"
+				spellcheck="false"
+				v-model="guess"
+                @focus="showDropdown"
+                @blur="hideDropdown"
+			/>
+			<div id="dropdown" class="dropdown">
+                <div class="dropdown-option">
+                    <option>bulbasaur</option>
+                    <hr />
+                </div>
+            </div>
+		</div>
 		<input
 			type="submit"
 			id="guess-button"
@@ -48,7 +58,16 @@ export default {
 		};
 	},
 	methods: {
-        // Handle validation
+        // Dropdown controls
+        showDropdown: function () {
+            document.getElementById("dropdown").classList.add("show");
+            document.getElementById("dropdown").classList.add("overlay");
+        },
+        hideDropdown: function () {
+            document.getElementById("dropdown").classList.remove('show');
+            document.getElementById("dropdown").classList.remove("overlay");
+        },
+		// Handle validation
 		validateGuess: function () {
 			// Check if valid Pokemon
 			if (!this.pokemonList.includes(this.guess)) return this.INVALID;
@@ -58,8 +77,8 @@ export default {
 		},
 		// On submit
 		submitGuess: function () {
-            // Standardize capitalization
-            this.guess = this.guess.toLowerCase();
+			// Standardize capitalization
+			this.guess = this.guess.toLowerCase();
 			if (this.validateGuess() === this.INVALID)
 				this.onError("Not a valid Pokémon!");
 			else if (this.validateGuess() === this.DUPLICATE)
@@ -91,34 +110,67 @@ export default {
 	// Spacing
 	margin-bottom: 36px;
 
-	#guess-input {
-		// Bar styling
-		background: $main-color;
-		height: var(--input-height);
-		width: 300px;
-		// Border
-		border: 2px solid $tile-color;
-		border-right: none;
-		border-radius: 0;
-		// Typography
-		font-family: $alt-font;
-		color: $accent-color;
-		font-size: 2rem;
-		letter-spacing: 1px;
-		// Spacing
-		padding: 0 12px;
+	#dropdown-container {
+        // Positioning for children
+        position: relative;
 
-		&:focus {
-			// Remove default styling
-			outline: none;
-			// Highlight
-			background: black;
+		#guess-input {
+			// Bar styling
+			background: $main-color;
+			height: var(--input-height);
+			width: 300px;
+			// Border
+			border: 2px solid $tile-color;
+			border-radius: 0;
+			// Typography
+			font-family: $alt-font;
+			color: $accent-color;
+			font-size: 2rem;
+			letter-spacing: 1px;
+			// Spacing
+			padding: 0 12px;
+
+			&:focus {
+				// Remove default styling
+				outline: none;
+				// Highlight
+				background: black;
+			}
 		}
+
+		.dropdown {
+            // Sizing
+			max-height: 500px;
+			width: 300px;
+            // Position outside of flow
+            position: absolute;
+            z-index: $hidden;
+            // Reset transition
+		    transform: translateY(-10px);
+            opacity: 0;
+            // Smooth animation
+		    transition: all 0.1s ease;
+            // Border
+            border: 2px solid $tile-color;
+            border-top: none;
+		}
+
+        .show {
+            // Make visible
+            opacity: 1;
+            transform: translateY(0px);
+        }
+
+        .overlay {
+            // Move to front
+            z-index: $overlap;
+        }
 	}
 
 	#guess-button {
 		// Border
 		border: 2px solid $tile-color;
+        border-left: none;
 		border-radius: 0;
 		// Button sizing
 		height: var(--input-height);
@@ -139,7 +191,7 @@ export default {
 
 // Sticky hover
 @media (hover: hover) {
-	#squirdle > #guess > .active-button:hover {
+	#guess-dropdown > .active-button:hover {
 		// Animate
 		background: black;
 	}
