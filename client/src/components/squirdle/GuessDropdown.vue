@@ -141,6 +141,18 @@ export default {
 			this.filterDropdown();
 		},
 	},
+    mounted: function () {
+        // Enable Enter submission
+        document.getElementById('guess-input').addEventListener("keyup", (e) => {
+            if (e.code === 'Enter') this.submitGuess();
+        })
+    },
+    beforeUnmount: function () {
+        // Clean up
+        document.getElementById('guess-input').removeEventListener("keyup", (e) => {
+            if (e.code === 'Enter') this.submitGuess();
+        })
+    }
 };
 </script>
 
