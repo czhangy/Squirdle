@@ -24,8 +24,8 @@
 				<br />
 				<a href="https://serebii.net" target="_blank">Serebii</a>,
 				<a href="https://pokeapi.co/" target="_blank">PokeAPI</a>, and
-				<a href="https://msikma.github.io/pokesprite/" target="_blank"
-					>PokeSprite</a
+				<a href="https://projectpokemon.org/home/" target="_blank"
+					>Project Pokémon</a
 				>
 			</p>
 		</div>
