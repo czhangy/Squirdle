@@ -216,6 +216,7 @@ export default {
 				align-items: center;
 				padding-left: 100px;
 				position: relative;
+                height: 50px;
 				width: 100%;
 
 				&:last-child {
