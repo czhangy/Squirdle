@@ -18,7 +18,6 @@ This project is still under development. The base game is functional, but featur
 
 - [ ] Add Gen. II - VIII to the database
 - [ ] Add scrollbar to modals
-- [ ] Add credits to settings modal
 - [ ] Implement daily resets
 - [ ] Add hard mode and volume to settings
 - [ ] Implement user system
