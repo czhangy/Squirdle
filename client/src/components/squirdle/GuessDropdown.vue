@@ -60,24 +60,15 @@ export default {
 		};
 	},
 	methods: {
-		// Translate edge cases
-		translateNames: function (name) {
-			// Handle all edge cases
-			if (name === "nidoran♀") return "nidoran-f";
-			else if (name === "nidoran♂") return "nidoran-m";
-			else if (name === "farfetch’d") return "farfetchd";
-			else if (name === "mr. mime") return "mr-mime";
-			else return name;
-		},
 		// Set dropdown sprites
 		setSprites: function () {
 			const sprites = document.getElementsByClassName("dropdown-icon");
 			for (let i = 0; i < sprites.length; i++) {
 				sprites[
 					i
-				].src = `https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen7x/regular/${this.translateNames(
-					this.filteredList[i]
-				)}.png`;
+				].src = `https://www.serebii.net/pokedex-swsh/icon/${(this.pokemonList
+					.findIndex(name => name === this.filteredList[i]) + 1)
+					.toString().padStart(3, "0")}.png`;
 			}
 		},
 		// Filter options
@@ -229,11 +220,10 @@ export default {
 				}
 
 				.dropdown-icon {
-					// Adjust for sprites
-					margin-top: -28px;
 					// Remove from flow to prevent jumpy loads
 					position: absolute;
 					left: 40px;
+					width: 32px;
 				}
 			}
 		}

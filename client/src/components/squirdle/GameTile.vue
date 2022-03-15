@@ -74,11 +74,6 @@ export default {
 			align-items: center;
 			background-color: $tile-color;
 
-            .sprite {
-                // Adjust for sprite
-                margin-top: -12px;
-            }
-
 			.text {
 				font-size: 2rem;
                 font-family: $alt-font;
