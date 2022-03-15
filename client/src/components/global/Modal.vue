@@ -67,6 +67,9 @@ export default {
 	}
 
 	.modal-content {
+        // Scroll on small displays
+        max-height: 80vh;
+        overflow-y: scroll;
 		width: 400px;
 		position: absolute;
 		background: $main-color;
@@ -76,6 +79,11 @@ export default {
 		transform: translateY(40px);
 		opacity: 0;
 		padding: 24px;
+
+        &::-webkit-scrollbar {
+            // Hide scrollbar
+            display: none;
+        }
 	}
 
 	.modal-close {
