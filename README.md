@@ -16,10 +16,9 @@ This project is still under development. The base game is functional, but featur
 
 #### To Do:
 
-- [ ] Add Gen. II - VIII to the database
-- [ ] Add scrollbar to modals
+- [ ] Add Gen. II - IV to the database
 - [ ] Implement daily resets
-- [ ] Add hard mode and volume to settings
+- [ ] Add hard mode to settings
 - [ ] Implement user system
 
 ## Installation and Setup
