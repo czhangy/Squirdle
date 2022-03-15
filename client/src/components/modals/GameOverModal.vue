@@ -51,33 +51,29 @@ export default {
 
 <style lang="scss" scoped>
 #game-over {
-	// Sizing
 	height: 100%;
 	width: 100%;
 
 	#game-over-header {
-		// Typography
 		font-family: $alt-font;
 		font-size: 1.2rem;
 		line-height: 1.2rem;
 		color: white;
 		text-decoration: underline;
-		// Spacing
 		margin-bottom: 32px;
 	}
 
 	.game-over-text {
-		// Typography
 		color: white;
 		font-weight: bold;
 		font-size: 1.5rem;
 	}
 
 	#target-name {
-		// Typography
 		font-family: $alt-font;
 		line-height: 1.5rem;
 		letter-spacing: 2px;
+        margin-top: 16px;
 	}
 }
 </style>
