@@ -212,39 +212,29 @@ export default {
 
 <style lang="scss" scoped>
 #game-grid {
-	// Centering
 	margin: 0 auto;
-	// Sizing
 	width: 350px;
 
 	#game-grid-labels {
-		// Layout
 		display: flex;
 		justify-content: space-between;
 
 		.game-grid-label {
-			// Typography
 			color: $accent-color;
 			letter-spacing: 2px;
-			// Sizing
 			width: 65px;
 		}
 	}
 
 	#separator {
-		// Bar styling
 		height: 1px;
 		background: $accent-color;
-		// Spacing
 		margin: 10px 0;
-		// Remove default styling
 		border: none;
 	}
 
 	.game-grid-row {
-		// Spacing
 		margin-bottom: 5px;
-		// Layout
 		display: flex;
 		justify-content: space-between;
 	}

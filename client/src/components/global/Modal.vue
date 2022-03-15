@@ -46,57 +46,44 @@ export default {
 
 <style lang="scss" scoped>
 .modal {
-	// Container positioning and sizing
 	position: fixed;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	// Flexbox for centering
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	// Hide
+	// Hide by default
 	z-index: $hidden;
 
 	.modal-backdrop {
-		// Sizing
 		width: 100%;
 		height: 100%;
-		// Color
 		background: black;
-		// Smooth animation
 		transition: opacity 0.4s ease;
 		// Reset transition
 		opacity: 0;
 	}
 
 	.modal-content {
-		// Sizing
 		width: 400px;
 		position: absolute;
-		// Color
 		background: $main-color;
-		// Container
 		border-radius: 5px;
-		// Smooth animation
 		transition: all 0.4s ease;
 		// Reset transition
 		transform: translateY(40px);
 		opacity: 0;
-		// Spacing
 		padding: 24px;
 	}
 
 	.modal-close {
-		// Positioning
 		position: absolute;
 		top: 16px;
 		right: 16px;
-		// Sizing
 		height: 32px;
 		width: 32px;
-		// Clickable
 		cursor: pointer;
 	}
 }
@@ -115,7 +102,7 @@ export default {
 }
 
 .overlay {
-	// Overlay
+	// Overlay all other content
 	z-index: $overlay;
 }
 </style>

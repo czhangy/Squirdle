@@ -14,41 +14,32 @@ export default {
 
 <style lang="scss" scoped>
 #page-not-found {
-	// Sizing
     display: flex;
     height: 100vh;
 	width: 100%;
-    // Hide scrollbar
     overflow-y: hidden;
-    // Layout
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
     #error-img {
-        // Sizing
         height: 400px;
-        // Spacing
         margin-bottom: 24px;
     }
 
     #error-text {
-        // Typography
         font-family: $alt-font;
         color: white;
         font-size: 2rem;
-        // Spacing
         margin-bottom: 24px;
     }
 
     #error-link {
-        // Typography
         color: white;
         font-family: $alt-font;
         text-decoration: none;
         font-size: 1.3rem;
-        // Button styling
         cursor: pointer;
         border: 2px solid white;
         padding: 8px 16px;
@@ -58,7 +49,6 @@ export default {
 // Sticky hover
 @media (hover: hover) {
     #page-not-found > #error-link:hover {
-        // Animate
         background: black;
     }
 }

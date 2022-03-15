@@ -43,12 +43,10 @@ export default {
 
 <style lang="scss" scoped>
 #error {
-	// Sizing
 	height: 100%;
 	width: 100%;
 
 	#error-msg {
-		// Typography
 		color: white;
 		font-size: 1.5rem;
 		letter-spacing: 2px;

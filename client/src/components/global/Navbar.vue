@@ -39,36 +39,27 @@ export default {
 
 <style lang="scss" scoped>
 #navbar {
-	// Bar styling
 	background: $main-color;
-	// Sizing
 	max-width: 100vw;
 	height: $navbar-height;
-	// Border
 	border-bottom: 2px solid $accent-color;
-	// Layout
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	// Spacing
 	padding: 0 16px;
 
 	button {
-		// Remove default styling
 		background: transparent;
 		border: none;
-		// Clickable
 		cursor: pointer;
 
 		img {
-			// Icon sizing
 			height: 24px;
 			width: 24px;
 		}
 	}
 
 	#title {
-		// Typography
 		font-family: $alt-font;
 		color: $accent-color;
 		font-weight: bold;

@@ -35,33 +35,25 @@ export default {
 
 <style lang="scss" scoped>
 .game-tile {
-	// 3D effects
 	background-color: transparent;
-	// Tile sizing
 	height: 65px;
 	width: 65px;
     z-index: $default;
 
 	.rotated {
-		// Animate
 		transform: rotateX(180deg);
 	}
 
 	.game-tile-inner {
-		// Positioning
 		position: relative;
-		// Sizing
 		width: 100%;
 		height: 100%;
-		// Animate
 		transition: transform 1s;
 		transform-style: preserve-3d;
 
 		.game-tile-front,
 		.game-tile-back {
-			// Positioning
 			position: absolute;
-			// Sizing
 			width: 100%;
 			height: 100%;
 			// Hide back
@@ -70,48 +62,40 @@ export default {
 		}
 
 		.game-tile-front {
-			// Border
 			border: 1px solid $tile-color;
 			box-sizing: border-box;
 		}
 
 		.game-tile-back {
-			// Animate
 			transform: rotateX(180deg);
-			// Centering
 			display: flex;
             flex-direction: column;
 			justify-content: space-evenly;
 			align-items: center;
-			// Tile styling
 			background-color: $tile-color;
 
             .sprite {
-                // Alignment
+                // Adjust for sprite
                 margin-top: -12px;
             }
 
 			.text {
-				// Typography
 				font-size: 2rem;
                 font-family: $alt-font;
                 color: white;
 			}
 
 			.small-text {
-				// Typography
 				font-size: 0.8rem;
 				text-transform: uppercase;
 			}
 		}
 
 		.hint {
-			// Tile styling
 			background-color: $hint-color;
 		}
 
 		.correct {
-			// Tile styling
 			background-color: $correct-color;
 		}
 	}
