@@ -2,7 +2,7 @@
 
 ## Project Summary
 
-Squirdle is a Pokémon-themed version of the popular game Wordle. The application's frontend is designed using Vue and Sass, supported by a backend of Node/Express and MongoDB, and deployed through Heroku. Assets and data have been scraped from Serebii, PokéAPI, and PokéSprite.
+Squirdle is a Pokémon-themed version of the popular game Wordle. The application's frontend is designed using Vue and Sass, supported by a backend of Node/Express and MongoDB, and deployed through Heroku. Assets and data have been scraped from Serebii, PokéAPI, and Project Pokémon.
 
 The most up-to-date version of Squirdle is currently deployed at: https://squirdle.herokuapp.com.
 
