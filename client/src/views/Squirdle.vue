@@ -122,4 +122,11 @@ export default {
 #squirdle {
 	padding: 64px 0;
 }
+
+// Mobile layout
+@media screen and (max-width: $mobile) {
+    #squirdle {
+        padding: 32px 0;
+    }
+}
 </style>

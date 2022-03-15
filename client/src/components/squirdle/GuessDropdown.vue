@@ -130,29 +130,33 @@ export default {
 		filteredList: function () {
 			// Set sprites
 			this.$nextTick(() => this.setSprites());
-            // Hide bottom border of dropdown on empty list
-            let dropdown = document.getElementById('dropdown');
-            if (this.filteredList.length === 0) dropdown.style.borderBottomWidth = '0';
-            else dropdown.style.borderBottomWidth = '2px';
-
+			// Hide bottom border of dropdown on empty list
+			let dropdown = document.getElementById("dropdown");
+			if (this.filteredList.length === 0)
+				dropdown.style.borderBottomWidth = "0";
+			else dropdown.style.borderBottomWidth = "2px";
 		},
 		guess: function () {
 			// Update filters
 			this.filterDropdown();
 		},
 	},
-    mounted: function () {
-        // Enable Enter submission
-        document.getElementById('guess-input').addEventListener("keyup", (e) => {
-            if (e.code === 'Enter') this.submitGuess();
-        })
-    },
-    beforeUnmount: function () {
-        // Clean up
-        document.getElementById('guess-input').removeEventListener("keyup", (e) => {
-            if (e.code === 'Enter') this.submitGuess();
-        })
-    }
+	mounted: function () {
+		// Enable Enter submission
+		document
+			.getElementById("guess-input")
+			.addEventListener("keyup", (e) => {
+				if (e.code === "Enter") this.submitGuess();
+			});
+	},
+	beforeUnmount: function () {
+		// Clean up
+		document
+			.getElementById("guess-input")
+			.removeEventListener("keyup", (e) => {
+				if (e.code === "Enter") this.submitGuess();
+			});
+	},
 };
 </script>
 
@@ -195,8 +199,8 @@ export default {
 			z-index: $overlap;
 			border: 2px solid $tile-color;
 			border-top: none;
-            // Initialize to hidden
-            border-bottom-width: 0;
+			// Initialize to hidden
+			border-bottom-width: 0;
 
 			&::-webkit-scrollbar {
 				display: none;
@@ -216,7 +220,7 @@ export default {
 				align-items: center;
 				padding-left: 100px;
 				position: relative;
-                height: 50px;
+				height: 50px;
 				width: 100%;
 
 				&:last-child {
@@ -272,8 +276,12 @@ export default {
 
 // Mobile design
 @media screen and (max-width: $mobile) {
-	#guess > #guess-input {
-		font-size: 1.5rem;
+	#guess-dropdown {
+		--input-height: 45px;
+
+		#dropdown-container > #guess-input {
+			font-size: 1.5rem;
+		}
 	}
 }
 </style>
