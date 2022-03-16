@@ -48,6 +48,13 @@ export default {
 		};
 	},
 	methods: {
+		// Translate edge cases
+		translateName: function (name) {
+			if (name === "mr. mime") return "mr.mime";
+			else if (name === "mime jr.") return "mime_jr";
+			else if (name === "farfetch’d") return "farfetchd";
+			else return name;
+		},
 		// Fetch list of Pokemon
 		fetchPokemonList: async function () {
 			// Fetch
