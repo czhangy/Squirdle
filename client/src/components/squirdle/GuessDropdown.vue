@@ -131,11 +131,6 @@ export default {
 					this.guesses.push(this.guess);
 					// Clear guess
 					this.guess = "";
-					// Disable button temporarily
-					document.getElementById('guess-button').disabled = true;
-					setTimeout(() => {
-						document.getElementById('guess-button').disabled = false;
-					});
 					this.onSubmit(pokemon);
 				});
 			}

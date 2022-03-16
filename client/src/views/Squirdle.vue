@@ -93,10 +93,18 @@ export default {
 			// Check for loss
 			else if (this.numGuesses === 6) this.handleGameOver(false);
 			else {
+				let button = document.getElementById("guess-button");
 				// Update placeholder
 				document.getElementById("guess-input").placeholder = `Guess ${
 					this.numGuesses + 1
 				} of 6`;
+				// Disable button temporarily
+				button.disabled = true;
+				button.classList.remove("active-button");
+				setTimeout(() => {
+					button.disabled = false;
+					button.classList.add("active-button");
+				}, 1000);
 			}
 			// Update display
 			this.$refs["game-grid"].updateGrid(pokemon);
@@ -133,8 +141,8 @@ export default {
 
 // Mobile layout
 @media screen and (max-width: $mobile) {
-    #squirdle {
-        padding: 32px 0;
-    }
+	#squirdle {
+		padding: 32px 0;
+	}
 }
 </style>
