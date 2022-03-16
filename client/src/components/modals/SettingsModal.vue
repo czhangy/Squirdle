@@ -11,11 +11,15 @@
 				<a href="https://github.com/czhangy" target="_blank"
 					><img src="@/assets/icons/github.png" href="GitHub"
 				/></a>
-                <a href="https://www.linkedin.com/in/charles-zhang-14746519b/" target="_blank"
+				<a
+					href="https://www.linkedin.com/in/charles-zhang-14746519b/"
+					target="_blank"
 					><img src="@/assets/icons/linkedin.png" href="LinkedIn"
 				/></a>
-                <a href="https://czhangy.io" target="_blank"
-					><img src="@/assets/icons/personal-site.png" href="Personal Site"
+				<a href="https://czhangy.io" target="_blank"
+					><img
+						src="@/assets/icons/personal-site.png"
+						href="Personal Site"
 				/></a>
 			</div>
 			<hr />
@@ -80,13 +84,13 @@ export default {
 	}
 
 	#settings-links {
-        margin-top: 16px;
-        display: flex;
-        justify-content: space-evenly;
+		margin-top: 16px;
+		display: flex;
+		justify-content: space-evenly;
 
-        img {
-            height: 32px;
-        }
+		img {
+			height: 32px;
+		}
 	}
 }
 </style>
