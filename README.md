@@ -17,7 +17,6 @@ This project is still under development. The base game is functional, but featur
 #### To Do:
 
 - [ ] Add Gen. II - IV to the database
-- [ ] Fix default routing
 - [ ] Implement daily resets
 - [ ] Add hard mode to settings
 - [ ] Implement user system
