@@ -16,9 +16,9 @@ This project is still under development. The base game is functional, but featur
 
 #### To Do:
 
-- [ ] Add Gen. II - IV to the database
 - [ ] Implement daily resets
 - [ ] Add hard mode to settings
+- [ ] Add Gen. V - VIII to the database
 - [ ] Implement user system
 
 ## Installation and Setup
