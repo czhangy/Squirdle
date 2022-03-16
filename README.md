@@ -16,10 +16,13 @@ This project is still under development. The base game is functional, but featur
 
 #### To Do:
 
-- [ ] Implement daily resets
+- [ ] Improve design of end card
+- [ ] Rethink design/criteria of guess
+- [ ] Add share mechanism
 - [ ] Add hard mode to settings
-- [ ] Add Gen. V - VIII to the database
 - [ ] Implement user system
+- [ ] Add Gen. V - VIII to the database
+- [ ] Implement daily resets
 
 ## Installation and Setup
 
