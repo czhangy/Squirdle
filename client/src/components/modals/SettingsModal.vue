@@ -23,7 +23,7 @@
 				This app was created with the help of
 				<br />
 				<a href="https://serebii.net" target="_blank">Serebii</a>,
-				<a href="https://pokeapi.co/" target="_blank">PokeAPI</a>, and
+				<a href="https://pokeapi.co/" target="_blank">PokéAPI</a>, and
 				<a href="https://projectpokemon.org/home/" target="_blank"
 					>Project Pokémon</a
 				>
