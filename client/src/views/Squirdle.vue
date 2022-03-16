@@ -58,7 +58,7 @@ export default {
 		// Randomly select target Pokemon
 		generateTarget: function () {
 			// Randomly select dex number
-			const ind = Math.floor(Math.random() * 151);
+			const ind = Math.floor(Math.random() * 493);
 			// Fetch target Pokemon by name
 			axios
 				.get(`/api/pokemon/${this.pokemonList[ind]}`)
