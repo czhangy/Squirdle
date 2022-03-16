@@ -111,6 +111,6 @@ export default {
 
 .overlay {
 	// Overlay all other content
-	z-index: $overlay;
+	z-index: $modal;
 }
 </style>

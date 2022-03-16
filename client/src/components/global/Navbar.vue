@@ -47,6 +47,8 @@ export default {
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 16px;
+	// Overlap dropdown overlay
+	z-index: $modal;
 
 	button {
 		background: transparent;

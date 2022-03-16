@@ -121,6 +121,7 @@ export default {
 <style lang="scss" scoped>
 #squirdle {
 	padding: 64px 0;
+	overflow-y: hidden;
 }
 
 // Mobile layout
