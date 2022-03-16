@@ -77,7 +77,6 @@ export default {
 		},
 		// Dropdown control
 		openDropdown: function () {
-			console.log("hi");
 			document
 				.getElementById("dropdown-overlay")
 				.classList.add("show-overlay");
