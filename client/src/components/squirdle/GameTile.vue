@@ -38,7 +38,7 @@ export default {
 	background-color: transparent;
 	height: 65px;
 	width: 65px;
-    z-index: $default;
+    z-index: $tiles;
 
 	.rotated {
 		transform: rotateX(180deg);

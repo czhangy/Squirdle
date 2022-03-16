@@ -1,6 +1,7 @@
 <template>
 	<div id="guess-dropdown">
-		<div id="dropdown-container">
+		<div id="dropdown-overlay" class="dropdown-overlay" @click="closeDropdown" />
+		<div id="dropdown-container" class="overlay">
 			<input
 				id="guess-input"
 				type="text"
@@ -8,6 +9,7 @@
 				spellcheck="false"
 				v-model="guess"
 				@input="filterDropdown"
+				@click="openDropdown"
 			/>
 			<div id="dropdown" class="dropdown">
 				<button
@@ -64,12 +66,29 @@ export default {
 		setSprites: function () {
 			const sprites = document.getElementsByClassName("dropdown-icon");
 			for (let i = 0; i < sprites.length; i++) {
-				sprites[
-					i
-				].src = `https://www.serebii.net/pokedex-swsh/icon/${(this.pokemonList
-					.findIndex(name => name === this.filteredList[i]) + 1)
-					.toString().padStart(3, "0")}.png`;
+				sprites[i].src = `https://www.serebii.net/pokedex-swsh/icon/${(
+					this.pokemonList.findIndex(
+						(name) => name === this.filteredList[i]
+					) + 1
+				)
+					.toString()
+					.padStart(3, "0")}.png`;
 			}
+		},
+		// Dropdown control
+		openDropdown: function () {
+			document
+				.getElementById("dropdown-overlay")
+				.classList.add("show-overlay");
+			document.getElementById("dropdown").classList.add("show-dropdown");
+		},
+		closeDropdown: function () {
+			document
+				.getElementById("dropdown-overlay")
+				.classList.remove("show-overlay");
+			document
+				.getElementById("dropdown")
+				.classList.remove("show-dropdown");
 		},
 		// Filter options
 		filterDropdown: function () {
@@ -85,8 +104,8 @@ export default {
 		// Select option
 		setGuess: function (guess) {
 			this.guess = guess;
-			// Clear focus
-			if (document.activeElement) document.activeElement.blur();
+			// Close dropdown after click
+			this.closeDropdown();
 		},
 		// Handle validation
 		validateGuess: function () {
@@ -160,8 +179,25 @@ export default {
 	justify-content: center;
 	margin-bottom: 36px;
 
+	.dropdown-overlay {
+		z-index: $dropdown-overlay;
+		display: none;
+		// Allow navbar access on overlay
+		height: calc(100% - #{$navbar-height});
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+	}
+
+	.show-overlay {
+		// Show
+		display: block;
+	}
+
 	#dropdown-container {
 		position: relative;
+		// Overlap tiles
+		z-index: $dropdown;
 
 		#guess-input {
 			background: $main-color;
@@ -183,11 +219,10 @@ export default {
 
 		.dropdown {
 			display: none;
+			max-height: 500px;
 			width: 100%;
 			position: absolute;
 			overflow-y: scroll;
-			// Overlap tiles
-			z-index: $overlap;
 			border: 2px solid $tile-color;
 			border-top: none;
 			// Initialize to hidden
@@ -228,10 +263,9 @@ export default {
 			}
 		}
 
-		&:focus-within > .dropdown {
+		.show-dropdown {
 			// Keep dropdown open for click handler
 			display: block;
-			max-height: 500px;
 		}
 	}
 
@@ -243,6 +277,8 @@ export default {
 		padding: 0 18px;
 		color: $accent-color;
 		font-size: 1rem;
+		// Overlap overlay
+		z-index: $dropdown;
 	}
 
 	.active-button {
