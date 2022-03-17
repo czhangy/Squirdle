@@ -69,11 +69,14 @@ export default {
 		font-size: 1.5rem;
 	}
 
+	#target-sprite {
+		margin: 16px 0;
+	}
+
 	#target-name {
 		font-family: $alt-font;
 		line-height: 1.5rem;
 		letter-spacing: 2px;
-        margin-top: 16px;
 	}
 }
 </style>

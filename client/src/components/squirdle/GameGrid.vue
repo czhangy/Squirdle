@@ -5,7 +5,7 @@
 			<label class="game-grid-label">Gen</label>
 			<label class="game-grid-label">Type</label>
 			<label class="game-grid-label">Stage</label>
-			<label class="game-grid-label">Color</label>
+			<label class="game-grid-label">Length</label>
 		</div>
 		<hr id="separator" />
 		<div class="game-grid-row" v-for="i in 6" :key="i">
@@ -14,7 +14,7 @@
 			<GameTile v-if="guessTypes[i - 1]" type="monotype" />
 			<GameTile v-else type="dualtype" />
 			<GameTile />
-			<GameTile type="color" />
+			<GameTile />
 		</div>
 	</div>
 </template>
@@ -72,8 +72,8 @@ export default {
 			textTiles[baseInd].innerHTML = this.intToRoman(pokemon.gen);
 			// Update stage tile
 			textTiles[baseInd + 1].innerHTML = this.intToRoman(pokemon.stage);
-			// Update color tile
-			textTiles[baseInd + 2].innerHTML = pokemon.color;
+			// Update length tile
+			textTiles[baseInd + 2].innerHTML = pokemon.name.length;
 		},
 		// Update type tile
 		updateTypeTile: function (pokemon) {
@@ -128,10 +128,10 @@ export default {
 				tiles[baseInd + 3].classList.add("correct");
 			else if (Math.abs(pokemon.stage - this.target.stage) === 1)
 				tiles[baseInd + 3].classList.add("hint");
-			// Update color tile
-			if (pokemon.color === this.target.color)
+			// Update length tile
+			if (pokemon.name.length === this.target.name.length)
 				tiles[baseInd + 4].classList.add("correct");
-			else if (this.similarColor(pokemon.color))
+			else if (Math.abs(pokemon.name.length - this.target.name.length) <= 2)
 				tiles[baseInd + 4].classList.add("hint");
 		},
 		// Convert numbers to roman numerals
@@ -156,35 +156,35 @@ export default {
 			}
 		},
 		// Define what colors are similar
-		similarColor: function (color) {
-			const targetColor = this.target.color;
-			switch (color) {
-				case "Red":
-					return (
-						targetColor === "Brown" ||
-						targetColor === "Yellow" ||
-						targetColor === "Pink"
-					);
-				case "Blue":
-					return targetColor === "Purple" || targetColor === "Green";
-				case "Yellow":
-					return targetColor === "Red";
-				case "Green":
-					return targetColor === "Blue";
-				case "Black":
-					return targetColor === "Brown" || targetColor === "Gray";
-				case "Brown":
-					return targetColor === "Black" || targetColor === "Red";
-				case "Purple":
-					return targetColor === "Blue" || targetColor === "Red";
-				case "Gray":
-					return targetColor === "Black" || targetColor === "White";
-				case "White":
-					return targetColor === "Gray";
-				case "Pink":
-					return targetColor === "Red";
-			}
-		},
+		// similarColor: function (color) {
+		// 	const targetColor = this.target.color;
+		// 	switch (color) {
+		// 		case "Red":
+		// 			return (
+		// 				targetColor === "Brown" ||
+		// 				targetColor === "Yellow" ||
+		// 				targetColor === "Pink"
+		// 			);
+		// 		case "Blue":
+		// 			return targetColor === "Purple" || targetColor === "Green";
+		// 		case "Yellow":
+		// 			return targetColor === "Red";
+		// 		case "Green":
+		// 			return targetColor === "Blue";
+		// 		case "Black":
+		// 			return targetColor === "Brown" || targetColor === "Gray";
+		// 		case "Brown":
+		// 			return targetColor === "Black" || targetColor === "Red";
+		// 		case "Purple":
+		// 			return targetColor === "Blue" || targetColor === "Red";
+		// 		case "Gray":
+		// 			return targetColor === "Black" || targetColor === "White";
+		// 		case "White":
+		// 			return targetColor === "Gray";
+		// 		case "Pink":
+		// 			return targetColor === "Red";
+		// 	}
+		// },
 		// Flip tiles animation
 		flipTiles: function () {
 			const baseInd = this.ind * 5;

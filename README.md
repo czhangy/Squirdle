@@ -16,7 +16,7 @@ This project is still under development. The base game is functional, but featur
 
 #### To Do:
 
-- [ ] Improve design of end card
+- [ ] Improve design of game over and how to play modals
 - [ ] Rethink design/criteria of guess
 - [ ] Add share mechanism
 - [ ] Add hard mode to settings
