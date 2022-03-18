@@ -5,7 +5,7 @@
 			<input
 				id="guess-input"
 				type="text"
-				placeholder="Guess 1 of 6"
+				placeholder="Guess 1 of 8"
 				spellcheck="false"
 				v-model="guess"
 				@input="filterDropdown"

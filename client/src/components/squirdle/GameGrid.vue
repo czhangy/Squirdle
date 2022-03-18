@@ -8,13 +8,15 @@
 			<label class="game-grid-label">Length</label>
 		</div>
 		<hr id="separator" />
-		<div class="game-grid-row" v-for="i in 6" :key="i">
-			<GameTile type="sprite" />
-			<GameTile />
-			<GameTile v-if="guessTypes[i - 1]" type="monotype" />
-			<GameTile v-else type="dualtype" />
-			<GameTile />
-			<GameTile />
+		<div id="game-grid-container">
+			<div class="game-grid-row" v-for="i in numRows" :key="i">
+				<GameTile type="sprite" />
+				<GameTile />
+				<GameTile v-if="guessTypes[i - 1]" type="monotype" />
+				<GameTile v-else type="dualtype" />
+				<GameTile />
+				<GameTile />
+			</div>
 		</div>
 	</div>
 </template>
@@ -39,13 +41,14 @@ export default {
 	},
 	data() {
 		return {
+			numRows: 6,
 			guessTypes: [],
 			numDualtypes: 0,
 		};
 	},
 	methods: {
 		// Update the game board
-		updateGrid: function (pokemon) {
+		updateGrid: function (pokemon, numGuesses) {
 			// Add to types
 			this.guessTypes[this.ind] = pokemon.type_2 === "" ? true : false;
 			// Update display data
@@ -56,6 +59,8 @@ export default {
 			this.setTileStatuses(pokemon);
 			// Flip tiles
 			this.flipTiles();
+			// Scroll up if needed
+			this.scrollGrid(numGuesses);
 		},
 		// Update sprite tile
 		updateSpriteTile: function (pokemon) {
@@ -160,45 +165,41 @@ export default {
 					return "VIII";
 			}
 		},
-		// Define what colors are similar
-		// similarColor: function (color) {
-		// 	const targetColor = this.target.color;
-		// 	switch (color) {
-		// 		case "Red":
-		// 			return (
-		// 				targetColor === "Brown" ||
-		// 				targetColor === "Yellow" ||
-		// 				targetColor === "Pink"
-		// 			);
-		// 		case "Blue":
-		// 			return targetColor === "Purple" || targetColor === "Green";
-		// 		case "Yellow":
-		// 			return targetColor === "Red";
-		// 		case "Green":
-		// 			return targetColor === "Blue";
-		// 		case "Black":
-		// 			return targetColor === "Brown" || targetColor === "Gray";
-		// 		case "Brown":
-		// 			return targetColor === "Black" || targetColor === "Red";
-		// 		case "Purple":
-		// 			return targetColor === "Blue" || targetColor === "Red";
-		// 		case "Gray":
-		// 			return targetColor === "Black" || targetColor === "White";
-		// 		case "White":
-		// 			return targetColor === "Gray";
-		// 		case "Pink":
-		// 			return targetColor === "Red";
-		// 	}
-		// },
 		// Flip tiles animation
 		flipTiles: function () {
 			const baseInd = this.ind * 5;
 			const tiles = document.getElementsByClassName("game-tile-inner");
 			// Start animation at 0.25s intervals
 			for (let i = 0; i < 5; i++)
-				setTimeout(function () {
+				setTimeout(() => {
 					tiles[baseInd + i].classList.add("rotated");
 				}, 250 * (i + 1));
+		},
+		// Handle grid scroll if out of view
+		scrollGrid: function (numGuesses) {
+			if (numGuesses === 6 || numGuesses === 7) {
+				this.numRows++;
+				this.$nextTick(() => {
+					if (numGuesses === 6)
+						setTimeout(() => {
+							document
+								.getElementsByClassName("game-grid-row")[6]
+								.scrollIntoView({
+									behavior: "smooth",
+									block: "end",
+								});
+						}, 1750);
+					else
+						setTimeout(() => {
+							document
+								.getElementsByClassName("game-grid-row")[7]
+								.scrollIntoView({
+									behavior: "smooth",
+									block: "end",
+								});
+						}, 1750);
+				});
+			}
 		},
 	},
 };
@@ -227,10 +228,19 @@ export default {
 		border: none;
 	}
 
-	.game-grid-row {
-		margin-bottom: 5px;
-		display: flex;
-		justify-content: space-between;
+	#game-grid-container {
+		height: 420px;
+		overflow-y: scroll;
+
+		.game-grid-row {
+			margin-bottom: 5px;
+			display: flex;
+			justify-content: space-between;
+		}
+	}
+
+	::-webkit-scrollbar {
+		display: none;
 	}
 }
 </style>

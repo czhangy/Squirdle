@@ -91,13 +91,13 @@ export default {
 			// Check for win
 			if (pokemon.name === this.target.name) this.handleGameOver(true);
 			// Check for loss
-			else if (this.numGuesses === 6) this.handleGameOver(false);
+			else if (this.numGuesses === 8) this.handleGameOver(false);
 			else {
 				let button = document.getElementById("guess-button");
 				// Update placeholder
 				document.getElementById("guess-input").placeholder = `Guess ${
 					this.numGuesses + 1
-				} of 6`;
+				} of 8`;
 				// Disable button temporarily
 				button.disabled = true;
 				button.classList.remove("active-button");
@@ -107,7 +107,7 @@ export default {
 				}, 1000);
 			}
 			// Update display
-			this.$refs["game-grid"].updateGrid(pokemon);
+			this.$refs["game-grid"].updateGrid(pokemon, this.numGuesses);
 		},
 		// Handle game end conditions
 		handleGameOver: function (status) {
