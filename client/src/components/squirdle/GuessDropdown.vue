@@ -119,6 +119,8 @@ export default {
 		submitGuess: function () {
 			// Standardize capitalization
 			this.guess = this.guess.toLowerCase();
+            // Close dropdown
+            this.closeDropdown();
 			if (this.validateGuess() === this.INVALID)
 				this.onError("Not a valid Pokémon!");
 			else if (this.validateGuess() === this.DUPLICATE)
