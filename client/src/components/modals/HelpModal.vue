@@ -2,7 +2,7 @@
 	<Modal id="help-modal" ref="help-modal" modalID="help-modal">
 		<div id="help">
 			<button
-				v-if="page !== 0"
+				v-if="page !== 1"
 				@click="setPage(-1)"
 				id="page-nav"
 				class="left"
@@ -10,14 +10,14 @@
 				<i class="left arrow" />
 			</button>
 			<button
-				v-if="page !== 4"
+				v-if="page !== 5"
 				@click="setPage(1)"
 				id="page-nav"
 				class="right"
 			>
 				<i class="right arrow" />
 			</button>
-			<div id="page" v-if="page === 0">
+			<div id="page-1" class="page show display">
 				<h2 id="help-header">HOW TO PLAY</h2>
 				<p class="help-text">
 					Guess the <strong>SQUIRDLE</strong> in 6 tries
@@ -32,7 +32,7 @@
 					how close your guess was.
 				</p>
 			</div>
-			<div id="page" v-if="page === 1">
+			<div id="page-2" class="page right-page">
 				<h2 id="help-header">EXAMPLES</h2>
 				<div class="tile-container">
 					<div class="tile">
@@ -105,7 +105,7 @@
 				</div>
 				<p class="help-text">The mystery Pokémon is from Gen 1!</p>
 			</div>
-			<div id="page" v-if="page === 2">
+			<div id="page-3" class="page right-page">
 				<h2 id="help-header">EXAMPLES</h2>
 				<div class="tile-container">
 					<div class="tile">
@@ -176,7 +176,7 @@
 				</div>
 				<p class="help-text">The mystery Pokémon is a Water type!</p>
 			</div>
-			<div id="page" v-if="page === 3">
+			<div id="page-4" class="page right-page">
 				<h2 id="help-header">EXAMPLES</h2>
 				<div class="tile-container">
 					<div class="tile">
@@ -249,7 +249,7 @@
 				</div>
 				<p class="help-text">The mystery Pokémon is in Stage 1!</p>
 			</div>
-			<div id="page" v-if="page === 4">
+			<div id="page-5" class="page right-page">
 				<h2 id="help-header">EXAMPLES</h2>
 				<div class="tile-container">
 					<div class="tile">
@@ -339,7 +339,7 @@ export default {
 	},
 	data() {
 		return {
-			page: 0,
+			page: 1,
 		};
 	},
 	methods: {
@@ -349,6 +349,25 @@ export default {
 		// Page control
 		setPage: function (inc) {
 			this.page += inc;
+			const curPage = document.getElementById(`page-${this.page - inc}`);
+			// Fade out
+			curPage.classList.remove("show");
+			// Move to correct side
+			if (inc > 0) curPage.classList.add("left-page");
+			else curPage.classList.add("right-page");
+			setTimeout(() => {
+				// Remove from flow
+				curPage.classList.remove("display");
+				const newPage = document.getElementById(`page-${this.page}`);
+				// Add to flow and fade in
+				newPage.classList.add("display");
+				setTimeout(() => {
+					newPage.classList.add("show");
+					// Remove from prior side
+					if (inc > 0) newPage.classList.remove("right-page");
+					else newPage.classList.remove("left-page");
+				}, 50);
+			}, 250);
 		},
 	},
 };
@@ -388,8 +407,12 @@ export default {
 		-webkit-transform: rotate(-45deg);
 	}
 
-	#page {
-		padding: 0 20px;
+	.page {
+		width: 80%;
+		margin: 0 auto;
+		transition: all 0.25s ease;
+		opacity: 0;
+		display: none;
 
 		#help-header {
 			font-family: $alt-font;
@@ -448,6 +471,23 @@ export default {
 			color: white;
 			font-size: 0.9rem;
 		}
+	}
+
+	.left-page {
+		transform: translateX(-30px);
+	}
+
+	.right-page {
+		transform: translateX(30px);
+	}
+
+	.show {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	.display {
+		display: block;
 	}
 }
 </style>
