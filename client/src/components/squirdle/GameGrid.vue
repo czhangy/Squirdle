@@ -62,7 +62,9 @@ export default {
 			// Fetch box sprite
 			document.getElementsByClassName("sprite")[
 				this.ind
-			].src = `https://www.serebii.net/pokedex-swsh/icon/${pokemon.dex_num.toString().padStart(3, '0')}.png`;
+			].src = `https://www.serebii.net/pokedex-swsh/icon/${pokemon.dex_num
+				.toString()
+				.padStart(3, "0")}.png`;
 		},
 		// Update text tiles
 		updateTextTiles: function (pokemon) {
@@ -119,7 +121,8 @@ export default {
 					pokemon.type_1 === this.target.type_2 ||
 					pokemon.type_1 === this.target.type_1 ||
 					pokemon.type_2 === this.target.type_1 ||
-					pokemon.type_2 === this.target.type_2
+					(pokemon.type_2 === this.target.type_2 &&
+						pokemon.type_2 !== "")
 				)
 					tiles[baseInd + 2].classList.add("hint");
 			});
@@ -131,7 +134,9 @@ export default {
 			// Update length tile
 			if (pokemon.name.length === this.target.name.length)
 				tiles[baseInd + 4].classList.add("correct");
-			else if (Math.abs(pokemon.name.length - this.target.name.length) <= 2)
+			else if (
+				Math.abs(pokemon.name.length - this.target.name.length) <= 2
+			)
 				tiles[baseInd + 4].classList.add("hint");
 		},
 		// Convert numbers to roman numerals
