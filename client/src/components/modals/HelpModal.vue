@@ -436,7 +436,7 @@ export default {
 			display: flex;
 			justify-content: space-between;
 			margin: 8px auto;
-			width: 77.5%;
+			width: 85%;
 
 			.tile {
 				border: 1px solid $tile-color;
@@ -483,7 +483,6 @@ export default {
 
 	.show {
 		opacity: 1;
-		transform: translateX(0);
 	}
 
 	.display {
