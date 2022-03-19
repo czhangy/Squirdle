@@ -180,24 +180,14 @@ export default {
 			if (numGuesses === 6 || numGuesses === 7) {
 				this.numRows++;
 				this.$nextTick(() => {
-					if (numGuesses === 6)
-						setTimeout(() => {
-							document
-								.getElementsByClassName("game-grid-row")[6]
-								.scrollIntoView({
-									behavior: "smooth",
-									block: "end",
-								});
-						}, 1750);
-					else
-						setTimeout(() => {
-							document
-								.getElementsByClassName("game-grid-row")[7]
-								.scrollIntoView({
-									behavior: "smooth",
-									block: "end",
-								});
-						}, 1750);
+					setTimeout(() => {
+						document
+							.getElementsByClassName("game-grid-row")
+							[numGuesses].scrollIntoView({
+								behavior: "smooth",
+								block: "end",
+							});
+					}, 1750);
 				});
 			}
 		},

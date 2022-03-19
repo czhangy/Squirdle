@@ -281,6 +281,10 @@ export default {
 		font-size: 1rem;
 		// Overlap overlay
 		z-index: $dropdown;
+
+		&:disabled {
+			background: $main-color;
+		}
 	}
 
 	.active-button {
