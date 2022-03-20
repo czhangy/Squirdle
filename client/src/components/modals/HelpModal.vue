@@ -53,7 +53,7 @@
 						/>
 					</div>
 					<div class="tile">I</div>
-					<div class="tile"><p>9</p></div>
+					<div class="tile">9</div>
 				</div>
 				<p class="help-text">
 					The mystery Pokémon is from a generation more than 1 away
@@ -76,7 +76,7 @@
 						/>
 					</div>
 					<div class="tile">I</div>
-					<div class="tile"><p>10</p></div>
+					<div class="tile">10</div>
 				</div>
 				<p class="help-text">
 					The mystery Pokémon is from a generation 1 away from your
@@ -99,9 +99,7 @@
 						/>
 					</div>
 					<div class="tile">I</div>
-					<div class="tile">
-						<p>8</p>
-					</div>
+					<div class="tile">8</div>
 				</div>
 				<p class="help-text">The mystery Pokémon is from Gen 1!</p>
 			</div>
@@ -126,7 +124,7 @@
 						/>
 					</div>
 					<div class="tile">I</div>
-					<div class="tile"><p>9</p></div>
+					<div class="tile">9</div>
 				</div>
 				<p class="help-text">
 					The mystery Pokémon's type doesn't match your guess.
@@ -148,7 +146,7 @@
 						/>
 					</div>
 					<div class="tile">I</div>
-					<div class="tile"><p>10</p></div>
+					<div class="tile">10</div>
 				</div>
 				<p class="help-text">
 					The mystery Pokémon's type partially matches your guess.
@@ -170,9 +168,7 @@
 						/>
 					</div>
 					<div class="tile">I</div>
-					<div class="tile">
-						<p>8</p>
-					</div>
+					<div class="tile">8</div>
 				</div>
 				<p class="help-text">The mystery Pokémon is a Water type!</p>
 			</div>
@@ -197,7 +193,7 @@
 						/>
 					</div>
 					<div class="tile">I</div>
-					<div class="tile"><p>9</p></div>
+					<div class="tile">9</div>
 				</div>
 				<p class="help-text">
 					The mystery Pokémon's evolution stage is more than 1 away
@@ -243,9 +239,7 @@
 						/>
 					</div>
 					<div class="correct tile">I</div>
-					<div class="tile">
-						<p>8</p>
-					</div>
+					<div class="tile">8</div>
 				</div>
 				<p class="help-text">The mystery Pokémon is in Stage 1!</p>
 			</div>
@@ -293,7 +287,7 @@
 						/>
 					</div>
 					<div class="hint tile">I</div>
-					<div class="tile"><p>10</p></div>
+					<div class="tile">10</div>
 				</div>
 				<p class="help-text">
 					The length of the mystery Pokémon's name is within 2 of your
@@ -316,9 +310,7 @@
 						/>
 					</div>
 					<div class="correct tile">I</div>
-					<div class="tile">
-						<p>8</p>
-					</div>
+					<div class="tile">8</div>
 				</div>
 				<p class="help-text">
 					The mystery Pokémon's name is 8 letters long!

@@ -3,9 +3,8 @@
 		<GameOverModal
 			v-if="target"
 			ref="game-over-modal"
-			:win="win"
-			:numGuesses="numGuesses"
 			:target="target"
+			:gameOver="gameOver"
 		/>
 		<ErrorModal ref="error-modal" />
 		<GuessDropdown
@@ -41,7 +40,7 @@ export default {
 		return {
 			// State
 			pokemonList: [],
-			win: true,
+			gameOver: false,
 			numGuesses: 0,
 			// Target
 			target: null,
@@ -71,14 +70,6 @@ export default {
 				.get(`/api/pokemon/${this.pokemonList[ind]}`)
 				.then((response) => {
 					this.target = response.data;
-					// Set info on game over modal
-					this.$nextTick(() => {
-						document.getElementById(
-							"target-sprite"
-						).src = `https://projectpokemon.org/images/normal-sprite/${this.target.name}.gif`;
-						document.getElementById("target-name").innerHTML = `
-				#${this.target.dex_num.toString().padStart(3, "0")}: ${this.target.name}`;
-					});
 				});
 		},
 		// Trigger error modal
@@ -88,10 +79,9 @@ export default {
 		// Guess handler
 		handleGuess: function (pokemon) {
 			this.numGuesses++;
-			// Check for win
-			if (pokemon.name === this.target.name) this.handleGameOver(true);
-			// Check for loss
-			else if (this.numGuesses === 8) this.handleGameOver(false);
+			// Check for game over
+			if (pokemon.name === this.target.name || this.numGuesses === 8)
+				this.handleGameOver(true);
 			else {
 				let button = document.getElementById("guess-button");
 				// Update placeholder
@@ -110,7 +100,7 @@ export default {
 			this.$refs["game-grid"].updateGrid(pokemon, this.numGuesses);
 		},
 		// Handle game end conditions
-		handleGameOver: function (status) {
+		handleGameOver: function () {
 			const input = document.getElementById("guess-input");
 			// Change placeholder
 			document.getElementById("guess-input").placeholder = "";
@@ -119,7 +109,7 @@ export default {
 			document
 				.getElementById("guess-button")
 				.classList.remove("active-button");
-			this.win = status;
+			this.gameOver = true;
 			// Pop up loss modal
 			setTimeout(() => {
 				this.$refs["game-over-modal"].openModal();
