@@ -146,6 +146,7 @@ export default {
 	#tile-container {
 		justify-content: space-between;
 		margin: 8px auto;
+        margin-bottom: 0;
 		width: 75%;
 
 		.target-tile {

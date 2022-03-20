@@ -2,17 +2,24 @@
 	<div id="navbar">
 		<HelpModal ref="help-modal" />
 		<SettingsModal ref="settings-modal" />
-		<button id="help" @click="$refs['help-modal'].openModal">
-			<img src="@/assets/icons/help.png" alt="Help" id="help-icon" />
-		</button>
+		<div class="button-container">
+			<button id="help" @click="$refs['help-modal'].openModal">
+				<img src="@/assets/icons/help.png" alt="Help" id="help-icon" />
+			</button>
+		</div>
 		<h1 id="title">SQUIRDLE</h1>
-		<button id="settings" @click="$refs['settings-modal'].openModal">
-			<img
-				src="@/assets/icons/settings.png"
-				alt="Settings"
-				id="settings-icon"
-			/>
-		</button>
+		<div id="right-container" class="button-container">
+			<button id="settings" @click="$refs['settings-modal'].openModal">
+				<img src="@/assets/icons/user.png" alt="User" id="user-icon" />
+			</button>
+			<button id="settings" @click="$refs['settings-modal'].openModal">
+				<img
+					src="@/assets/icons/settings.png"
+					alt="Settings"
+					id="settings-icon"
+				/>
+			</button>
+		</div>
 	</div>
 </template>
 
@@ -50,16 +57,26 @@ export default {
 	// Overlap dropdown overlay
 	z-index: $modal;
 
-	button {
-		background: transparent;
-		border: none;
-		cursor: pointer;
+	.button-container {
+		width: 75px;
+        display: flex;
+        justify-content: flex-start;
 
-		img {
-			height: 24px;
-			width: 24px;
+		button {
+			background: transparent;
+			border: none;
+			cursor: pointer;
+
+			img {
+				height: 24px;
+				width: 24px;
+			}
 		}
 	}
+
+    #right-container {
+        justify-content: flex-end;
+    }
 
 	#title {
 		font-family: $alt-font;
