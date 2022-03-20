@@ -1,6 +1,10 @@
 <template>
 	<div id="guess-dropdown">
-		<div id="dropdown-overlay" class="dropdown-overlay" @click="closeDropdown" />
+		<div
+			id="dropdown-overlay"
+			class="dropdown-overlay"
+			@click="closeDropdown"
+		/>
 		<div id="dropdown-container" class="overlay">
 			<input
 				id="guess-input"
@@ -119,8 +123,16 @@ export default {
 		submitGuess: function () {
 			// Standardize capitalization
 			this.guess = this.guess.toLowerCase();
-            // Close dropdown
-            this.closeDropdown();
+			// Close dropdown
+			this.closeDropdown();
+			// Disable button temporarily
+			let button = document.getElementById("guess-button");
+			button.disabled = true;
+			button.classList.remove("active-button");
+			setTimeout(() => {
+				button.disabled = false;
+				button.classList.add("active-button");
+			}, 1750);
 			if (this.validateGuess() === this.INVALID)
 				this.onError("Not a valid Pokémon!");
 			else if (this.validateGuess() === this.DUPLICATE)

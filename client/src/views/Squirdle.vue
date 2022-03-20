@@ -83,18 +83,10 @@ export default {
 			if (pokemon.name === this.target.name || this.numGuesses === 8)
 				this.handleGameOver(true);
 			else {
-				let button = document.getElementById("guess-button");
 				// Update placeholder
 				document.getElementById("guess-input").placeholder = `Guess ${
 					this.numGuesses + 1
 				} of 8`;
-				// Disable button temporarily
-				button.disabled = true;
-				button.classList.remove("active-button");
-				setTimeout(() => {
-					button.disabled = false;
-					button.classList.add("active-button");
-				}, 1000);
 			}
 			// Update display
 			this.$refs["game-grid"].updateGrid(pokemon, this.numGuesses);
