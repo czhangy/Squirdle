@@ -48,19 +48,22 @@ export default {
 	margin: 0 auto;
 	margin-top: 10px;
 	display: grid;
-	grid-gap: 10px;
-	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 5px;
+	grid-template-columns: repeat(5, 1fr);
 
 	.pokedex-entry {
-		height: 80px;
-		width: 80px;
+		height: 66px;
+		width: 66px;
 		border: 1px solid $tile-color;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 
 		.pokedex-sprite {
-			width: 60px;
+            min-height: 40px;
+			min-width: 40px;
+			max-height: 60px;
+			max-width: 60px;
 		}
 	}
 }
