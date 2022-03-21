@@ -9,7 +9,7 @@
 				class="modal-close"
 				@click="closeModal"
 			/>
-			<slot ref="slot" />
+			<slot />
 		</div>
 	</div>
 </template>
@@ -28,6 +28,7 @@ export default {
 		},
 	},
 	methods: {
+        // Modal controls
 		openModal: function () {
 			document.getElementById(this.modalID).classList.add("overlay");
 			document.getElementById(this.modalID).classList.add("show");
