@@ -58,16 +58,12 @@ export default {
     .settings-button {
         color: $main-color;
         text-decoration: none;
-        padding: 4px 16px;
+        padding: 16px;
         font-family: $alt-font;
         font-size: 1.2rem;
+        line-height: 1.2rem;
         display: inline-block;
         background: $accent-color;
     }
-}
-
-// Sticky hover
-@media (hover: hover) {
-    
 }
 </style>
