@@ -9,7 +9,7 @@
 				class="modal-close"
 				@click="closeModal"
 			/>
-			<slot ref="slot" />
+			<slot />
 		</div>
 	</div>
 </template>
@@ -28,6 +28,7 @@ export default {
 		},
 	},
 	methods: {
+		// Modal controls
 		openModal: function () {
 			document.getElementById(this.modalID).classList.add("overlay");
 			document.getElementById(this.modalID).classList.add("show");
@@ -67,9 +68,9 @@ export default {
 	}
 
 	.modal-content {
-        // Scroll on small displays
-        max-height: 80vh;
-        overflow-y: scroll;
+		// Scroll on small displays
+		max-height: 80vh;
+		overflow-y: scroll;
 		width: 400px;
 		position: absolute;
 		background: $main-color;
@@ -80,10 +81,10 @@ export default {
 		opacity: 0;
 		padding: 24px;
 
-        &::-webkit-scrollbar {
-            // Hide scrollbar
-            display: none;
-        }
+		&::-webkit-scrollbar {
+			// Hide scrollbar
+			display: none;
+		}
 	}
 
 	.modal-close {

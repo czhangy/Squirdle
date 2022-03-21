@@ -10,18 +10,34 @@
 		<hr id="separator" />
 		<div id="game-grid-container">
 			<div class="game-grid-row" v-for="i in numRows" :key="i">
-				<GameTile type="sprite" />
-				<GameTile />
-				<GameTile v-if="guessTypes[i - 1]" type="monotype" />
-				<GameTile v-else type="dualtype" />
-				<GameTile />
-				<GameTile />
+				<GameTile :tileType="SPRITE" />
+				<GameTile :tileType="TEXT" />
+				<GameTile
+					v-if="guessTypes[i - 1] === MONOTYPE"
+					:tileType="MONOTYPE"
+				/>
+				<GameTile v-else :tileType="DUALTYPE" />
+				<GameTile :tileType="TEXT" />
+				<GameTile :tileType="TEXT" />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+// Import global constants
+import {
+	VISIBLE_SIZE,
+	MAX_GUESSES,
+	SPRITE,
+	TEXT,
+	MONOTYPE,
+	DUALTYPE,
+} from "@/constants.js";
+
+// Import Vuex functions
+import { mapGetters } from "vuex";
+
 // Import local component
 import GameTile from "@/components/squirdle/GameTile.vue";
 
@@ -30,17 +46,16 @@ export default {
 	components: {
 		GameTile,
 	},
-	props: {
-		ind: {
-			type: Number,
-			required: true,
-		},
-		target: {
-			type: null,
-		},
-	},
 	data() {
 		return {
+			// Global constants
+			VISIBLE_SIZE,
+			MAX_GUESSES,
+			SPRITE,
+			TEXT,
+			MONOTYPE,
+			DUALTYPE,
+			// State
 			numRows: 6,
 			guessTypes: [],
 			numDualtypes: 0,
@@ -48,64 +63,67 @@ export default {
 	},
 	methods: {
 		// Update the game board
-		updateGrid: function (pokemon, numGuesses) {
-			// Add to types
-			this.guessTypes[this.ind] = pokemon.type_2 === "" ? true : false;
-			// Update display data
+		updateGrid: function (pokemon) {
+			// Add to type information for indexing
+			this.guessTypes[this.numGuesses - 1] =
+				pokemon.type_2 === "" ? MONOTYPE : DUALTYPE;
+			// Update tile display data
 			this.updateSpriteTile(pokemon);
 			this.updateTextTiles(pokemon);
 			this.updateTypeTile(pokemon);
-			// Update tile statuses
+			// Update tile colors
 			this.setTileStatuses(pokemon);
 			// Flip tiles
 			this.flipTiles();
 			// Scroll up if needed
-			this.scrollGrid(numGuesses);
+			this.scrollGrid();
 		},
 		// Update sprite tile
 		updateSpriteTile: function (pokemon) {
 			// Fetch box sprite
-			document.getElementsByClassName("sprite")[
-				this.ind
-			].src = `https://www.serebii.net/pokedex-swsh/icon/${pokemon.dex_num
-				.toString()
-				.padStart(3, "0")}.png`;
+			document.getElementsByClassName("tile-sprite")[
+				this.numGuesses - 1
+			].src = `https://www.serebii.net/pokedex-swsh/icon/${this.$formatDexNum(
+				pokemon.dex_num
+			)}.png`;
 		},
 		// Update text tiles
 		updateTextTiles: function (pokemon) {
-			const baseInd = this.ind * 3;
-			const textTiles = document.getElementsByClassName("text");
+			const baseInd = (this.numGuesses - 1) * 3;
+			const textTiles = document.getElementsByClassName("tile-text");
 			// Update gen tile
-			textTiles[baseInd].innerHTML = this.intToRoman(pokemon.gen);
+			textTiles[baseInd].innerHTML = this.$intToRoman(pokemon.gen);
 			// Update stage tile
-			textTiles[baseInd + 1].innerHTML = this.intToRoman(pokemon.stage);
+			textTiles[baseInd + 1].innerHTML = this.$intToRoman(pokemon.stage);
 			// Update length tile
 			textTiles[baseInd + 2].innerHTML = pokemon.name.length;
 		},
 		// Update type tile
 		updateTypeTile: function (pokemon) {
 			// Check if mono or dual type
-			if (pokemon.type_2 !== "") {
+			if (this.guessTypes[this.numGuesses - 1] === DUALTYPE) {
 				// Handle primary type
 				document.getElementsByClassName("monotype")[
-					this.ind
+					this.numGuesses - 1
 				].src = `https://www.serebii.net/pokedex-bw/type/${pokemon.type_1}.gif`;
 				// Handle secondary type
 				document.getElementsByClassName("dualtype")[
 					this.numDualtypes
 				].src = `https://www.serebii.net/pokedex-bw/type/${pokemon.type_2}.gif`;
+				// Track number of dualtype guesses
 				this.numDualtypes++;
 			} else {
+				// Delay to prevent overwriting of src
 				this.$nextTick(() => {
 					document.getElementsByClassName("monotype")[
-						this.ind - 1
+						this.numGuesses - 1
 					].src = `https://www.serebii.net/pokedex-bw/type/${pokemon.type_1}.gif`;
 				});
 			}
 		},
 		// Set status of tiles
 		setTileStatuses: function (pokemon) {
-			const baseInd = this.ind * 5;
+			const baseInd = (this.numGuesses - 1) * 5;
 			const tiles = document.getElementsByClassName("game-tile-back");
 			// Update sprite tile
 			if (pokemon.name === this.target.name)
@@ -144,30 +162,9 @@ export default {
 			)
 				tiles[baseInd + 4].classList.add("hint");
 		},
-		// Convert numbers to roman numerals
-		intToRoman: function (num) {
-			switch (num) {
-				case 1:
-					return "I";
-				case 2:
-					return "II";
-				case 3:
-					return "III";
-				case 4:
-					return "IV";
-				case 5:
-					return "V";
-				case 6:
-					return "VI";
-				case 7:
-					return "VII";
-				case 8:
-					return "VIII";
-			}
-		},
 		// Flip tiles animation
 		flipTiles: function () {
-			const baseInd = this.ind * 5;
+			const baseInd = (this.numGuesses - 1) * 5;
 			const tiles = document.getElementsByClassName("game-tile-inner");
 			// Start animation at 0.25s intervals
 			for (let i = 0; i < 5; i++)
@@ -176,14 +173,17 @@ export default {
 				}, 250 * (i + 1));
 		},
 		// Handle grid scroll if out of view
-		scrollGrid: function (numGuesses) {
-			if (numGuesses === 6 || numGuesses === 7) {
+		scrollGrid: function () {
+			if (
+				this.numGuesses >= VISIBLE_SIZE &&
+				this.numGuesses < MAX_GUESSES
+			) {
 				this.numRows++;
 				this.$nextTick(() => {
 					setTimeout(() => {
 						document
 							.getElementsByClassName("game-grid-row")
-							[numGuesses].scrollIntoView({
+							[this.numGuesses].scrollIntoView({
 								behavior: "smooth",
 								block: "end",
 							});
@@ -191,6 +191,10 @@ export default {
 				});
 			}
 		},
+	},
+	computed: {
+		// Map Vuex functions
+		...mapGetters(["numGuesses", "target"]),
 	},
 };
 </script>
@@ -230,6 +234,7 @@ export default {
 	}
 
 	::-webkit-scrollbar {
+		// Disable scrollbar
 		display: none;
 	}
 }

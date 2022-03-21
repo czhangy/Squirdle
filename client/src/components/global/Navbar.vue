@@ -13,7 +13,7 @@
 				/>
 			</button>
 		</div>
-		<h1 id="title">SQUIRDLE</h1>
+		<h1 id="site-title">SQUIRDLE</h1>
 		<div id="right-container" class="button-container">
 			<button
 				id="user-button"
@@ -69,7 +69,7 @@ export default {
 		},
 	},
 	mounted: function () {
-		// Pop up how to play
+		// Automatically pop up how to play on game screen
 		if (this.$route.name === "Squirdle")
 			setTimeout(() => {
 				this.$refs["help-modal"].openModal();
@@ -109,10 +109,11 @@ export default {
 	}
 
 	#right-container {
+		// Right align
 		justify-content: flex-end;
 	}
 
-	#title {
+	#site-title {
 		font-family: $alt-font;
 		color: $accent-color;
 		font-weight: bold;

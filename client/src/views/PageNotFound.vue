@@ -30,18 +30,18 @@ export default {
 
     #error-text {
         font-family: $alt-font;
-        color: white;
+        color: $accent-color;
         font-size: 2rem;
         margin-bottom: 24px;
     }
 
     #error-link {
-        color: white;
+        color: $accent-color;
         font-family: $alt-font;
         text-decoration: none;
         font-size: 1.3rem;
         cursor: pointer;
-        border: 2px solid white;
+        border: 2px solid $accent-color;
         padding: 8px 16px;
     }
 }
@@ -49,7 +49,7 @@ export default {
 // Sticky hover
 @media (hover: hover) {
     #page-not-found > #error-link:hover {
-        background: black;
+        background: $focus-color;
     }
 }
 </style>

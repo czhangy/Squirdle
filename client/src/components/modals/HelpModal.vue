@@ -4,18 +4,16 @@
 			<button
 				v-if="page !== 1"
 				@click="setPage(-1)"
-				id="page-nav"
-				class="left"
+				class="page-nav left-nav"
 			>
-				<i class="left arrow" />
+				<i class="left-arrow nav-arrow" />
 			</button>
 			<button
 				v-if="page !== 5"
 				@click="setPage(1)"
-				id="page-nav"
-				class="right"
+				class="page-nav right-nav"
 			>
-				<i class="right arrow" />
+				<i class="right-arrow nav-arrow" />
 			</button>
 			<div id="page-1" class="page show display">
 				<h2 id="help-header">HOW TO PLAY</h2>
@@ -335,6 +333,7 @@ export default {
 		};
 	},
 	methods: {
+        // Modal control
 		openModal: function () {
 			this.$refs["help-modal"].openModal();
 		},
@@ -370,7 +369,7 @@ export default {
 	height: 100%;
 	width: 100%;
 
-	#page-nav {
+	.page-nav {
 		background: none;
 		border: none;
 		position: absolute;
@@ -378,25 +377,31 @@ export default {
 		transform: translateY(-50%);
 		cursor: pointer;
 
-		.arrow {
-			border: solid white;
+		.nav-arrow {
+			border: solid $accent-color;
 			border-width: 0 3px 3px 0;
 			display: inline-block;
 			// Arrow sizing
 			padding: 8px;
 		}
+
+		.left-arrow {
+			transform: rotate(135deg);
+			-webkit-transform: rotate(135deg);
+		}
+
+		.right-arrow {
+			transform: rotate(-45deg);
+			-webkit-transform: rotate(-45deg);
+		}
 	}
 
-	.left {
+	.left-nav {
 		left: 16px;
-		transform: rotate(135deg);
-		-webkit-transform: rotate(135deg);
 	}
 
-	.right {
+	.right-nav {
 		right: 16px;
-		transform: rotate(-45deg);
-		-webkit-transform: rotate(-45deg);
 	}
 
 	.page {
@@ -411,16 +416,16 @@ export default {
 			line-height: 1.5rem;
 			font-size: 1.5rem;
 			letter-spacing: 2px;
-			color: white;
+			color: $accent-color;
 			text-decoration: underline;
 			margin-bottom: 32px;
 		}
 
-		hr {
+		.separator {
 			display: block;
 			margin: 12px 0;
 			height: 1px;
-			background: white;
+			background: $accent-color;
 			border: none;
 		}
 
@@ -460,7 +465,7 @@ export default {
 		}
 
 		.help-text {
-			color: white;
+			color: $accent-color;
 			font-size: 0.9rem;
 		}
 	}

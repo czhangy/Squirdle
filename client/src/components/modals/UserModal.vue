@@ -14,7 +14,7 @@
 				alt="Mystery Pokemon"
 			/>
 			<p v-if="gameOver" id="target-name">
-				#{{ target.dex_num.toString().padStart(3, "0") }}:
+				#{{ $formatDexNum(target.dex_num) }}:
 				{{ target.name }}
 			</p>
 			<p v-else id="target-name">???</p>
@@ -26,7 +26,7 @@
 				<div class="target-tile">
 					<img alt="Box Sprite" id="target-box-sprite" />
 				</div>
-				<div class="target-tile">{{ intToRoman(target.gen) }}</div>
+				<div class="target-tile">{{ $intToRoman(target.gen) }}</div>
 				<div class="target-tile">
 					<img id="target-primary-type" alt="Type 1 Plaque" />
 					<img
@@ -35,7 +35,7 @@
 						alt="Type 2 Plaque"
 					/>
 				</div>
-				<div class="target-tile">{{ intToRoman(target.stage) }}</div>
+				<div class="target-tile">{{ $intToRoman(target.stage) }}</div>
 				<div class="target-tile">{{ target.name.length }}</div>
 			</div>
 		</div>
@@ -59,33 +59,21 @@ export default {
 		openModal: function () {
 			this.$refs["user-modal"].openModal();
 		},
-		// Convert numbers to roman numerals
-		intToRoman: function (num) {
-			switch (num) {
-				case 1:
-					return "I";
-				case 2:
-					return "II";
-				case 3:
-					return "III";
-				case 4:
-					return "IV";
-				case 5:
-					return "V";
-				case 6:
-					return "VI";
-				case 7:
-					return "VII";
-				case 8:
-					return "VIII";
-			}
+		// Translate edge cases
+		translateName: function (name) {
+			if (name === "mr. mime") return "mr.mime";
+			else if (name === "mime jr.") return "mime_jr";
+			else if (name === "farfetch’d") return "farfetchd";
+			else return name;
 		},
 		// Dyanamically set images
 		setImages: function () {
 			// Set main sprite
 			document.getElementById(
 				"target-sprite"
-			).src = `https://projectpokemon.org/images/normal-sprite/${this.target.name}.gif`;
+			).src = `https://projectpokemon.org/images/normal-sprite/${this.translateName(
+				this.target.name
+			)}.gif`;
 			// Set box sprite
 			document.getElementById(
 				"target-box-sprite"
@@ -103,6 +91,7 @@ export default {
 		},
 	},
 	computed: {
+		// Map Vuex functions
 		...mapGetters(["gameOver", "target"]),
 	},
 	watch: {
@@ -129,7 +118,7 @@ export default {
 		font-family: $alt-font;
 		font-size: 1.2rem;
 		line-height: 1.2rem;
-		color: white;
+		color: $accent-color;
 		text-decoration: underline;
 		margin-bottom: 16px;
 	}
@@ -148,7 +137,7 @@ export default {
 	#target-name {
 		font-family: $alt-font;
 		font-size: 1.2rem;
-		color: white;
+		color: $accent-color;
 		letter-spacing: 2px;
 	}
 
