@@ -34,6 +34,9 @@
 </template>
 
 <script>
+// Import global constants
+import { VALID, INVALID, DUPLICATE } from "@/constants.js";
+
 // Import global library
 import axios from "axios";
 
@@ -55,10 +58,10 @@ export default {
 	},
 	data() {
 		return {
-			// Global vars
-			INVALID: 0,
-			DUPLICATE: 1,
-			VALID: 2,
+			// Global constants
+			VALID,
+			INVALID,
+			DUPLICATE,
 			// State
 			guess: "",
 			guesses: [],
@@ -114,10 +117,10 @@ export default {
 		// Handle validation
 		validateGuess: function () {
 			// Check if valid Pokemon
-			if (!this.pokemonList.includes(this.guess)) return this.INVALID;
+			if (!this.pokemonList.includes(this.guess)) return INVALID;
 			// Check if Pokemon already guessed
-			else if (this.guesses.includes(this.guess)) return this.DUPLICATE;
-			else return this.VALID;
+			else if (this.guesses.includes(this.guess)) return DUPLICATE;
+			else return VALID;
 		},
 		// On submit
 		submitGuess: function () {
@@ -133,10 +136,9 @@ export default {
 				button.disabled = false;
 				button.classList.add("active-button");
 			}, 1750);
-			if (this.validateGuess() === this.INVALID)
-				this.onError("Not a valid Pokémon!");
-			else if (this.validateGuess() === this.DUPLICATE)
-				this.onError("Pokémon already guessed!");
+			// Perform validation
+			let errorCode = this.validateGuess();
+			if (errorCode !== VALID) this.onError(errorCode);
 			else {
 				// Guess is valid
 				axios.get(`/api/pokemon/${this.guess}`).then((response) => {

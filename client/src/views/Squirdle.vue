@@ -1,6 +1,6 @@
 <template>
 	<div id="squirdle">
-		<ErrorModal ref="error-modal" />
+		<ErrorModal ref="error-modal" :errorCode="errorCode" />
 		<GuessDropdown
 			:pokemonList="pokemon"
 			:onError="displayError"
@@ -32,6 +32,7 @@ export default {
 		return {
 			// State
 			numGuesses: 0,
+            errorCode: 0,
 		};
 	},
 	methods: {
@@ -46,8 +47,9 @@ export default {
 			else return name;
 		},
 		// Trigger error modal
-		displayError: function (error) {
-			this.$refs["error-modal"].openModal(error);
+		displayError: function (errorCode) {
+            this.errorCode = errorCode;
+			this.$refs["error-modal"].openModal();
 		},
 		// Guess handler
 		handleGuess: function (pokemon) {
