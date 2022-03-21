@@ -153,7 +153,7 @@ export default {
 	},
 	computed: {
 		// Map Vuex function
-		...mapGetters(["pokemon"]),
+		...mapGetters(["numGuesses", "pokemon"]),
 	},
 	watch: {
 		filteredList: function () {
