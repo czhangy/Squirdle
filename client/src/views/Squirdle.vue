@@ -75,9 +75,10 @@ export default {
 	},
 	mounted: async function () {
 		// Initial fetch of all pokemon
-		await this.fetchPokemonList();
-		// Initial target generation
-		this.generateNewTarget(this.pokemon);
+        if (this.pokemon.length === 0) {
+            await this.fetchPokemonList();
+            this.generateNewTarget(this.pokemon);
+        }
 	},
 };
 </script>
