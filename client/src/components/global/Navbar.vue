@@ -92,7 +92,7 @@ export default {
 	z-index: $modal;
 
 	.button-container {
-		width: 75px;
+		width: 80px;
 		display: flex;
 		justify-content: flex-start;
 
@@ -110,7 +110,7 @@ export default {
 
 	#right-container {
 		// Right align
-		justify-content: flex-end;
+		justify-content: space-between;
 	}
 
 	#site-title {
@@ -125,9 +125,10 @@ export default {
 
 // Mobile design
 @media screen and (max-width: $mobile) {
-	#navbar > #title {
+	#navbar > #site-title {
 		font-size: 2rem;
 		line-height: 2rem;
+        letter-spacing: 0;
 	}
 }
 </style>
