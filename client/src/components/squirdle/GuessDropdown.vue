@@ -139,7 +139,6 @@ export default {
 					this.guesses.push(this.guess);
 					// Clear guess
 					this.guess = "";
-                    console.log(`Guess submitted by GuessDropdown: numGuesses = ${this.numGuesses}`);
 					// Update placeholder
 					document.getElementById(
 						"guess-input"

@@ -64,7 +64,6 @@ export default {
 	methods: {
 		// Update the game board
 		updateGrid: function (pokemon) {
-            console.log(`Grid updated: numGuesses = ${this.numGuesses}`)
 			// Add to type information for indexing
 			this.guessTypes[this.numGuesses - 1] =
 				pokemon.type_2 === "" ? MONOTYPE : DUALTYPE;
