@@ -109,7 +109,7 @@ export default {
 	}
 
 	#right-container {
-        // Right align
+		// Right align
 		justify-content: flex-end;
 	}
 

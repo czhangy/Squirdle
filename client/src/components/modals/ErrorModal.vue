@@ -6,8 +6,12 @@
 		:isClosable="false"
 	>
 		<div id="error">
-			<p v-if="errorCode === INVALID" id="error-msg">Not a valid Pokémon!</p>
-			<p v-else-if="errorCode === DUPLICATE" id="error-msg">Pokémon already guessed!</p>
+			<p v-if="errorCode === INVALID" id="error-msg">
+				Not a valid Pokémon!
+			</p>
+			<p v-else-if="errorCode === DUPLICATE" id="error-msg">
+				Pokémon already guessed!
+			</p>
 			<p v-else id="error-msg">Oops, this error shouldn't exist</p>
 		</div>
 	</Modal>
