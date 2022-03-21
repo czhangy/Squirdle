@@ -59,12 +59,21 @@ export default {
 		openModal: function () {
 			this.$refs["user-modal"].openModal();
 		},
+		// Translate edge cases
+		translateName: function (name) {
+			if (name === "mr. mime") return "mr.mime";
+			else if (name === "mime jr.") return "mime_jr";
+			else if (name === "farfetch’d") return "farfetchd";
+			else return name;
+		},
 		// Dyanamically set images
 		setImages: function () {
 			// Set main sprite
 			document.getElementById(
 				"target-sprite"
-			).src = `https://projectpokemon.org/images/normal-sprite/${this.target.name}.gif`;
+			).src = `https://projectpokemon.org/images/normal-sprite/${this.translateName(
+				this.target.name
+			)}.gif`;
 			// Set box sprite
 			document.getElementById(
 				"target-box-sprite"
@@ -82,7 +91,7 @@ export default {
 		},
 	},
 	computed: {
-        // Map Vuex functions
+		// Map Vuex functions
 		...mapGetters(["gameOver", "target"]),
 	},
 	watch: {
@@ -109,7 +118,7 @@ export default {
 		font-family: $alt-font;
 		font-size: 1.2rem;
 		line-height: 1.2rem;
-		color: white;
+		color: $accent-color;
 		text-decoration: underline;
 		margin-bottom: 16px;
 	}
@@ -128,7 +137,7 @@ export default {
 	#target-name {
 		font-family: $alt-font;
 		font-size: 1.2rem;
-		color: white;
+		color: $accent-color;
 		letter-spacing: 2px;
 	}
 

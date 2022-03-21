@@ -1,16 +1,15 @@
 <template>
 	<div id="squirdle">
 		<ErrorModal ref="error-modal" :errorCode="errorCode" />
-		<GuessDropdown
-			:pokemonList="pokemon"
-			:onError="displayError"
-			:onSubmit="handleGuess"
-		/>
-		<GameGrid ref="game-grid" :ind="numGuesses" :target="target" />
+		<GuessDropdown :onError="displayError" :onSubmit="handleGuess" />
+		<GameGrid ref="game-grid" />
 	</div>
 </template>
 
 <script>
+// Import global constants
+import { MAX_GUESSES } from "@/constants.js";
+
 // Vuex
 import { mapMutations, mapActions, mapGetters } from "vuex";
 
@@ -30,53 +29,41 @@ export default {
 	},
 	data() {
 		return {
+			// Global constants
+			MAX_GUESSES,
 			// State
-			numGuesses: 0,
-            errorCode: 0,
+			errorCode: 0,
 		};
 	},
 	methods: {
 		// Map Vuex functions
-		...mapMutations(["endGame"]),
+		...mapMutations(["incrementGuesses", "endGame"]),
 		...mapActions(["fetchPokemonList", "generateNewTarget"]),
-		// Translate edge cases
-		translateName: function (name) {
-			if (name === "mr. mime") return "mr.mime";
-			else if (name === "mime jr.") return "mime_jr";
-			else if (name === "farfetch’d") return "farfetchd";
-			else return name;
-		},
 		// Trigger error modal
 		displayError: function (errorCode) {
-            this.errorCode = errorCode;
+			this.errorCode = errorCode;
 			this.$refs["error-modal"].openModal();
 		},
 		// Guess handler
 		handleGuess: function (pokemon) {
-			this.numGuesses++;
+			this.incrementGuesses();
 			// Check for game over
-			if (pokemon.name === this.target.name || this.numGuesses === 8)
+			if (
+				pokemon.name === this.target.name ||
+				this.numGuesses === MAX_GUESSES
+			)
 				this.handleGameOver();
-			else {
-				// Update placeholder
-				document.getElementById("guess-input").placeholder = `Guess ${
-					this.numGuesses + 1
-				} of 8`;
-			}
 			// Update display
-			this.$refs["game-grid"].updateGrid(pokemon, this.numGuesses);
+			this.$refs["game-grid"].updateGrid(pokemon);
 		},
 		// Handle game end conditions
 		handleGameOver: function () {
+			// Disable input fields
 			const input = document.getElementById("guess-input");
-			// Change placeholder
-			document.getElementById("guess-input").placeholder = "";
-			// Disable input
+			input.placeholder = "";
 			input.disabled = true;
-			document
-				.getElementById("guess-button")
-				.classList.remove("active-button");
-			// Pop up loss modal
+			document.getElementById("guess-button").disabled = true;
+			// Pop up user modal
 			setTimeout(() => {
 				this.endGame();
 			}, 2500);
@@ -84,7 +71,7 @@ export default {
 	},
 	computed: {
 		// Map Vuex functions
-		...mapGetters(["gameOver", "pokemon", "target"]),
+		...mapGetters(["numGuesses", "gameOver", "pokemon", "target"]),
 	},
 	mounted: async function () {
 		// Initial fetch of all pokemon

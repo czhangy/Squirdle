@@ -3,33 +3,44 @@
 		<div class="game-tile-inner">
 			<div class="game-tile-front" />
 			<div class="game-tile-back">
-				<img v-if="type === 'sprite'" class="sprite" alt="Box Sprite" />
+				<img v-if="tileType === SPRITE" class="tile-sprite" alt="Box Sprite" />
+                <p v-if="tileType === TEXT" class="tile-text" />
 				<img
-					v-if="type === 'monotype' || type === 'dualtype'"
+					v-if="tileType === MONOTYPE || tileType === DUALTYPE"
 					class="monotype"
 					alt="Type 1 Plaque"
 				/>
 				<img
-					v-if="type === 'dualtype'"
+					v-if="tileType === DUALTYPE"
 					class="dualtype"
 					alt="Type 2 Plaque"
 				/>
-				<p v-if="type === 'color'" class="text small-text"></p>
-				<p v-if="type === 'text'" class="text"></p>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+// Import global constants
+import { SPRITE, TEXT, MONOTYPE, DUALTYPE } from "@/constants.js";
+
 export default {
 	name: "GameTile",
 	props: {
-		type: {
-			type: String,
-			default: "text",
+		tileType: {
+			type: Number,
+			required: true,
 		},
 	},
+    data() {
+        return {
+            // Global constants
+            SPRITE,
+            TEXT,
+            MONOTYPE,
+            DUALTYPE,
+        };
+    }
 };
 </script>
 
@@ -74,15 +85,10 @@ export default {
 			align-items: center;
 			background-color: $tile-color;
 
-			.text {
+			.tile-text {
 				font-size: 2rem;
                 font-family: $alt-font;
                 color: white;
-			}
-
-			.small-text {
-				font-size: 0.8rem;
-				text-transform: uppercase;
 			}
 		}
 

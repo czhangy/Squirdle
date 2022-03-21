@@ -9,7 +9,7 @@
 			<input
 				id="guess-input"
 				type="text"
-				placeholder="Guess 1 of 8"
+				:placeholder="`Guess 1 of ${MAX_GUESSES}`"
 				spellcheck="false"
 				v-model="guess"
 				@input="filterDropdown"
@@ -22,31 +22,26 @@
 					:key="i"
 					@click="setGuess(pokemon)"
 				>
-					<img class="dropdown-icon" alt="" />
+					<img class="dropdown-sprite" alt="" />
 					{{ pokemon }}
 				</button>
 			</div>
 		</div>
-		<button id="guess-button" class="active-button" @click="submitGuess">
-			→
-		</button>
+		<button id="guess-button" @click="submitGuess">→</button>
 	</div>
 </template>
 
 <script>
 // Import global constants
-import { VALID, INVALID, DUPLICATE } from "@/constants.js";
+import { MAX_GUESSES, VALID, INVALID, DUPLICATE } from "@/constants.js";
 
-// Import global library
+// Axios and Vuex
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
 	name: "GuessDropdown",
 	props: {
-		pokemonList: {
-			type: Array,
-			default: [],
-		},
 		onError: {
 			type: Function,
 			required: true,
@@ -59,6 +54,7 @@ export default {
 	data() {
 		return {
 			// Global constants
+			MAX_GUESSES,
 			VALID,
 			INVALID,
 			DUPLICATE,
@@ -71,18 +67,18 @@ export default {
 	methods: {
 		// Set dropdown sprites
 		setSprites: function () {
-			const sprites = document.getElementsByClassName("dropdown-icon");
+			const sprites = document.getElementsByClassName("dropdown-sprite");
 			for (let i = 0; i < sprites.length; i++) {
-				sprites[i].src = `https://www.serebii.net/pokedex-swsh/icon/${(
-					this.pokemonList.findIndex(
+				sprites[
+					i
+				].src = `https://www.serebii.net/pokedex-swsh/icon/${this.$formatDexNum(
+					this.pokemon.findIndex(
 						(name) => name === this.filteredList[i]
 					) + 1
-				)
-					.toString()
-					.padStart(3, "0")}.png`;
+				)}.png`;
 			}
 		},
-		// Dropdown control
+		// Dropdown controls
 		openDropdown: function () {
 			document
 				.getElementById("dropdown-overlay")
@@ -101,12 +97,11 @@ export default {
 		filterDropdown: function () {
 			// Hide all options on empty query
 			if (this.guess === "") this.filteredList = [];
-			else {
-				// Filter by substring
-				this.filteredList = this.pokemonList.filter((name) =>
+			// Filter by substring
+			else
+				this.filteredList = this.pokemon.filter((name) =>
 					name.includes(this.guess.toLowerCase())
 				);
-			}
 		},
 		// Select option
 		setGuess: function (guess) {
@@ -117,7 +112,7 @@ export default {
 		// Handle validation
 		validateGuess: function () {
 			// Check if valid Pokemon
-			if (!this.pokemonList.includes(this.guess)) return INVALID;
+			if (!this.pokemon.includes(this.guess)) return INVALID;
 			// Check if Pokemon already guessed
 			else if (this.guesses.includes(this.guess)) return DUPLICATE;
 			else return VALID;
@@ -131,10 +126,8 @@ export default {
 			// Disable button temporarily
 			let button = document.getElementById("guess-button");
 			button.disabled = true;
-			button.classList.remove("active-button");
 			setTimeout(() => {
 				button.disabled = false;
-				button.classList.add("active-button");
 			}, 1750);
 			// Perform validation
 			let errorCode = this.validateGuess();
@@ -142,15 +135,24 @@ export default {
 			else {
 				// Guess is valid
 				axios.get(`/api/pokemon/${this.guess}`).then((response) => {
-					let pokemon = response.data;
 					// Add to prior guesses
 					this.guesses.push(this.guess);
 					// Clear guess
 					this.guess = "";
-					this.onSubmit(pokemon);
+					// Update placeholder
+					document.getElementById(
+						"guess-input"
+					).placeholder = `Guess ${
+						this.numGuesses + 2
+					} of ${MAX_GUESSES}`;
+					this.onSubmit(response.data);
 				});
 			}
 		},
+	},
+	computed: {
+		// Map Vuex function
+		...mapGetters(["numGuesses", "pokemon"]),
 	},
 	watch: {
 		filteredList: function () {
@@ -163,7 +165,7 @@ export default {
 			else dropdown.style.borderBottomWidth = "2px";
 		},
 		guess: function () {
-			// Update filters
+			// Update filters on input
 			this.filterDropdown();
 		},
 	},
@@ -229,7 +231,7 @@ export default {
 
 			&:focus {
 				outline: none;
-				background: black;
+				background: $focus-color;
 			}
 		}
 
@@ -254,7 +256,7 @@ export default {
 				border: none;
 				border-bottom: 2px solid $tile-color;
 				background: $main-color;
-				color: white;
+				color: $accent-color;
 				font-family: $alt-font;
 				font-size: 1.2rem;
 				display: flex;
@@ -270,7 +272,7 @@ export default {
 					border-bottom: none;
 				}
 
-				.dropdown-icon {
+				.dropdown-sprite {
 					// Remove from flow to prevent jumpy loads
 					position: absolute;
 					left: 40px;
@@ -295,15 +297,12 @@ export default {
 		font-size: 1rem;
 		// Overlap overlay
 		z-index: $dropdown;
-
-		&:disabled {
-			background: $main-color;
-		}
-	}
-
-	.active-button {
 		cursor: pointer;
 		background: $main-color;
+
+		&:disabled {
+			cursor: auto;
+		}
 	}
 }
 
@@ -311,11 +310,11 @@ export default {
 @media (hover: hover) {
 	#guess-dropdown {
 		#dropdown-container > .dropdown > .dropdown-option:hover {
-			background: black;
+			background: $focus-color;
 		}
 
-		.active-button:hover {
-			background: black;
+		#guess-button:hover:enabled {
+			background: $focus-color;
 		}
 	}
 }

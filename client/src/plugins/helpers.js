@@ -21,6 +21,7 @@ export default {
 					return "VIII";
 			}
 		};
+        // Pad dex numbers with zeroes at the front
 		app.config.globalProperties.$formatDexNum = (num) => {
 			return num.toString().padStart(3, "0");
 		};
