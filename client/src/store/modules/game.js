@@ -8,6 +8,7 @@ let state = {
 let mutations = {
     incrementGuesses: (state) => {
         state.numGuesses++;
+        console.log(`Incrementing guesses in Vuex to ${state.numGuesses}`);
     },
 	startGame: (state) => {
 		state.gameOver = false;

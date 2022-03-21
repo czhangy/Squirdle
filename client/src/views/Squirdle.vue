@@ -53,6 +53,7 @@ export default {
 				this.numGuesses === MAX_GUESSES
 			)
 				this.handleGameOver();
+            console.log("Guess handled by Squirdle")
 			// Update display
 			this.$refs["game-grid"].updateGrid(pokemon);
 		},
