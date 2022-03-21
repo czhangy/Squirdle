@@ -1,7 +1,7 @@
 <template>
 	<div id="navbar">
 		<HelpModal ref="help-modal" />
-		<UserModal ref="user-modal" />
+		<PokemonModal ref="pokemon-modal" />
 		<SettingsModal ref="settings-modal" />
 		<div id="left-container" class="button-container">
 			<button id="help-button" class="nav-button" @click="openHelpModal">
@@ -18,7 +18,7 @@
 			<button
 				id="user-button"
 				class="nav-button"
-				@click="openGameOverModal"
+				@click="openPokemonModal"
 			>
 				<img
 					src="@/assets/icons/user.png"
@@ -46,14 +46,14 @@
 <script>
 // Import components
 import HelpModal from "@/components/modals/HelpModal.vue";
-import UserModal from "@/components/modals/UserModal.vue";
+import PokemonModal from "@/components/modals/PokemonModal.vue";
 import SettingsModal from "@/components/modals/SettingsModal.vue";
 
 export default {
 	name: "Navbar",
 	components: {
 		HelpModal,
-		UserModal,
+		PokemonModal,
 		SettingsModal,
 	},
 	methods: {
@@ -61,8 +61,8 @@ export default {
 		openHelpModal: function () {
 			this.$refs["help-modal"].openModal();
 		},
-		openGameOverModal: function () {
-			this.$refs["user-modal"].openModal();
+		openPokemonModal: function () {
+			this.$refs["pokemon-modal"].openModal();
 		},
 		openSettingsModal: function () {
 			this.$refs["settings-modal"].openModal();

@@ -1,7 +1,7 @@
 <template>
-	<Modal id="user-modal" ref="user-modal" modalID="user-modal">
-		<div id="user">
-			<h2 id="user-header">Today's Pokémon</h2>
+	<Modal id="pokemon-modal" ref="pokemon-modal" modalID="pokemon-modal">
+		<div id="pokemon">
+			<h2 id="pokemon-header">Today's Pokémon</h2>
 			<img
 				id="target-sprite"
 				alt="Target Pokemon"
@@ -50,14 +50,14 @@ import { mapGetters } from "vuex";
 import Modal from "@/components/global/Modal.vue";
 
 export default {
-	name: "User",
+	name: "PokemonModal",
 	components: {
 		Modal,
 	},
 	methods: {
 		// Modal control
 		openModal: function () {
-			this.$refs["user-modal"].openModal();
+			this.$refs["pokemon-modal"].openModal();
 		},
 		// Translate edge cases
 		translateName: function (name) {
@@ -110,11 +110,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#user {
+#pokemon {
 	height: 100%;
 	width: 100%;
 
-	#user-header {
+	#pokemon-header {
 		font-family: $alt-font;
 		font-size: 1.2rem;
 		line-height: 1.2rem;
