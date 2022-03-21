@@ -4,7 +4,7 @@
 </template>
 
 <script>
-// Import components
+// Import global component
 import Navbar from "@/components/global/Navbar.vue";
 
 export default {
@@ -14,7 +14,7 @@ export default {
 	},
     computed: {
         validRoute: function () {
-            return this.$route.name === 'Squirdle';
+            return this.$route.name !== 'PageNotFound';
         }
     }
 };

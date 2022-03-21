@@ -13,7 +13,7 @@
 				/>
 			</button>
 		</div>
-		<h1 id="site-title">SQUIRDLE</h1>
+		<h1 id="site-title"><a href="/" id="home-link">SQUIRDLE</a></h1>
 		<div id="right-container" class="button-container">
 			<button
 				id="user-button"
@@ -68,12 +68,14 @@ export default {
 			this.$refs["settings-modal"].openModal();
 		},
 	},
-	mounted: function () {
-		// Automatically pop up how to play on game screen
-		if (this.$route.name === "Squirdle")
-			setTimeout(() => {
-				this.$refs["help-modal"].openModal();
-			}, 500);
+	watch: {
+		"$route.name": function () {
+			// Automatically pop up how to play on game screen
+			if (this.$route.name === "Squirdle")
+				setTimeout(() => {
+					this.openHelpModal();
+				}, 500);
+		},
 	},
 };
 </script>
@@ -115,11 +117,15 @@ export default {
 
 	#site-title {
 		font-family: $alt-font;
-		color: $accent-color;
 		font-weight: bold;
 		font-size: 3rem;
 		line-height: 3rem;
 		letter-spacing: 3px;
+
+		#home-link {
+			color: $accent-color;
+			text-decoration: none;
+		}
 	}
 }
 
@@ -128,7 +134,7 @@ export default {
 	#navbar > #site-title {
 		font-size: 2rem;
 		line-height: 2rem;
-        letter-spacing: 0;
+		letter-spacing: 0;
 	}
 }
 </style>

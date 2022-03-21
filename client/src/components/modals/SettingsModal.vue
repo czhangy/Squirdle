@@ -5,51 +5,8 @@
 			<p class="settings-text">
 				lol imagine if i had any settings to implement
 			</p>
-			<hr class="separator" />
-			<p class="settings-text">Check me out at:</p>
-			<div id="settings-links">
-				<a
-					href="https://github.com/czhangy"
-					target="_blank"
-					class="icon-link"
-					><img
-						src="@/assets/icons/github.png"
-						alt="GitHub"
-						class="social-icon"
-				/></a>
-				<a
-					href="https://www.linkedin.com/in/charles-zhang-14746519b/"
-					target="_blank"
-					class="icon-link"
-					><img
-						src="@/assets/icons/linkedin.png"
-						alt="LinkedIn"
-						class="social-icon"
-				/></a>
-				<a href="https://czhangy.io" target="_blank" class="icon-link"
-					><img
-						src="@/assets/icons/personal-site.png"
-						alt="Personal Site"
-						class="social-icon"
-				/></a>
-			</div>
-			<hr class="separator" />
-			<p class="settings-text">
-				This app was created with the help of
-				<br />
-				<a href="https://serebii.net" target="_blank" class="text-link"
-					>Serebii</a
-				>,
-				<a href="https://pokeapi.co/" target="_blank" class="text-link"
-					>PokéAPI</a
-				>, and
-				<a
-					href="https://projectpokemon.org/home/"
-					target="_blank"
-					class="text-link"
-					>Project Pokémon</a
-				>
-			</p>
+			<hr id="separator" />
+            <a href="/profile" class="settings-button">GO TO PROFILE</a>
 		</div>
 	</Modal>
 </template>
@@ -89,27 +46,28 @@ export default {
 
 	.settings-text {
 		color: $accent-color;
-
-		.text-link {
-			color: $accent-color;
-		}
 	}
 
-	.separator {
+	#separator {
 		height: 2px;
 		background: $accent-color;
 		border: none;
 		margin: 16px 0;
 	}
 
-	#settings-links {
-		margin-top: 16px;
-		display: flex;
-		justify-content: space-evenly;
+    .settings-button {
+        color: $main-color;
+        text-decoration: none;
+        padding: 4px 16px;
+        font-family: $alt-font;
+        font-size: 1.2rem;
+        display: inline-block;
+        background: $accent-color;
+    }
+}
 
-		.social-icon {
-			height: 32px;
-		}
-	}
+// Sticky hover
+@media (hover: hover) {
+    
 }
 </style>

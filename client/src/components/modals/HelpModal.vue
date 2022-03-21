@@ -9,7 +9,7 @@
 				<i class="left-arrow nav-arrow" />
 			</button>
 			<button
-				v-if="page !== 5"
+				v-if="page !== 6"
 				@click="setPage(1)"
 				class="page-nav right-nav"
 			>
@@ -314,6 +314,63 @@
 					The mystery Pokémon's name is 8 letters long!
 				</p>
 			</div>
+			<div id="page-6" class="page right-page">
+				<h2 id="help-header">CREDITS</h2>
+				<p class="credit-text">Check the dev out at:</p>
+				<div id="social-links">
+					<a
+						href="https://github.com/czhangy"
+						target="_blank"
+						class="icon-link"
+						><img
+							src="@/assets/icons/github.png"
+							alt="GitHub"
+							class="social-icon"
+					/></a>
+					<a
+						href="https://www.linkedin.com/in/charles-zhang-14746519b/"
+						target="_blank"
+						class="icon-link"
+						><img
+							src="@/assets/icons/linkedin.png"
+							alt="LinkedIn"
+							class="social-icon"
+					/></a>
+					<a
+						href="https://czhangy.io"
+						target="_blank"
+						class="icon-link"
+						><img
+							src="@/assets/icons/personal-site.png"
+							alt="Personal Site"
+							class="social-icon"
+					/></a>
+				</div>
+				<hr id="separator" />
+				<p class="credit-text">
+					This app was created with the help of
+					<a
+						href="https://serebii.net"
+						target="_blank"
+						class="text-link"
+						>Serebii</a
+					>,
+					<a
+						href="https://pokeapi.co/"
+						target="_blank"
+						class="text-link"
+						>PokéAPI</a
+					>,
+					<br />
+					and
+					<a
+						href="https://projectpokemon.org/home/"
+						target="_blank"
+						class="text-link"
+						>Project Pokémon</a
+					>
+				</p>
+			</div>
 		</div>
 	</Modal>
 </template>
@@ -333,7 +390,7 @@ export default {
 		};
 	},
 	methods: {
-        // Modal control
+		// Modal control
 		openModal: function () {
 			this.$refs["help-modal"].openModal();
 		},
@@ -421,14 +478,6 @@ export default {
 			margin-bottom: 32px;
 		}
 
-		.separator {
-			display: block;
-			margin: 12px 0;
-			height: 1px;
-			background: $accent-color;
-			border: none;
-		}
-
 		.tile-container {
 			display: flex;
 			justify-content: space-between;
@@ -467,6 +516,33 @@ export default {
 		.help-text {
 			color: $accent-color;
 			font-size: 0.9rem;
+		}
+
+		.credit-text {
+			color: $accent-color;
+			font-size: 1.1rem;
+			line-height: 1.5rem;
+
+			.text-link {
+				color: $accent-color;
+			}
+		}
+
+		#social-links {
+			margin-top: 16px;
+			display: flex;
+			justify-content: space-evenly;
+
+			.social-icon {
+				height: 32px;
+			}
+		}
+
+		#separator {
+			height: 2px;
+			background: $accent-color;
+			border: none;
+			margin: 16px 0;
 		}
 	}
 
