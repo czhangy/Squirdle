@@ -5,30 +5,48 @@
 			<p class="settings-text">
 				lol imagine if i had any settings to implement
 			</p>
-			<hr />
+			<hr class="separator" />
 			<p class="settings-text">Check me out at:</p>
 			<div id="settings-links">
-				<a href="https://github.com/czhangy" target="_blank"
-					><img src="@/assets/icons/github.png" href="GitHub"
+				<a
+					href="https://github.com/czhangy"
+					target="_blank"
+					class="icon-link"
+					><img
+						src="@/assets/icons/github.png"
+						alt="GitHub"
+						class="social-icon"
 				/></a>
 				<a
 					href="https://www.linkedin.com/in/charles-zhang-14746519b/"
 					target="_blank"
-					><img src="@/assets/icons/linkedin.png" href="LinkedIn"
+					class="icon-link"
+					><img
+						src="@/assets/icons/linkedin.png"
+						alt="LinkedIn"
+						class="social-icon"
 				/></a>
-				<a href="https://czhangy.io" target="_blank"
+				<a href="https://czhangy.io" target="_blank" class="icon-link"
 					><img
 						src="@/assets/icons/personal-site.png"
-						href="Personal Site"
+						alt="Personal Site"
+						class="social-icon"
 				/></a>
 			</div>
-			<hr />
+			<hr class="separator" />
 			<p class="settings-text">
 				This app was created with the help of
 				<br />
-				<a href="https://serebii.net" target="_blank">Serebii</a>,
-				<a href="https://pokeapi.co/" target="_blank">PokéAPI</a>, and
-				<a href="https://projectpokemon.org/home/" target="_blank"
+				<a href="https://serebii.net" target="_blank" class="text-link"
+					>Serebii</a
+				>,
+				<a href="https://pokeapi.co/" target="_blank" class="text-link"
+					>PokéAPI</a
+				>, and
+				<a
+					href="https://projectpokemon.org/home/"
+					target="_blank"
+					class="text-link"
 					>Project Pokémon</a
 				>
 			</p>
@@ -46,6 +64,7 @@ export default {
 		Modal,
 	},
 	methods: {
+		// Modal control
 		openModal: function () {
 			this.$refs["settings-modal"].openModal();
 		},
@@ -63,22 +82,22 @@ export default {
 		font-size: 1.5rem;
 		line-height: 1.5rem;
 		letter-spacing: 2px;
-		color: white;
+		color: $accent-color;
 		text-decoration: underline;
 		margin-bottom: 16px;
 	}
 
 	.settings-text {
-		color: white;
+		color: $accent-color;
 
-		a {
-			color: white;
+		.text-link {
+			color: $accent-color;
 		}
 	}
 
-	hr {
+	.separator {
 		height: 2px;
-		background: white;
+		background: $accent-color;
 		border: none;
 		margin: 16px 0;
 	}
@@ -88,7 +107,7 @@ export default {
 		display: flex;
 		justify-content: space-evenly;
 
-		img {
+		.social-icon {
 			height: 32px;
 		}
 	}

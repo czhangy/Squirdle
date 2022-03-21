@@ -2,8 +2,11 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 
-// Import router and Vuex
-import router from './router';
-import store from './store';
+// Import Vue Router and Vuex
+import router from "@/router";
+import store from "@/store";
 
-createApp(App).use(router).use(store).mount("#app");
+// Import plugins
+import helpers from "@/plugins/helpers.js";
+
+createApp(App).use(router).use(store).use(helpers).mount("#app");

@@ -333,6 +333,7 @@ export default {
 		};
 	},
 	methods: {
+        // Modal control
 		openModal: function () {
 			this.$refs["help-modal"].openModal();
 		},
@@ -377,7 +378,7 @@ export default {
 		cursor: pointer;
 
 		.nav-arrow {
-			border: solid white;
+			border: solid $accent-color;
 			border-width: 0 3px 3px 0;
 			display: inline-block;
 			// Arrow sizing
@@ -415,7 +416,7 @@ export default {
 			line-height: 1.5rem;
 			font-size: 1.5rem;
 			letter-spacing: 2px;
-			color: white;
+			color: $accent-color;
 			text-decoration: underline;
 			margin-bottom: 32px;
 		}
@@ -424,7 +425,7 @@ export default {
 			display: block;
 			margin: 12px 0;
 			height: 1px;
-			background: white;
+			background: $accent-color;
 			border: none;
 		}
 
@@ -464,7 +465,7 @@ export default {
 		}
 
 		.help-text {
-			color: white;
+			color: $accent-color;
 			font-size: 0.9rem;
 		}
 	}

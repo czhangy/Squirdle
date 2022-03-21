@@ -14,7 +14,7 @@
 				alt="Mystery Pokemon"
 			/>
 			<p v-if="gameOver" id="target-name">
-				#{{ target.dex_num.toString().padStart(3, "0") }}:
+				#{{ $formatDexNum(target.dex_num) }}:
 				{{ target.name }}
 			</p>
 			<p v-else id="target-name">???</p>
@@ -26,7 +26,7 @@
 				<div class="target-tile">
 					<img alt="Box Sprite" id="target-box-sprite" />
 				</div>
-				<div class="target-tile">{{ intToRoman(target.gen) }}</div>
+				<div class="target-tile">{{ $intToRoman(target.gen) }}</div>
 				<div class="target-tile">
 					<img id="target-primary-type" alt="Type 1 Plaque" />
 					<img
@@ -35,7 +35,7 @@
 						alt="Type 2 Plaque"
 					/>
 				</div>
-				<div class="target-tile">{{ intToRoman(target.stage) }}</div>
+				<div class="target-tile">{{ $intToRoman(target.stage) }}</div>
 				<div class="target-tile">{{ target.name.length }}</div>
 			</div>
 		</div>
@@ -58,27 +58,6 @@ export default {
 		// Modal control
 		openModal: function () {
 			this.$refs["user-modal"].openModal();
-		},
-		// Convert numbers to roman numerals
-		intToRoman: function (num) {
-			switch (num) {
-				case 1:
-					return "I";
-				case 2:
-					return "II";
-				case 3:
-					return "III";
-				case 4:
-					return "IV";
-				case 5:
-					return "V";
-				case 6:
-					return "VI";
-				case 7:
-					return "VII";
-				case 8:
-					return "VIII";
-			}
 		},
 		// Dyanamically set images
 		setImages: function () {
@@ -103,6 +82,7 @@ export default {
 		},
 	},
 	computed: {
+        // Map Vuex functions
 		...mapGetters(["gameOver", "target"]),
 	},
 	watch: {
