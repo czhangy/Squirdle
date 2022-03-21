@@ -14,15 +14,15 @@ The most up-to-date version of Squirdle is currently deployed at: https://squird
 
 This project is still under development. The base game is functional, but features are still being planned and added and more data is still being collected.
 
-#### To Do:
+#### To Do
 
-- [ ] Improve design of game over and how to play modals
-- [ ] Rethink design/criteria of guess
+- [ ] Implement user system
+- [ ] Implement Pokédex
+- [ ] Implement achievements
+- [ ] Add Gen. V - VIII to the database
+- [ ] Implement reset functionality
 - [ ] Add share mechanism
 - [ ] Add hard mode to settings
-- [ ] Implement user system
-- [ ] Add Gen. V - VIII to the database
-- [ ] Implement daily resets
 
 ## Installation and Setup
 
