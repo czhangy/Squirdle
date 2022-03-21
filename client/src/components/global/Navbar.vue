@@ -1,22 +1,42 @@
 <template>
 	<div id="navbar">
 		<HelpModal ref="help-modal" />
+		<UserModal ref="user-modal" />
 		<SettingsModal ref="settings-modal" />
-		<div class="button-container">
-			<button id="help" @click="$refs['help-modal'].openModal">
-				<img src="@/assets/icons/help.png" alt="Help" id="help-icon" />
+		<div id="left-container" class="button-container">
+			<button id="help-button" class="nav-button" @click="openHelpModal">
+				<img
+					src="@/assets/icons/help.png"
+					alt="Help"
+					id="help-icon"
+					class="button-icon"
+				/>
 			</button>
 		</div>
 		<h1 id="title">SQUIRDLE</h1>
 		<div id="right-container" class="button-container">
-			<button id="settings" @click="$refs['settings-modal'].openModal">
-				<img src="@/assets/icons/user.png" alt="User" id="user-icon" />
+			<button
+				id="user-button"
+				class="nav-button"
+				@click="openGameOverModal"
+			>
+				<img
+					src="@/assets/icons/user.png"
+					alt="User"
+					id="user-icon"
+					class="button-icon"
+				/>
 			</button>
-			<button id="settings" @click="$refs['settings-modal'].openModal">
+			<button
+				id="settings-button"
+				class="nav-button"
+				@click="openSettingsModal"
+			>
 				<img
 					src="@/assets/icons/settings.png"
 					alt="Settings"
 					id="settings-icon"
+					class="button-icon"
 				/>
 			</button>
 		</div>
@@ -26,13 +46,27 @@
 <script>
 // Import components
 import HelpModal from "@/components/modals/HelpModal.vue";
+import UserModal from "@/components/modals/UserModal.vue";
 import SettingsModal from "@/components/modals/SettingsModal.vue";
 
 export default {
 	name: "Navbar",
 	components: {
 		HelpModal,
+		UserModal,
 		SettingsModal,
+	},
+	methods: {
+		// Modal controls
+		openHelpModal: function () {
+			this.$refs["help-modal"].openModal();
+		},
+		openGameOverModal: function () {
+			this.$refs["user-modal"].openModal();
+		},
+		openSettingsModal: function () {
+			this.$refs["settings-modal"].openModal();
+		},
 	},
 	mounted: function () {
 		// Pop up how to play
@@ -59,24 +93,24 @@ export default {
 
 	.button-container {
 		width: 75px;
-        display: flex;
-        justify-content: flex-start;
+		display: flex;
+		justify-content: flex-start;
 
-		button {
+		.nav-button {
 			background: transparent;
 			border: none;
 			cursor: pointer;
 
-			img {
+			.button-icon {
 				height: 24px;
 				width: 24px;
 			}
 		}
 	}
 
-    #right-container {
-        justify-content: flex-end;
-    }
+	#right-container {
+		justify-content: flex-end;
+	}
 
 	#title {
 		font-family: $alt-font;

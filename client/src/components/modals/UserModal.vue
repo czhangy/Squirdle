@@ -1,7 +1,7 @@
 <template>
-	<Modal id="game-over-modal" ref="game-over-modal" modalID="game-over-modal">
-		<div id="game-over">
-			<h2 id="game-over-header">Today's Pokémon</h2>
+	<Modal id="user-modal" ref="user-modal" modalID="user-modal">
+		<div id="user">
+			<h2 id="user-header">Today's Pokémon</h2>
 			<img
 				id="target-sprite"
 				alt="Target Pokemon"
@@ -18,7 +18,11 @@
 				{{ target.name }}
 			</p>
 			<p v-else id="target-name">???</p>
-			<div id="tile-container" :class="gameOver ? 'show' : 'hidden'">
+			<div
+				v-if="target"
+				id="tile-container"
+				:class="gameOver ? 'show' : 'hidden'"
+			>
 				<div class="target-tile">
 					<img alt="Box Sprite" id="target-box-sprite" />
 				</div>
@@ -39,28 +43,21 @@
 </template>
 
 <script>
+// Vuex
+import { mapGetters } from "vuex";
+
 // Import global component
 import Modal from "@/components/global/Modal.vue";
 
 export default {
-	name: "GameOver",
+	name: "User",
 	components: {
 		Modal,
-	},
-	props: {
-		gameOver: {
-			type: Boolean,
-			default: true,
-		},
-		target: {
-			type: Object,
-			required: true,
-		},
 	},
 	methods: {
 		// Modal control
 		openModal: function () {
-			this.$refs["game-over-modal"].openModal();
+			this.$refs["user-modal"].openModal();
 		},
 		// Convert numbers to roman numerals
 		intToRoman: function (num) {
@@ -105,18 +102,30 @@ export default {
 				).src = `https://www.serebii.net/pokedex-bw/type/${this.target.type_2}.gif`;
 		},
 	},
-	mounted: function () {
-		this.setImages();
+	computed: {
+		...mapGetters(["gameOver", "target"]),
+	},
+	watch: {
+		// Dynamically set images when target is generated
+		target: function () {
+			this.$nextTick(() => {
+				this.setImages();
+			});
+		},
+		// Open modal on game over
+		gameOver: function () {
+			if (this.gameOver) this.openModal();
+		},
 	},
 };
 </script>
 
 <style lang="scss" scoped>
-#game-over {
+#user {
 	height: 100%;
 	width: 100%;
 
-	#game-over-header {
+	#user-header {
 		font-family: $alt-font;
 		font-size: 1.2rem;
 		line-height: 1.2rem;
@@ -126,7 +135,7 @@ export default {
 	}
 
 	#target-sprite {
-        margin: 16px auto;
+		margin: 16px auto;
 		margin-top: 32px;
 	}
 
@@ -146,7 +155,7 @@ export default {
 	#tile-container {
 		justify-content: space-between;
 		margin: 8px auto;
-        margin-bottom: 0;
+		margin-bottom: 0;
 		width: 75%;
 
 		.target-tile {

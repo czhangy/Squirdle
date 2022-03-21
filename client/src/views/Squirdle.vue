@@ -1,14 +1,8 @@
 <template>
 	<div id="squirdle">
-		<GameOverModal
-			v-if="target"
-			ref="game-over-modal"
-			:target="target"
-			:gameOver="gameOver"
-		/>
 		<ErrorModal ref="error-modal" />
 		<GuessDropdown
-			:pokemonList="pokemonList"
+			:pokemonList="pokemon"
 			:onError="displayError"
 			:onSubmit="handleGuess"
 		/>
@@ -17,11 +11,10 @@
 </template>
 
 <script>
-// Import global library
-import axios from "axios";
+// Vuex
+import { mapMutations, mapActions, mapGetters } from "vuex";
 
 // Import modal components
-import GameOverModal from "@/components/modals/GameOverModal.vue";
 import ErrorModal from "@/components/modals/ErrorModal.vue";
 
 // Import game components
@@ -32,45 +25,25 @@ export default {
 	name: "Squirdle",
 	components: {
 		ErrorModal,
-		GameOverModal,
 		GuessDropdown,
 		GameGrid,
 	},
 	data() {
 		return {
 			// State
-			pokemonList: [],
-			gameOver: false,
 			numGuesses: 0,
-			// Target
-			target: null,
 		};
 	},
 	methods: {
+		// Map Vuex functions
+		...mapMutations(["endGame"]),
+		...mapActions(["fetchPokemonList", "generateNewTarget"]),
 		// Translate edge cases
 		translateName: function (name) {
 			if (name === "mr. mime") return "mr.mime";
 			else if (name === "mime jr.") return "mime_jr";
 			else if (name === "farfetch’d") return "farfetchd";
 			else return name;
-		},
-		// Fetch list of Pokemon
-		fetchPokemonList: async function () {
-			// Fetch
-			await axios.get("/api/pokemon/").then((response) => {
-				this.pokemonList = response.data;
-			});
-		},
-		// Randomly select target Pokemon
-		generateTarget: function () {
-			// Randomly select dex number
-			const ind = Math.floor(Math.random() * 493);
-			// Fetch target Pokemon by name
-			axios
-				.get(`/api/pokemon/${this.pokemonList[ind]}`)
-				.then((response) => {
-					this.target = response.data;
-				});
 		},
 		// Trigger error modal
 		displayError: function (error) {
@@ -81,7 +54,7 @@ export default {
 			this.numGuesses++;
 			// Check for game over
 			if (pokemon.name === this.target.name || this.numGuesses === 8)
-				this.handleGameOver(true);
+				this.handleGameOver();
 			else {
 				// Update placeholder
 				document.getElementById("guess-input").placeholder = `Guess ${
@@ -101,16 +74,21 @@ export default {
 			document
 				.getElementById("guess-button")
 				.classList.remove("active-button");
-			this.gameOver = true;
 			// Pop up loss modal
 			setTimeout(() => {
-				this.$refs["game-over-modal"].openModal();
+				this.endGame();
 			}, 2500);
 		},
 	},
+	computed: {
+		// Map Vuex functions
+		...mapGetters(["gameOver", "pokemon", "target"]),
+	},
 	mounted: async function () {
+		// Initial fetch of all pokemon
 		await this.fetchPokemonList();
-		this.generateTarget();
+		// Initial target generation
+		this.generateNewTarget(this.pokemon);
 	},
 };
 </script>
