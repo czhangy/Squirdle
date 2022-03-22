@@ -58,6 +58,7 @@ export default {
 			border: 2px solid $accent-color;
 			border-bottom: none;
             transition: all 0.2s ease;
+            text-align: center;
 		}
 
 		.active-button {
