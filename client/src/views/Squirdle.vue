@@ -68,10 +68,16 @@ export default {
 				let caught = JSON.parse(localStorage.caught);
 				caught.push(this.target.dex_num - 1);
 				localStorage.setItem("caught", JSON.stringify(caught));
+				// Add to streak
+				let streak = localStorage.streak;
+				streak++;
+				localStorage.setItem("streak", streak);
 			}
+			// Reset streak
+			else localStorage.setItem("streak", 0);
 			// Mark Pokemon as "seen"
 			let seen = JSON.parse(localStorage.seen);
-            seen.push(this.target.dex_num - 1);
+			seen.push(this.target.dex_num - 1);
 			localStorage.setItem("seen", JSON.stringify(seen));
 			// Pop up user modal
 			setTimeout(() => {

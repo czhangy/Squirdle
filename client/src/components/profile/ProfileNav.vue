@@ -85,4 +85,12 @@ export default {
         height: 70px;
     }
 }
+
+// Mobile layout
+@media screen and (max-width: $mobile) {
+    #profile-nav {
+        // Chill on spacing
+        margin-top: 32px;
+    }
+}
 </style>
