@@ -52,17 +52,23 @@ export default {
 				pokemon.name === this.target.name ||
 				this.numGuesses === MAX_GUESSES
 			)
-				this.handleGameOver();
+				this.handleGameOver(pokemon.name === this.target.name);
 			// Update display
 			this.$refs["game-grid"].updateGrid(pokemon);
 		},
 		// Handle game end conditions
-		handleGameOver: function () {
+		handleGameOver: function (win) {
 			// Disable input fields
 			const input = document.getElementById("guess-input");
 			input.placeholder = "";
 			input.disabled = true;
 			document.getElementById("guess-button").disabled = true;
+			// "Catch" Pokemon if win
+			if (win) {
+				let caught = JSON.parse(localStorage.caught);
+				caught.push(this.target.dex_num - 1);
+				localStorage.setItem("caught", JSON.stringify(caught));
+			}
 			// Pop up user modal
 			setTimeout(() => {
 				this.endGame();
@@ -75,8 +81,7 @@ export default {
 	},
 	mounted: async function () {
 		// Initial fetch of all pokemon
-		await this.fetchPokemonList();
-		// Initial target generation
+		if (this.pokemon.length === 0) await this.fetchPokemonList();
 		this.generateNewTarget(this.pokemon);
 	},
 };

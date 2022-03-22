@@ -59,27 +59,20 @@ export default {
 		openModal: function () {
 			this.$refs["pokemon-modal"].openModal();
 		},
-		// Translate edge cases
-		translateName: function (name) {
-			if (name === "mr. mime") return "mr.mime";
-			else if (name === "mime jr.") return "mime_jr";
-			else if (name === "farfetch’d") return "farfetchd";
-			else return name;
-		},
 		// Dyanamically set images
 		setImages: function () {
 			// Set main sprite
 			document.getElementById(
 				"target-sprite"
-			).src = `https://projectpokemon.org/images/normal-sprite/${this.translateName(
+			).src = `https://projectpokemon.org/images/normal-sprite/${this.$translateName(
 				this.target.name
 			)}.gif`;
 			// Set box sprite
 			document.getElementById(
 				"target-box-sprite"
-			).src = `https://www.serebii.net/pokedex-swsh/icon/${this.target.dex_num
-				.toString()
-				.padStart(3, "0")}.png`;
+			).src = `https://www.serebii.net/pokedex-swsh/icon/${this.$formatDexNum(
+				this.target.dex_num
+			)}.png`;
 			// Set types
 			document.getElementById(
 				"target-primary-type"

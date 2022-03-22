@@ -5,8 +5,27 @@
 			<p class="settings-text">
 				lol imagine if i had any settings to implement
 			</p>
-			<hr id="separator" />
-            <a href="/profile" class="settings-button">GO TO PROFILE</a>
+			<div id="settings-buttons">
+				<router-link
+					to="/profile"
+					id="profile-button"
+					class="settings-button"
+                    @click="closeModal"
+					>GO TO PROFILE</router-link
+				>
+				<button
+					id="share-button"
+					class="settings-button"
+					@click="handleShare"
+				>
+					<img
+						src="@/assets/icons/share.png"
+						alt=""
+						id="share-icon"
+					/>
+					SHARE
+				</button>
+			</div>
 		</div>
 	</Modal>
 </template>
@@ -21,9 +40,16 @@ export default {
 		Modal,
 	},
 	methods: {
-		// Modal control
+		// Modal controls
 		openModal: function () {
 			this.$refs["settings-modal"].openModal();
+		},
+        closeModal: function () {
+            this.$refs['settings-modal'].closeModal();
+        },
+		// Share site
+		handleShare: function () {
+			alert("This is a WIP");
 		},
 	},
 };
@@ -48,26 +74,54 @@ export default {
 		color: $accent-color;
 	}
 
-	#separator {
-		height: 2px;
-		background: $accent-color;
-		border: none;
-		margin: 16px 0;
-	}
+	#settings-buttons {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 16px;
 
-    .settings-button {
-        color: $main-color;
-        text-decoration: none;
-        padding: 4px 16px;
-        font-family: $alt-font;
-        font-size: 1.2rem;
-        display: inline-block;
-        background: $accent-color;
-    }
+		#profile-button {
+			width: 190px;
+			text-decoration: none;
+		}
+
+		#share-button {
+			width: 150px;
+			cursor: pointer;
+
+			#share-icon {
+				height: 24px;
+				margin-right: 16px;
+			}
+		}
+
+		.settings-button {
+			color: $accent-color;
+			height: 50px;
+			font-family: $alt-font;
+			font-size: 1.2rem;
+			line-height: 1.2rem;
+			background: $main-color;
+			border: 2px solid $accent-color;
+			// Center button text
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 }
 
 // Sticky hover
 @media (hover: hover) {
-    
+	#settings > #settings-buttons {
+		.settings-button:hover {
+			background: $accent-color;
+			border: none;
+			color: $main-color;
+		}
+
+		#share-button:hover > #share-icon {
+			filter: invert(100%);
+		}
+	}
 }
 </style>

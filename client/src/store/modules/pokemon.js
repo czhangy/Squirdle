@@ -34,6 +34,11 @@ let actions = {
 		await axios.get(`/api/pokemon/${pokemon[ind]}`).then((response) => {
 			newTarget = response.data;
 		});
+        // Set Pokemon to "seen" in local storage
+        const seen = JSON.parse(localStorage.seen);
+        if (!seen.includes(ind))
+            seen.push(ind);
+        localStorage.setItem('seen', JSON.stringify(seen));
         commit("setTarget", newTarget);
 	},
 };
