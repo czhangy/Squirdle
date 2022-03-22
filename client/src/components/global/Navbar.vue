@@ -68,14 +68,12 @@ export default {
 			this.$refs["settings-modal"].openModal();
 		},
 	},
-	watch: {
-		"$route.name": function () {
-			// Automatically pop up how to play on game screen
-			if (this.$route.name === "Squirdle")
-				setTimeout(() => {
-					this.openHelpModal();
-				}, 500);
-		},
+	mounted: function () {
+		// Automatically pop up how to play on game screen on first play
+		if (JSON.parse(localStorage.seen).length === 0)
+			setTimeout(() => {
+				this.openHelpModal();
+			}, 500);
 	},
 };
 </script>
