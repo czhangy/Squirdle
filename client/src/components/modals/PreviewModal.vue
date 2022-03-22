@@ -1,7 +1,7 @@
 <template>
-	<Modal id="pokemon-modal" ref="pokemon-modal" modalID="pokemon-modal">
-		<div id="pokemon">
-			<h2 id="pokemon-header">Today's Pokémon</h2>
+	<Modal id="preview-modal" ref="preview-modal" modalID="preview-modal">
+		<div id="preview">
+			<h2 id="preview-header">Today's Pokémon</h2>
 			<img
 				id="target-sprite"
 				alt="Target Pokemon"
@@ -50,14 +50,14 @@ import { mapGetters } from "vuex";
 import Modal from "@/components/global/Modal.vue";
 
 export default {
-	name: "PokemonModal",
+	name: "PreviewModal",
 	components: {
 		Modal,
 	},
 	methods: {
 		// Modal control
 		openModal: function () {
-			this.$refs["pokemon-modal"].openModal();
+			this.$refs["preview-modal"].openModal();
 		},
 		// Dyanamically set images
 		setImages: function () {
@@ -103,11 +103,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#pokemon {
+#preview {
 	height: 100%;
 	width: 100%;
 
-	#pokemon-header {
+	#preview-header {
 		font-family: $alt-font;
 		font-size: 1.2rem;
 		line-height: 1.2rem;

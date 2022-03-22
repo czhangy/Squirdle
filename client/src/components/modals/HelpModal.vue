@@ -284,8 +284,8 @@
 							alt="Type 1 Plaque"
 						/>
 					</div>
-					<div class="hint tile">I</div>
-					<div class="tile">10</div>
+					<div class="tile">I</div>
+					<div class="hint tile">10</div>
 				</div>
 				<p class="help-text">
 					The length of the mystery Pokémon's name is within 2 of your
@@ -307,8 +307,8 @@
 							alt="Type 1 Plaque"
 						/>
 					</div>
-					<div class="correct tile">I</div>
-					<div class="tile">8</div>
+					<div class="tile">I</div>
+					<div class="correct tile">8</div>
 				</div>
 				<p class="help-text">
 					The mystery Pokémon's name is 8 letters long!

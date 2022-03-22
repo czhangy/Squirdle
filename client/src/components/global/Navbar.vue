@@ -1,7 +1,7 @@
 <template>
 	<div id="navbar">
 		<HelpModal ref="help-modal" />
-		<PokemonModal ref="pokemon-modal" />
+		<PreviewModal ref="preview-modal" />
 		<SettingsModal ref="settings-modal" />
 		<div id="left-container" class="button-container">
 			<button id="help-button" class="nav-button" @click="openHelpModal">
@@ -18,10 +18,10 @@
 			<button
 				id="user-button"
 				class="nav-button"
-				@click="openPokemonModal"
+				@click="openPreviewModal"
 			>
 				<img
-					src="@/assets/icons/user.png"
+					src="@/assets/icons/preview.png"
 					alt="User"
 					id="user-icon"
 					class="button-icon"
@@ -46,14 +46,14 @@
 <script>
 // Import components
 import HelpModal from "@/components/modals/HelpModal.vue";
-import PokemonModal from "@/components/modals/PokemonModal.vue";
+import PreviewModal from "@/components/modals/PreviewModal.vue";
 import SettingsModal from "@/components/modals/SettingsModal.vue";
 
 export default {
 	name: "Navbar",
 	components: {
 		HelpModal,
-		PokemonModal,
+		PreviewModal,
 		SettingsModal,
 	},
 	methods: {
@@ -61,21 +61,19 @@ export default {
 		openHelpModal: function () {
 			this.$refs["help-modal"].openModal();
 		},
-		openPokemonModal: function () {
-			this.$refs["pokemon-modal"].openModal();
+		openPreviewModal: function () {
+			this.$refs["preview-modal"].openModal();
 		},
 		openSettingsModal: function () {
 			this.$refs["settings-modal"].openModal();
 		},
 	},
-	watch: {
-		"$route.name": function () {
-			// Automatically pop up how to play on game screen
-			if (this.$route.name === "Squirdle")
-				setTimeout(() => {
-					this.openHelpModal();
-				}, 500);
-		},
+	mounted: function () {
+		// Automatically pop up how to play on game screen on first play
+		if (JSON.parse(localStorage.seen).length === 0)
+			setTimeout(() => {
+				this.openHelpModal();
+			}, 500);
 	},
 };
 </script>
@@ -104,7 +102,6 @@ export default {
 			cursor: pointer;
 
 			.button-icon {
-				height: 24px;
 				width: 24px;
 			}
 		}

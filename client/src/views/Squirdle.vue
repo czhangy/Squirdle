@@ -69,6 +69,10 @@ export default {
 				caught.push(this.target.dex_num - 1);
 				localStorage.setItem("caught", JSON.stringify(caught));
 			}
+			// Mark Pokemon as "seen"
+			let seen = JSON.parse(localStorage.seen);
+            seen.push(this.target.dex_num - 1);
+			localStorage.setItem("seen", JSON.stringify(seen));
 			// Pop up user modal
 			setTimeout(() => {
 				this.endGame();
