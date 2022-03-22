@@ -14,16 +14,15 @@
 <script>
 export default {
 	name: "ProfileStats",
-	data() {
-		return {
-			caught: [],
-			seen: [],
-		};
-	},
-	mounted() {
-		// Fetch from local storage
-		this.caught = JSON.parse(localStorage.caught);
-		this.seen = JSON.parse(localStorage.seen);
+	props: {
+		caught: {
+			type: Array,
+			required: true,
+		},
+		seen: {
+			type: Array,
+			required: true,
+		},
 	},
 };
 </script>

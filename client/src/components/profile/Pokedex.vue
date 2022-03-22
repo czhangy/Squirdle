@@ -13,17 +13,19 @@ import { mapGetters } from "vuex";
 
 export default {
 	name: "Pokedex",
-	data() {
-		return {
-			caught: [],
-			seen: [],
-		};
+	props: {
+		caught: {
+			type: Array,
+			required: true,
+		},
+		seen: {
+			type: Array,
+			required: true,
+		},
 	},
 	methods: {
 		// Set all tile sprites
 		setSprites: function () {
-			this.caught = JSON.parse(localStorage.caught);
-			this.seen = JSON.parse(localStorage.seen);
 			const sprites = document.getElementsByClassName("pokedex-sprite");
 			for (let i = 0; i < sprites.length; i++) {
 				const dexNum = this.$formatDexNum(i + 1);
@@ -48,13 +50,14 @@ export default {
 		...mapGetters(["pokemon"]),
 	},
 	watch: {
-		pokemon: function () {
+		caught: function () {
 			// Set sprites when page initially loads
 			this.$nextTick(() => this.setSprites());
 		},
 	},
 	mounted: function () {
-		this.setSprites();
+		// Set sprites when page initially loads
+		this.$nextTick(() => this.setSprites());
 	},
 };
 </script>

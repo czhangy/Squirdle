@@ -24,13 +24,13 @@ export default {
             // Handle button styling
             document.getElementById("pokedex-button").classList.add("active-button");
             document.getElementById("medals-button").classList.remove("active-button");
-            this.onClick("pokedex-button");
+            this.onClick("pokedex");
         },
         handleMedalsNav: function () {
             // Handle button styling
             document.getElementById("medals-button").classList.add("active-button");
             document.getElementById("pokedex-button").classList.remove("active-button");
-            this.onClick("medals-button");
+            this.onClick("medals");
         },
     },
 };
