@@ -152,7 +152,7 @@ export default {
 	},
 	computed: {
 		// Map Vuex function
-		...mapGetters(["numGuesses", "pokemon"]),
+		...mapGetters(["gameOver", "numGuesses", "pokemon"]),
 	},
 	watch: {
 		filteredList: function () {
@@ -167,6 +167,10 @@ export default {
 		guess: function () {
 			// Update filters on input
 			this.filterDropdown();
+		},
+		gameOver: function () {
+			// Reset component state
+			if (!this.gameOver) this.guesses = [];
 		},
 	},
 	mounted: function () {
@@ -292,7 +296,7 @@ export default {
 		border-left: none;
 		border-radius: 0;
 		height: var(--input-height);
-		padding: 0 18px;
+        width: 50px;
 		color: $accent-color;
 		font-size: 1rem;
 		// Overlap overlay

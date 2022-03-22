@@ -1,7 +1,12 @@
 <template>
 	<div id="squirdle">
 		<ErrorModal ref="error-modal" :errorCode="errorCode" />
-		<GuessDropdown :onError="displayError" :onSubmit="handleGuess" />
+		<GuessDropdown
+			v-if="!gameOver"
+			:onError="displayError"
+			:onSubmit="handleGuess"
+		/>
+		<button v-else id="reset-button" @click="handleGameReset">Reset</button>
 		<GameGrid ref="game-grid" />
 	</div>
 </template>
@@ -37,7 +42,12 @@ export default {
 	},
 	methods: {
 		// Map Vuex functions
-		...mapMutations(["incrementGuesses", "endGame"]),
+		...mapMutations([
+			"resetGuesses",
+			"incrementGuesses",
+			"startGame",
+			"endGame",
+		]),
 		...mapActions(["fetchPokemonList", "generateNewTarget"]),
 		// Trigger error modal
 		displayError: function (errorCode) {
@@ -84,6 +94,28 @@ export default {
 				this.endGame();
 			}, 2500);
 		},
+		// Handle game reset conditions
+		handleGameReset: function () {
+			// Generate a new target Pokemon
+			this.generateNewTarget(this.pokemon);
+			// Update Vuex state
+			this.startGame();
+			this.resetGuesses();
+			// Re-enable input fields
+			// const input = document.getElementById("guess-input");
+			// input.placeholder = `Guess 1 of ${MAX_GUESSES}`;
+			// input.disabled = false;
+			// document.getElementById("guess-button").disabled = false;
+			// Reset grid
+			const tileContainers =
+				document.getElementsByClassName("game-tile-inner");
+			const tiles = document.getElementsByClassName("game-tile-back");
+			for (let i = 0; i < tiles.length; i++) {
+				tileContainers[i].classList.remove("rotated");
+				tiles[i].classList.remove("hint");
+				tiles[i].classList.remove("correct");
+			}
+		},
 	},
 	computed: {
 		// Map Vuex functions
@@ -101,12 +133,40 @@ export default {
 #squirdle {
 	padding: 64px 0;
 	overflow-y: hidden;
+
+	#reset-button {
+		height: 60px;
+		width: 350px;
+		font-family: $alt-font;
+		color: $accent-color;
+		font-size: 2rem;
+		letter-spacing: 1px;
+        line-height: 2rem;
+        border: 2px solid $accent-color;
+        background: $main-color;
+        margin-bottom: 36px;
+        cursor: pointer;
+	}
 }
 
 // Mobile layout
 @media screen and (max-width: $mobile) {
 	#squirdle {
 		padding: 32px 0;
+
+		#reset-button {
+			height: 45px;
+			font-size: 1.5rem;
+		}
 	}
+}
+
+// Sticky hover
+@media (hover: hover) {
+    #squirdle > #reset-button:hover {
+        background: $accent-color;
+        border: none;
+        color: $main-color;
+    }
 }
 </style>
