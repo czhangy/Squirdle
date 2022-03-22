@@ -16,13 +16,16 @@ This project is still under development. The base game is functional, but featur
 
 #### To Do
 
-- [ ] Implement user system
-- [ ] Implement Pokédex
-- [ ] Implement achievements
+- [ ] Fix bug on examples modal
+- [ ] Change Pokemon modal icon
+- [ ] Change when "seen" is marked
+- [ ] Implement medals
 - [ ] Add Gen. V - VIII to the database
 - [ ] Implement reset functionality
 - [ ] Add share mechanism
-- [ ] Add hard mode to settings
+- [ ] Add hard mode setting
+- [ ] Add light mode setting
+- [ ] Add tooltips
 
 ## Installation and Setup
 
