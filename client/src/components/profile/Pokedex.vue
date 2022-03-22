@@ -2,6 +2,7 @@
 	<div id="pokedex">
 		<div v-for="i in pokemon" :key="i" class="pokedex-entry">
 			<img alt="" class="pokedex-sprite" />
+			<p class="alt-entry" />
 		</div>
 	</div>
 </template>
@@ -12,31 +13,49 @@ import { mapGetters } from "vuex";
 
 export default {
 	name: "Pokedex",
+	data() {
+		return {
+			caught: [],
+			seen: [],
+		};
+	},
 	methods: {
 		// Set all tile sprites
 		setSprites: function () {
+			this.caught = JSON.parse(localStorage.caught);
+			this.seen = JSON.parse(localStorage.seen);
 			const sprites = document.getElementsByClassName("pokedex-sprite");
-			for (let i = 0; i < sprites.length; i++)
+			for (let i = 0; i < sprites.length; i++) {
+				const dexNum = this.$formatDexNum(i + 1);
 				sprites[
 					i
-				].src = `https://www.serebii.net/pokedex-swsh/icon/${this.$formatDexNum(
-					i + 1
-				)}.png`;
+				].src = `https://www.serebii.net/pokedex-swsh/icon/${dexNum}.png`;
+				// Handle entries based on status
+				if (this.caught.includes(i)) continue;
+				if (this.seen.includes(i))
+					sprites[i].classList.add("silhouette");
+				else {
+					sprites[i].classList.add("hide");
+					document.getElementsByClassName("alt-entry")[
+						i
+					].innerHTML = `#${dexNum}`;
+				}
+			}
 		},
 	},
 	computed: {
 		// Map Vuex function
 		...mapGetters(["pokemon"]),
 	},
-    watch: {
-        pokemon: function () {
-            // Set sprites when page initially loads
-            this.$nextTick(() => this.setSprites());
-        }
-    },
+	watch: {
+		pokemon: function () {
+			// Set sprites when page initially loads
+			this.$nextTick(() => this.setSprites());
+		},
+	},
 	mounted: function () {
-        this.setSprites();
-    },
+		this.setSprites();
+	},
 };
 </script>
 
@@ -60,10 +79,24 @@ export default {
 		align-items: center;
 
 		.pokedex-sprite {
-            min-height: 40px;
+			min-height: 40px;
 			min-width: 40px;
 			max-height: 60px;
 			max-width: 60px;
+		}
+
+		.silhouette {
+			// Create silhouette of image
+			filter: contrast(0%) brightness(50%);
+		}
+
+		.hide {
+			display: none;
+		}
+
+		.alt-entry {
+			font-family: $alt-font;
+			color: $accent-color;
 		}
 	}
 }

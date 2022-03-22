@@ -2,13 +2,13 @@
 	<div id="profile">
 		<ProfileStats />
 		<ProfileNav :onClick="handlePageNav" />
-        <Pokedex />
+		<Pokedex />
 	</div>
 </template>
 
 <script>
 // Vuex
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 // Import local components
 import ProfileStats from "@/components/profile/ProfileStats.vue";
@@ -20,7 +20,7 @@ export default {
 	components: {
 		ProfileStats,
 		ProfileNav,
-        Pokedex,
+		Pokedex,
 	},
 	data() {
 		return {
@@ -28,22 +28,19 @@ export default {
 		};
 	},
 	methods: {
-        // Map Vuex functions
+		// Map Vuex functions
 		...mapActions(["fetchPokemonList", "generateNewTarget"]),
-        // Nav control
+		// Nav control
 		handlePageNav: function (newPage) {
 			this.page = newPage;
 		},
 	},
-    computed: {
-        ...mapGetters(["pokemon"]),
-    },
-    mounted: async function () {
+	computed: {
+		...mapGetters(["pokemon"]),
+	},
+	mounted: async function () {
 		// Initial fetch of all pokemon
-        if (this.pokemon.length === 0) {
-            await this.fetchPokemonList();
-            this.generateNewTarget(this.pokemon);
-        }
+		if (this.pokemon.length === 0) await this.fetchPokemonList();
 	},
 };
 </script>

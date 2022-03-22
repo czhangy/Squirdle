@@ -12,11 +12,18 @@ export default {
 	components: {
 		Navbar,
 	},
-    computed: {
-        validRoute: function () {
-            return this.$route.name !== 'PageNotFound';
-        }
-    }
+	computed: {
+		validRoute: function () {
+			return this.$route.name !== "PageNotFound";
+		},
+	},
+	mounted: function () {
+		// Init local storage for first-time users
+		if (!localStorage.seen)
+			localStorage.setItem("seen", JSON.stringify([]));
+		if (!localStorage.caught)
+			localStorage.setItem("caught", JSON.stringify([]));
+	},
 };
 </script>
 

@@ -2,11 +2,11 @@
 	<div id="profile-stats">
 		<div class="profile-stat">
 			<label class="stat-label">CAUGHT</label>
-			<p class="stat-count">0</p>
+			<p class="stat-count">{{ caught.length }}</p>
 		</div>
 		<div class="profile-stat">
 			<label class="stat-label wide">SEEN</label>
-			<p class="stat-count">0</p>
+			<p class="stat-count">{{ seen.length }}</p>
 		</div>
 	</div>
 </template>
@@ -14,6 +14,17 @@
 <script>
 export default {
 	name: "ProfileStats",
+	data() {
+		return {
+			caught: [],
+			seen: [],
+		};
+	},
+	mounted() {
+		// Fetch from local storage
+		this.caught = JSON.parse(localStorage.caught);
+		this.seen = JSON.parse(localStorage.seen);
+	},
 };
 </script>
 
