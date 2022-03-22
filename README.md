@@ -18,8 +18,8 @@ This project is still under development. The base game is functional, but featur
 
 - [ ] Implement medals
 - [ ] Add Gen. V - VIII to the database
-- [ ] Implement reset functionality
 - [ ] Add share mechanism
+- [ ] Implement persistence on refresh
 - [ ] Add hard mode setting
 - [ ] Add light mode setting
 - [ ] Add tooltips

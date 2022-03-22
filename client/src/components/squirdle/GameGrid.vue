@@ -191,10 +191,22 @@ export default {
 				});
 			}
 		},
+		// Reset grid state
+		resetGrid: function () {},
 	},
 	computed: {
 		// Map Vuex functions
-		...mapGetters(["numGuesses", "target"]),
+		...mapGetters(["gameOver", "numGuesses", "target"]),
+	},
+	watch: {
+		gameOver: function () {
+			if (!this.gameOver) {
+				// Reset component state
+				this.numRows = 6;
+				this.guessTypes = [];
+				this.numDualtypes = 0;
+			}
+		},
 	},
 };
 </script>

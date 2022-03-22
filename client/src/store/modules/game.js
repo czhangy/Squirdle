@@ -6,6 +6,9 @@ let state = {
 
 // Define state modifiers
 let mutations = {
+    resetGuesses: (state) => {
+        state.numGuesses = 0;
+    },
     incrementGuesses: (state) => {
         state.numGuesses++;
     },

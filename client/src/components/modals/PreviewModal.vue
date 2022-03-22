@@ -82,6 +82,7 @@ export default {
 					"target-secondary-type"
 				).src = `https://www.serebii.net/pokedex-bw/type/${this.target.type_2}.gif`;
 		},
+        
 	},
 	computed: {
 		// Map Vuex functions
