@@ -58,7 +58,10 @@ export default {
 			border: 2px solid $accent-color;
 			border-bottom: none;
             transition: all 0.2s ease;
-            text-align: center;
+            // Center button text
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 
 		.active-button {
@@ -80,6 +83,14 @@ export default {
     #profile-nav > #nav-buttons > .nav-button:hover {
         margin-top: -10px;
         height: 70px;
+    }
+}
+
+// Mobile layout
+@media screen and (max-width: $mobile) {
+    #profile-nav {
+        // Chill on spacing
+        margin-top: 32px;
     }
 }
 </style>

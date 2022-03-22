@@ -115,9 +115,9 @@ export default {
 	#site-title {
 		font-family: $alt-font;
 		font-weight: bold;
-		font-size: 3rem;
-		line-height: 3rem;
-		letter-spacing: 3px;
+		font-size: 2rem;
+        line-height: 2rem;
+		letter-spacing: 5px;
 
 		#home-link {
 			color: $accent-color;
@@ -129,7 +129,6 @@ export default {
 // Mobile design
 @media screen and (max-width: $mobile) {
 	#navbar > #site-title {
-		font-size: 2rem;
 		line-height: 2rem;
 		letter-spacing: 0;
 	}

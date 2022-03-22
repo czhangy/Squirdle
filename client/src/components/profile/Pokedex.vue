@@ -65,7 +65,7 @@ export default {
 <style lang="scss" scoped>
 #pokedex {
 	width: 350px;
-	height: 420px;
+	height: 350px;
 	overflow-y: scroll;
 	margin: 0 auto;
 	margin-top: 10px;

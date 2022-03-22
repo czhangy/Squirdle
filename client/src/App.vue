@@ -23,6 +23,8 @@ export default {
 			localStorage.setItem("seen", JSON.stringify([]));
 		if (!localStorage.caught)
 			localStorage.setItem("caught", JSON.stringify([]));
+        if (!localStorage.streak)
+			localStorage.setItem("streak", 0);
 	},
 };
 </script>
