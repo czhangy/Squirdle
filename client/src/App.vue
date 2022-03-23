@@ -17,10 +17,6 @@ export default {
 			return this.$route.name !== "PageNotFound";
 		},
 	},
-	mounted: function () {
-		// Init local storage for first-time users
-		if (!localStorage.streak) localStorage.setItem("streak", 0);
-	},
 };
 </script>
 

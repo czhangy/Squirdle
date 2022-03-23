@@ -93,6 +93,11 @@ export default {
 				let streak = localStorage.streak ? localStorage.streak : 0;
 				streak++;
 				localStorage.setItem("streak", streak);
+				let maxStreak = localStorage.maxStreak
+					? localStorage.maxStreak
+					: 0;
+				maxStreak = Math.max(maxStreak, streak);
+				localStorage.setItem("maxStreak", maxStreak);
 				// Add Pokemon to type 1
 				let type1 = localStorage[this.target.type_1]
 					? JSON.parse(localStorage[this.target.type_1])

@@ -1,5 +1,5 @@
 <template>
-	<div class="medal">
+	<div class="medal" :class="{ obtained: obtained }">
 		<img
 			v-if="medal.type === 'bronze'"
 			src="@/assets/icons/bronze.png"
@@ -20,7 +20,7 @@
 		/>
 		<div class="medal-text">
 			<p class="medal-title">{{ medal.title }}</p>
-			<p v-if="!obtained" class="medal-desc">{{ medal.desc }}</p>
+			<p v-if="obtained" class="medal-desc">{{ medal.desc }}</p>
 			<p v-else class="medal-desc">???</p>
 		</div>
 	</div>
@@ -84,5 +84,9 @@ export default {
 	.medal-icon {
 		filter: brightness(100%);
 	}
+
+    .medal-text {
+        filter: brightness(100%);
+    }
 }
 </style>
