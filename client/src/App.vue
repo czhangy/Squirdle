@@ -25,6 +25,7 @@ export default {
 			localStorage.setItem("caught", JSON.stringify([]));
         if (!localStorage.streak)
 			localStorage.setItem("streak", 0);
+        //if (!localStorage.medals)
 	},
 };
 </script>
