@@ -2,12 +2,14 @@
 	<Modal id="settings-modal" ref="settings-modal" modalID="settings-modal">
 		<div id="settings">
 			<h2 id="settings-header">SETTINGS</h2>
-			<p class="settings-text">
-				lol imagine if i had any settings to implement
-				<br />
-				<br />
-				Actual settings coming soon!
-			</p>
+			<div class="setting">
+				<p class="settings-text">Light Mode</p>
+				<Slider :onClick="toggleLightMode" />
+			</div>
+            <div class="setting">
+				<p class="settings-text">Hard Mode</p>
+				<Slider :onClick="toggleHardMode" />
+			</div>
 			<div id="settings-buttons">
 				<router-link
 					to="/profile"
@@ -43,7 +45,7 @@ export default {
 	name: "SettingsModal",
 	components: {
 		Modal,
-        Slider
+		Slider,
 	},
 	methods: {
 		// Modal controls
@@ -53,6 +55,21 @@ export default {
 		closeModal: function () {
 			this.$refs["settings-modal"].closeModal();
 		},
+		// Slider controls
+		toggleLightMode: function () {
+			const slider = document.getElementsByClassName("slider")[0];
+			// Toggle on
+			if (!localStorage.lightMode || !JSON.parse(localStorage.lightMode)) {
+				slider.classList.add("active");
+				localStorage.setItem("lightMode", "true");
+			} else {
+				slider.classList.remove("active");
+				localStorage.setItem("lightMode", "false");
+			}
+		},
+        toggleHardMode: function () {
+            alert("This feature is a WIP");
+        },
 		// Share site
 		handleShare: function () {
 			// Show text
@@ -82,11 +99,21 @@ export default {
 		letter-spacing: 2px;
 		color: $accent-color;
 		text-decoration: underline;
-		margin-bottom: 16px;
+		margin-bottom: 32px;
 	}
 
-	.settings-text {
-		color: $accent-color;
+	.setting {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+        margin-bottom: 16px;
+
+		.settings-text {
+			color: $accent-color;
+			text-align: left;
+			letter-spacing: 1px;
+			width: 30%;
+		}
 	}
 
 	#settings-buttons {
