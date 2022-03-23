@@ -73,26 +73,70 @@ export default {
 			input.placeholder = "";
 			input.disabled = true;
 			document.getElementById("guess-button").disabled = true;
-			// "Catch" Pokemon if win
-			if (win) {
-				let caught = JSON.parse(localStorage.caught);
-				caught.push(this.target.dex_num - 1);
-				localStorage.setItem("caught", JSON.stringify(caught));
-				// Add to streak
-				let streak = localStorage.streak;
-				streak++;
-				localStorage.setItem("streak", streak);
-			}
-			// Reset streak
-			else localStorage.setItem("streak", 0);
-			// Mark Pokemon as "seen"
-			let seen = JSON.parse(localStorage.seen);
-			seen.push(this.target.dex_num - 1);
-			localStorage.setItem("seen", JSON.stringify(seen));
+			this.setLocalStorage(win);
 			// Pop up user modal
 			setTimeout(() => {
 				this.endGame();
 			}, 2500);
+		},
+		setLocalStorage: function (win) {
+			// "Catch" Pokemon if win
+			if (win) {
+				let caught = localStorage.caught
+					? JSON.parse(localStorage.caught)
+					: [];
+				if (!caught.includes(this.target.dex_num - 1)) {
+					caught.push(this.target.dex_num - 1);
+					localStorage.setItem("caught", JSON.stringify(caught));
+				}
+				// Add to streak
+				let streak = localStorage.streak ? localStorage.streak : 0;
+				streak++;
+				localStorage.setItem("streak", streak);
+				// Add Pokemon to type 1
+				let type1 = localStorage[this.target.type_1]
+					? JSON.parse(localStorage[this.target.type_1])
+					: [];
+				if (!type1.includes(this.target.dex_num - 1)) {
+					type1.push(this.target.dex_num - 1);
+					localStorage.setItem(
+						this.target.type_1,
+						JSON.stringify(type1)
+					);
+				}
+				// Add Pokemon to type 2 if it exists
+				if (this.target.type_2) {
+					let type2 = localStorage[this.target.type_2]
+						? JSON.parse(localStorage[this.target.type_2])
+						: [];
+					if (!type2.includes(this.target.dex_num - 1)) {
+						type2.push(this.target.dex_num - 1);
+						localStorage.setItem(
+							this.target.type_2,
+							JSON.stringify(type2)
+						);
+					}
+				}
+				// Add Pokemon to generation
+				let gen = localStorage[this.target.gen.toString()]
+					? JSON.parse(localStorage[this.target.gen.toString()])
+					: [];
+				if (!gen.includes(this.target.dex_num - 1)) {
+					gen.push(this.target.dex_num - 1);
+					localStorage.setItem(
+						this.target.gen.toString(),
+						JSON.stringify(gen)
+					);
+				}
+			}
+			// Reset streak on loss
+			else localStorage.setItem("streak", 0);
+			// Mark Pokemon as "seen"
+			let seen = localStorage.seen ? JSON.parse(localStorage.seen) : [];
+			if (!seen.includes(this.target.dex_num - 1)) {
+				seen.push(this.target.dex_num - 1);
+				localStorage.setItem("seen", JSON.stringify(seen));
+			}
 		},
 		// Handle game reset conditions
 		handleGameReset: function () {
@@ -101,12 +145,6 @@ export default {
 			// Update Vuex state
 			this.startGame();
 			this.resetGuesses();
-			// Re-enable input fields
-			// const input = document.getElementById("guess-input");
-			// input.placeholder = `Guess 1 of ${MAX_GUESSES}`;
-			// input.disabled = false;
-			// document.getElementById("guess-button").disabled = false;
-			// Reset grid
 			const tileContainers =
 				document.getElementsByClassName("game-tile-inner");
 			const tiles = document.getElementsByClassName("game-tile-back");
@@ -141,11 +179,11 @@ export default {
 		color: $accent-color;
 		font-size: 2rem;
 		letter-spacing: 1px;
-        line-height: 2rem;
-        border: 2px solid $accent-color;
-        background: $main-color;
-        margin-bottom: 36px;
-        cursor: pointer;
+		line-height: 2rem;
+		border: 2px solid $accent-color;
+		background: $main-color;
+		margin-bottom: 36px;
+		cursor: pointer;
 	}
 }
 
@@ -163,10 +201,10 @@ export default {
 
 // Sticky hover
 @media (hover: hover) {
-    #squirdle > #reset-button:hover {
-        background: $accent-color;
-        border: none;
-        color: $main-color;
-    }
+	#squirdle > #reset-button:hover {
+		background: $accent-color;
+		border: none;
+		color: $main-color;
+	}
 }
 </style>

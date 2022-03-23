@@ -19,13 +19,7 @@ export default {
 	},
 	mounted: function () {
 		// Init local storage for first-time users
-		if (!localStorage.seen)
-			localStorage.setItem("seen", JSON.stringify([]));
-		if (!localStorage.caught)
-			localStorage.setItem("caught", JSON.stringify([]));
-        if (!localStorage.streak)
-			localStorage.setItem("streak", 0);
-        //if (!localStorage.medals)
+		if (!localStorage.streak) localStorage.setItem("streak", 0);
 	},
 };
 </script>
