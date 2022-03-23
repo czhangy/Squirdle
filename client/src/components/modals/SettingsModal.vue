@@ -35,13 +35,15 @@
 </template>
 
 <script>
-// Import global component
+// Import global components
 import Modal from "@/components/global/Modal.vue";
+import Slider from "@/components/global/Slider.vue";
 
 export default {
 	name: "SettingsModal",
 	components: {
 		Modal,
+        Slider
 	},
 	methods: {
 		// Modal controls
