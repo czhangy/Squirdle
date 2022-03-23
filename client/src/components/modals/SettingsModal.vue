@@ -4,13 +4,16 @@
 			<h2 id="settings-header">SETTINGS</h2>
 			<p class="settings-text">
 				lol imagine if i had any settings to implement
+				<br />
+				<br />
+				Actual settings coming soon!
 			</p>
 			<div id="settings-buttons">
 				<router-link
 					to="/profile"
 					id="profile-button"
 					class="settings-button"
-                    @click="closeModal"
+					@click="closeModal"
 					>GO TO PROFILE</router-link
 				>
 				<button
@@ -24,6 +27,7 @@
 						id="share-icon"
 					/>
 					SHARE
+					<p id="share-text">Copied to clipboard!</p>
 				</button>
 			</div>
 		</div>
@@ -44,12 +48,21 @@ export default {
 		openModal: function () {
 			this.$refs["settings-modal"].openModal();
 		},
-        closeModal: function () {
-            this.$refs['settings-modal'].closeModal();
-        },
+		closeModal: function () {
+			this.$refs["settings-modal"].closeModal();
+		},
 		// Share site
 		handleShare: function () {
-			alert("This is a WIP");
+			// Show text
+			document.getElementById("share-text").style.opacity = "1";
+			// Copy to clipboard
+			return navigator.clipboard.writeText(
+				`I've caught ${
+					localStorage.caught
+						? JSON.parse(localStorage.caught).length
+						: 0
+				} Pokémon in Squirdle!\nTry it out yourself here: https://squirdle.herokuapp.com`
+			);
 		},
 	},
 };
@@ -77,7 +90,7 @@ export default {
 	#settings-buttons {
 		display: flex;
 		justify-content: space-between;
-		margin-top: 16px;
+		margin-top: 48px;
 
 		#profile-button {
 			width: 190px;
@@ -87,10 +100,21 @@ export default {
 		#share-button {
 			width: 150px;
 			cursor: pointer;
+			position: relative;
 
 			#share-icon {
 				height: 24px;
 				margin-right: 16px;
+			}
+
+			#share-text {
+				font-size: 0.8rem;
+				letter-spacing: 1px;
+				position: absolute;
+				top: -24px;
+				font-family: $main-font;
+				color: $accent-color;
+				opacity: 0;
 			}
 		}
 
@@ -119,8 +143,15 @@ export default {
 			color: $main-color;
 		}
 
-		#share-button:hover > #share-icon {
-			filter: invert(100%);
+		#share-button:hover {
+			#share-icon {
+				filter: invert(100%);
+			}
+
+			#share-text {
+				// Negate bounce from border
+				top: -22px;
+			}
 		}
 	}
 }
