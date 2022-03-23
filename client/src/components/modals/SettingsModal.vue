@@ -4,11 +4,11 @@
 			<h2 id="settings-header">SETTINGS</h2>
 			<div class="setting">
 				<p class="settings-text">Light Mode</p>
-				<Slider :onClick="toggleLightMode" />
+				<Slider :sliderID="0" setting="lightMode" />
 			</div>
             <div class="setting">
 				<p class="settings-text">Hard Mode</p>
-				<Slider :onClick="toggleHardMode" />
+				<Slider :sliderID="1" setting="hardMode" />
 			</div>
 			<div id="settings-buttons">
 				<router-link
@@ -55,21 +55,6 @@ export default {
 		closeModal: function () {
 			this.$refs["settings-modal"].closeModal();
 		},
-		// Slider controls
-		toggleLightMode: function () {
-			const slider = document.getElementsByClassName("slider")[0];
-			// Toggle on
-			if (!localStorage.lightMode || !JSON.parse(localStorage.lightMode)) {
-				slider.classList.add("active");
-				localStorage.setItem("lightMode", "true");
-			} else {
-				slider.classList.remove("active");
-				localStorage.setItem("lightMode", "false");
-			}
-		},
-        toggleHardMode: function () {
-            alert("This feature is a WIP");
-        },
 		// Share site
 		handleShare: function () {
 			// Show text

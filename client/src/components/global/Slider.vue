@@ -1,5 +1,5 @@
 <template>
-	<div class="slider" @click="onClick">
+	<div class="slider" @click="toggleSlider">
 		<div class="slider-thumb" />
 	</div>
 </template>
@@ -8,11 +8,31 @@
 export default {
 	name: "Slider",
 	props: {
-		onClick: {
-			type: Function,
-			required: true,
-		},
+		sliderID: {
+            type: Number,
+            required: true,
+        },
+        setting: {
+            type: String,
+            required: true,
+        }
 	},
+    methods: {
+        // Slider control
+        toggleSlider: function () {
+            const slider = document.getElementsByClassName("slider")[this.sliderID];
+            // Toggle on
+			if (!localStorage[this.setting] || !JSON.parse(localStorage[this.setting])) {
+				slider.classList.add("active");
+				localStorage.setItem(this.setting, "true");
+			} else {
+				slider.classList.remove("active");
+				localStorage.setItem(this.setting, "false");
+			}
+            // WIP management
+            if (this.sliderID === 1) alert("This is a WIP");
+        }
+    }
 };
 </script>
 
