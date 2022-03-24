@@ -152,7 +152,7 @@ export default {
 	},
 	computed: {
 		// Map Vuex function
-		...mapGetters(["gameOver", "numGuesses", "pokemon"]),
+		...mapGetters(["lightMode", "gameOver", "numGuesses", "pokemon"]),
 	},
 	watch: {
 		filteredList: function () {
@@ -172,6 +172,9 @@ export default {
 			// Reset component state
 			if (!this.gameOver) this.guesses = [];
 		},
+		lightMode: function () {
+			this.$updateLightMode("#guess-dropdown");
+		},
 	},
 	mounted: function () {
 		// Enable Enter submission
@@ -180,6 +183,7 @@ export default {
 			.addEventListener("keyup", (e) => {
 				if (e.code === "Enter") this.submitGuess();
 			});
+		this.$updateLightMode("#guess-dropdown");
 	},
 	beforeUnmount: function () {
 		// Clean up
@@ -222,7 +226,7 @@ export default {
 		z-index: $dropdown;
 
 		#guess-input {
-			background: $main-color;
+			background: transparent;
 			height: var(--input-height);
 			width: 300px;
 			border: 2px solid $tile-color;
@@ -296,18 +300,43 @@ export default {
 		border-left: none;
 		border-radius: 0;
 		height: var(--input-height);
-        width: 50px;
+		width: 50px;
 		color: $accent-color;
 		font-size: 1rem;
 		// Overlap overlay
 		z-index: $dropdown;
 		cursor: pointer;
-		background: $main-color;
+		background: transparent;
 
 		&:disabled {
 			cursor: auto;
 		}
 	}
+}
+
+#guess-dropdown.light-mode {
+	#dropdown-container {
+		#guess-input {
+			color: $light-accent-color;
+
+			&:focus {
+				background: $light-focus-color;
+			}
+
+            &::placeholder {
+                color: lighten(grey, 20);
+            }
+		}
+
+        .dropdown > .dropdown-option {
+            background: $light-main-color;
+            color: $light-accent-color;
+        }
+	}
+
+    #guess-button {
+        color: $light-accent-color;
+    }
 }
 
 // Sticky hover
@@ -319,6 +348,16 @@ export default {
 
 		#guess-button:hover:enabled {
 			background: $focus-color;
+		}
+	}
+
+    #guess-dropdown.light-mode {
+		#dropdown-container > .dropdown > .dropdown-option:hover {
+			background: $light-focus-color;
+		}
+
+		#guess-button:hover:enabled {
+			background: $light-focus-color;
 		}
 	}
 }
