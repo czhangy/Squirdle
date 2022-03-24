@@ -35,8 +35,8 @@ import {
 	DUALTYPE,
 } from "@/constants.js";
 
-// Import Vuex functions
-import { mapGetters } from "vuex";
+// Import Vuex functions for game state
+import { mapMutations, mapGetters } from "vuex";
 
 // Import local component
 import GameTile from "@/components/squirdle/GameTile.vue";
@@ -62,6 +62,8 @@ export default {
 		};
 	},
 	methods: {
+		// Map Vuex functions for updating past close/correct statuses
+		...mapMutations(["updateCorrect", "updateClose"]),
 		// Update the game board
 		updateGrid: function (pokemon) {
 			// Add to type information for indexing
@@ -129,38 +131,39 @@ export default {
 			if (pokemon.name === this.target.name)
 				tiles[baseInd].classList.add("correct");
 			// Update generation tile
-			if (pokemon.gen === this.target.gen)
+			if (this.$isCorrectGen(pokemon, this.target)) {
 				tiles[baseInd + 1].classList.add("correct");
-			else if (Math.abs(pokemon.gen - this.target.gen) === 1)
-				tiles[baseInd + 1].classList.add("hint");
-			// Update type tile
+				this.updateCorrect(0);
+			} else if (this.$isCloseGen(pokemon, this.target)) {
+				tiles[baseInd + 1].classList.add("close");
+				this.updateClose(0);
+			}
+			// Update type tile, delay to prevent style overwrite on img render
 			this.$nextTick(() => {
-				if (
-					pokemon.type_1 === this.target.type_1 &&
-					pokemon.type_2 === this.target.type_2
-				)
+				if (this.$isCorrectType(pokemon, this.target)) {
 					tiles[baseInd + 2].classList.add("correct");
-				else if (
-					pokemon.type_1 === this.target.type_2 ||
-					pokemon.type_1 === this.target.type_1 ||
-					pokemon.type_2 === this.target.type_1 ||
-					(pokemon.type_2 === this.target.type_2 &&
-						pokemon.type_2 !== "")
-				)
-					tiles[baseInd + 2].classList.add("hint");
+					this.updateCorrect(1);
+				} else if (this.$isCloseType(pokemon, this.target)) {
+					tiles[baseInd + 2].classList.add("close");
+					this.updateClose(1);
+				}
 			});
 			// Update stage tile
-			if (pokemon.stage === this.target.stage)
+			if (this.$isCorrectStage(pokemon, this.target)) {
 				tiles[baseInd + 3].classList.add("correct");
-			else if (Math.abs(pokemon.stage - this.target.stage) === 1)
-				tiles[baseInd + 3].classList.add("hint");
+				this.updateCorrect(2);
+			} else if (this.$isCloseStage(pokemon, this.target)) {
+				tiles[baseInd + 3].classList.add("close");
+				this.updateClose(2);
+			}
 			// Update length tile
-			if (pokemon.name.length === this.target.name.length)
+			if (this.$isCorrectLength(pokemon, this.target)) {
 				tiles[baseInd + 4].classList.add("correct");
-			else if (
-				Math.abs(pokemon.name.length - this.target.name.length) <= 2
-			)
-				tiles[baseInd + 4].classList.add("hint");
+				this.updateCorrect(3);
+			} else if (this.$isCloseLength(pokemon, this.target)) {
+				tiles[baseInd + 4].classList.add("close");
+				this.updateClose(3);
+			}
 		},
 		// Flip tiles animation
 		flipTiles: function () {
@@ -207,13 +210,13 @@ export default {
 				this.numDualtypes = 0;
 			}
 		},
-        lightMode: function () {
-            this.$updateLightMode('#game-grid');
-        }
+		lightMode: function () {
+			this.$updateLightMode("#game-grid");
+		},
 	},
-    mounted: function () {
-        this.$updateLightMode('#game-grid');
-    }
+	mounted: function () {
+		this.$updateLightMode("#game-grid");
+	},
 };
 </script>
 
@@ -258,12 +261,12 @@ export default {
 }
 
 #game-grid.light-mode {
-    #game-grid-labels > .game-grid-label {
-        color: $light-accent-color;
-    }
+	#game-grid-labels > .game-grid-label {
+		color: $light-accent-color;
+	}
 
-    #separator {
-        background: $light-accent-color;
-    }
+	#separator {
+		background: $light-accent-color;
+	}
 }
 </style>

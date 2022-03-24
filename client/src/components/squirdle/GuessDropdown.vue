@@ -122,6 +122,19 @@ export default {
 			else if (this.guesses.includes(this.guess)) return DUPLICATE;
 			else return VALID;
 		},
+		// Check hard mode criteria - only call in hard mode
+		validHardModeGuess: function (pokemon) {
+			// Check past correct tiles
+			if (this.correct[0] && !this.$isCorrectGen(pokemon, this.target))
+				return false;
+			if (this.correct[1] && !this.$isCorrectType(pokemon, this.target))
+				return false;
+			if (this.correct[2] && !this.$isCorrectStage(pokemon, this.target))
+				return false;
+			if (this.correct[3] && !this.$isCorrectLength(pokemon, this.target))
+				return false;
+			return true;
+		},
 		// On submit
 		submitGuess: function () {
 			// Standardize capitalization
@@ -140,6 +153,12 @@ export default {
 			else {
 				// Guess is valid
 				axios.get(`/api/pokemon/${this.guess}`).then((response) => {
+					const pokemon = response.data;
+					// Perform hard mode check
+					if (this.hardMode && !this.validHardModeGuess(pokemon)) {
+						this.onError(INVALID);
+						return;
+					}
 					// Add to prior guesses
 					this.guesses.push(this.guess);
 					// Clear guess
@@ -150,7 +169,7 @@ export default {
 					).placeholder = `Guess ${
 						this.numGuesses + 2
 					} of ${MAX_GUESSES}`;
-					this.onSubmit(response.data);
+					this.onSubmit(pokemon);
 				});
 			}
 		},
@@ -160,9 +179,11 @@ export default {
 		...mapGetters([
 			"lightMode",
 			"hardMode",
+			"correct",
 			"gameOver",
 			"numGuesses",
 			"pokemon",
+			"target",
 		]),
 	},
 	watch: {

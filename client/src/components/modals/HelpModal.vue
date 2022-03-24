@@ -74,7 +74,7 @@
 							class="demo-sprite"
 						/>
 					</div>
-					<div class="hint tile">I</div>
+					<div class="close tile">I</div>
 					<div class="tile">
 						<img
 							src="https://www.serebii.net/pokedex-bw/type/fire.gif"
@@ -153,7 +153,7 @@
 						/>
 					</div>
 					<div class="tile">I</div>
-					<div class="hint tile">
+					<div class="close tile">
 						<img
 							src="https://www.serebii.net/pokedex-bw/type/fire.gif"
 							alt="Type 1 Plaque"
@@ -237,7 +237,7 @@
 							alt="Type 1 Plaque"
 						/>
 					</div>
-					<div class="hint tile">I</div>
+					<div class="close tile">I</div>
 					<div class="tile"><p>10</p></div>
 				</div>
 				<p class="help-text">
@@ -317,7 +317,7 @@
 						/>
 					</div>
 					<div class="tile">I</div>
-					<div class="hint tile">10</div>
+					<div class="close tile">10</div>
 				</div>
 				<p class="help-text">
 					The length of the mystery Pokémon's name is within 2 of your
@@ -571,9 +571,9 @@ export default {
 				}
 			}
 
-			.hint {
+			.close {
 				border: none;
-				background: $hint-color;
+				background: $close-color;
 			}
 
 			.correct {
