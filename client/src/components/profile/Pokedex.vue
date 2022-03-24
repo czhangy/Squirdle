@@ -8,7 +8,7 @@
 </template>
 
 <script>
-// Vuex
+// Vuex for data and light mode
 import { mapGetters } from "vuex";
 
 export default {
@@ -46,16 +46,20 @@ export default {
 		},
 	},
 	computed: {
-		// Map Vuex function
-		...mapGetters(["pokemon"]),
+		// Map Vuex functions for light mode and data
+		...mapGetters(["lightMode", "pokemon"]),
 	},
 	watch: {
+		// Set sprites when page initially loads
 		caught: function () {
-			// Set sprites when page initially loads
 			this.$nextTick(() => this.setSprites());
+		},
+		lightMode: function () {
+			this.$updateLightMode("#pokedex");
 		},
 	},
 	mounted: function () {
+		this.$updateLightMode("#pokedex");
 		// Set sprites when page initially loads
 		this.$nextTick(() => this.setSprites());
 	},
@@ -102,6 +106,12 @@ export default {
 			color: $accent-color;
 		}
 	}
+}
+
+#pokedex.light-mode {
+    .pokedex-entry > .alt-entry {
+        color: $light-accent-color;
+    }
 }
 
 ::-webkit-scrollbar {

@@ -44,6 +44,9 @@
 </template>
 
 <script>
+// Vuex for light mode
+import { mapGetters } from "vuex";
+
 // Import components
 import HelpModal from "@/components/modals/HelpModal.vue";
 import PreviewModal from "@/components/modals/PreviewModal.vue";
@@ -67,20 +70,33 @@ export default {
 		openSettingsModal: function () {
 			this.$refs["settings-modal"].openModal();
 		},
+        // Pop up help modal
+		createPopup: function () {
+            // Automatically pop up how to play on game screen on first play
+			if (JSON.parse(localStorage.seen).length === 0)
+				setTimeout(() => {
+					this.openHelpModal();
+				}, 500);
+		},
+	},
+	computed: {
+		// Map Vuex function for light mode
+		...mapGetters(["lightMode"]),
+	},
+	watch: {
+		lightMode: function () {
+			this.$updateLightMode('#navbar');
+		},
 	},
 	mounted: function () {
-		// Automatically pop up how to play on game screen on first play
-		if (JSON.parse(localStorage.seen).length === 0)
-			setTimeout(() => {
-				this.openHelpModal();
-			}, 500);
+		this.createPopup();
+        this.$updateLightMode('#navbar');
 	},
 };
 </script>
 
 <style lang="scss" scoped>
 #navbar {
-	background: $main-color;
 	max-width: 100vw;
 	height: $navbar-height;
 	border-bottom: 2px solid $accent-color;
@@ -116,13 +132,25 @@ export default {
 		font-family: $alt-font;
 		font-weight: bold;
 		font-size: 2rem;
-        line-height: 2rem;
+		line-height: 2rem;
 		letter-spacing: 5px;
 
 		#home-link {
 			color: $accent-color;
 			text-decoration: none;
 		}
+	}
+}
+
+#navbar.light-mode {
+	border-bottom: 2px solid $light-accent-color;
+
+	.button-container > .nav-button > .button-icon {
+		filter: invert(100%);
+	}
+
+	#site-title > #home-link {
+		color: $light-accent-color;
 	}
 }
 

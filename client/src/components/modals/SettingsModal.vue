@@ -2,12 +2,14 @@
 	<Modal id="settings-modal" ref="settings-modal" modalID="settings-modal">
 		<div id="settings">
 			<h2 id="settings-header">SETTINGS</h2>
-			<p class="settings-text">
-				lol imagine if i had any settings to implement
-				<br />
-				<br />
-				Actual settings coming soon!
-			</p>
+			<div class="setting">
+				<p class="settings-text">Light Mode</p>
+				<Slider :onClick="toggleLightMode" />
+			</div>
+			<div class="setting">
+				<p class="settings-text">Hard Mode</p>
+				<Slider :onClick="toggleHardMode" />
+			</div>
 			<div id="settings-buttons">
 				<router-link
 					to="/profile"
@@ -35,6 +37,9 @@
 </template>
 
 <script>
+// Vuex for settings persistence
+import { mapMutations, mapGetters } from "vuex";
+
 // Import global components
 import Modal from "@/components/global/Modal.vue";
 import Slider from "@/components/global/Slider.vue";
@@ -43,15 +48,51 @@ export default {
 	name: "SettingsModal",
 	components: {
 		Modal,
-        Slider
+		Slider,
 	},
 	methods: {
+		// Map Vuex functions for light/hard mode toggle
+		...mapMutations(["setLightMode", "setHardMode"]),
 		// Modal controls
 		openModal: function () {
 			this.$refs["settings-modal"].openModal();
 		},
 		closeModal: function () {
 			this.$refs["settings-modal"].closeModal();
+		},
+		// Slider control
+		toggleLightMode: function () {
+			const slider = document.getElementsByClassName("slider")[0];
+			// Toggle on
+			if (!this.lightMode) {
+				slider.classList.add("active");
+				localStorage.setItem("lightMode", "true");
+				this.setLightMode(true);
+			} else {
+				slider.classList.remove("active");
+				localStorage.setItem("lightMode", "false");
+				this.setLightMode(false);
+			}
+		},
+		toggleHardMode: function () {
+			const slider = document.getElementsByClassName("slider")[1];
+			// Toggle on
+			if (!this.hardMode) {
+				slider.classList.add("active");
+				localStorage.setItem("hardMode", "true");
+				this.setHardMode(true);
+			} else {
+				slider.classList.remove("active");
+				localStorage.setItem("hardMode", "false");
+				this.setHardMode(false);
+			}
+		},
+		// Initializes sliders to stored position
+		initSliders: function () {
+			const sliders = document.getElementsByClassName("slider");
+			// Use local storage as Vuex isn't updated at mount
+			if (localStorage.lightMode) sliders[0].classList.add("active");
+			if (localStorage.hardMode) sliders[1].classList.add("active");
 		},
 		// Share site
 		handleShare: function () {
@@ -67,6 +108,20 @@ export default {
 			);
 		},
 	},
+	computed: {
+		// Map Vuex functions for light/hard mode checking
+		...mapGetters(["lightMode", "hardMode"]),
+	},
+	watch: {
+		lightMode: function () {
+			this.$updateLightMode("#settings");
+		},
+	},
+	mounted: function () {
+		// Set sliders to initial position
+		this.initSliders();
+		this.$updateLightMode("#settings");
+	},
 };
 </script>
 
@@ -74,19 +129,28 @@ export default {
 #settings {
 	height: 100%;
 	width: 100%;
+	color: $accent-color;
 
 	#settings-header {
 		font-family: $alt-font;
 		font-size: 1.5rem;
 		line-height: 1.5rem;
 		letter-spacing: 2px;
-		color: $accent-color;
 		text-decoration: underline;
-		margin-bottom: 16px;
+		margin-bottom: 32px;
 	}
 
-	.settings-text {
-		color: $accent-color;
+	.setting {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 16px;
+
+		.settings-text {
+			text-align: left;
+			letter-spacing: 1px;
+			width: 30%;
+		}
 	}
 
 	#settings-buttons {
@@ -126,7 +190,7 @@ export default {
 			font-family: $alt-font;
 			font-size: 1.2rem;
 			line-height: 1.2rem;
-			background: $main-color;
+			background: transparent;
 			border: 2px solid $accent-color;
 			// Center button text
 			display: flex;
@@ -136,12 +200,32 @@ export default {
 	}
 }
 
+#settings.light-mode {
+	color: $light-accent-color;
+
+	#settings-buttons {
+		#share-button {
+			#share-icon {
+				filter: invert(100%);
+			}
+
+			#share-text {
+				color: $light-accent-color;
+			}
+		}
+
+		.settings-button {
+			color: $light-accent-color;
+			border-color: $light-accent-color;
+		}
+	}
+}
+
 // Sticky hover
 @media (hover: hover) {
 	#settings > #settings-buttons {
 		.settings-button:hover {
 			background: $accent-color;
-			border: none;
 			color: $main-color;
 		}
 
@@ -149,10 +233,18 @@ export default {
 			#share-icon {
 				filter: invert(100%);
 			}
+		}
+	}
 
-			#share-text {
-				// Negate bounce from border
-				top: -22px;
+	#settings.light-mode > #settings-buttons {
+		.settings-button:hover {
+			background: $light-accent-color;
+			color: $light-main-color;
+		}
+
+		#share-button:hover {
+			#share-icon {
+				filter: none;
 			}
 		}
 	}

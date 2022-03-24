@@ -376,6 +376,9 @@
 </template>
 
 <script>
+// Vuex for light mode
+import { mapGetters } from "vuex";
+
 // Import global component
 import Modal from "@/components/global/Modal.vue";
 
@@ -417,6 +420,18 @@ export default {
 				}, 50);
 			}, 250);
 		},
+	},
+	computed: {
+		// Map Vuex function for light mode
+		...mapGetters(["lightMode"]),
+	},
+	watch: {
+		lightMode: function () {
+			this.$updateLightMode("#help");
+		},
+	},
+	mounted: function () {
+		this.$updateLightMode("#help");
 	},
 };
 </script>
@@ -467,13 +482,13 @@ export default {
 		transition: all 0.25s ease;
 		opacity: 0;
 		display: none;
+		color: $accent-color;
 
 		#help-header {
 			font-family: $alt-font;
 			line-height: 1.5rem;
 			font-size: 1.5rem;
 			letter-spacing: 2px;
-			color: $accent-color;
 			text-decoration: underline;
 			margin-bottom: 32px;
 		}
@@ -485,7 +500,6 @@ export default {
 			width: 85%;
 
 			.tile {
-				border: 1px solid $tile-color;
 				height: 45px;
 				width: 45px;
 				display: flex;
@@ -496,6 +510,7 @@ export default {
 				color: white;
 				line-height: 45px;
 				font-family: $alt-font;
+				background: $tile-color;
 
 				.demo-sprite {
 					margin-top: -30px;
@@ -514,12 +529,10 @@ export default {
 		}
 
 		.help-text {
-			color: $accent-color;
 			font-size: 0.9rem;
 		}
 
 		.credit-text {
-			color: $accent-color;
 			font-size: 1.1rem;
 			line-height: 1.5rem;
 
@@ -560,6 +573,28 @@ export default {
 
 	.display {
 		display: block;
+	}
+}
+
+#help.light-mode {
+	.page-nav > .nav-arrow {
+		border-color: $light-accent-color;
+	}
+
+	.page {
+		color: $light-accent-color;
+
+		.credit-text > .text-link {
+			color: $light-accent-color;
+		}
+
+		#social-links > .icon-link > .social-icon {
+			filter: invert(100%);
+		}
+
+		#separator {
+			background: $light-accent-color;
+		}
 	}
 }
 </style>

@@ -196,7 +196,7 @@ export default {
 	},
 	computed: {
 		// Map Vuex functions
-		...mapGetters(["gameOver", "numGuesses", "target"]),
+		...mapGetters(["lightMode", "gameOver", "numGuesses", "target"]),
 	},
 	watch: {
 		gameOver: function () {
@@ -207,7 +207,13 @@ export default {
 				this.numDualtypes = 0;
 			}
 		},
+        lightMode: function () {
+            this.$updateLightMode('#game-grid');
+        }
 	},
+    mounted: function () {
+        this.$updateLightMode('#game-grid');
+    }
 };
 </script>
 
@@ -249,5 +255,15 @@ export default {
 		// Disable scrollbar
 		display: none;
 	}
+}
+
+#game-grid.light-mode {
+    #game-grid-labels > .game-grid-label {
+        color: $light-accent-color;
+    }
+
+    #separator {
+        background: $light-accent-color;
+    }
 }
 </style>

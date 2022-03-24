@@ -10,6 +10,9 @@
 </template>
 
 <script>
+// Vuex for light mode
+import { mapGetters } from "vuex";
+
 // Import local components
 import Medal from "@/components/profile/Medal.vue";
 
@@ -320,9 +323,29 @@ export default {
 			)
 				this.obtained[31] = true;
 		},
+		updateLightMode: function () {
+			const medals = document.getElementsByClassName("medal");
+			if (JSON.parse(localStorage.lightMode))
+				for (let i = 0; i < medals.length; i++)
+					medals[i].classList.add("light-mode");
+            else
+                for (let i = 0; i < medals.length; i++)
+					medals[i].classList.remove("light-mode");
+		},
+	},
+	computed: {
+		// Map Vuex functions for light mode
+		...mapGetters(["lightMode"]),
+	},
+	watch: {
+		lightMode: function () {
+			this.updateLightMode();
+		},
 	},
 	mounted: function () {
 		this.checkMedalReqs();
+        // Next tick to style after re-rendering
+        this.$nextTick(() => this.updateLightMode());
 	},
 };
 </script>

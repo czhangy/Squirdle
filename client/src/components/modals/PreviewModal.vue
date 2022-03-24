@@ -43,7 +43,7 @@
 </template>
 
 <script>
-// Vuex
+// Vuex for image rendering and light mode
 import { mapGetters } from "vuex";
 
 // Import global component
@@ -82,11 +82,10 @@ export default {
 					"target-secondary-type"
 				).src = `https://www.serebii.net/pokedex-bw/type/${this.target.type_2}.gif`;
 		},
-        
 	},
 	computed: {
-		// Map Vuex functions
-		...mapGetters(["gameOver", "target"]),
+		// Map Vuex functions for light mode and image rendering
+		...mapGetters(["lightMode", "gameOver", "target"]),
 	},
 	watch: {
 		// Dynamically set images when target is generated
@@ -99,6 +98,12 @@ export default {
 		gameOver: function () {
 			if (this.gameOver) this.openModal();
 		},
+		lightMode: function () {
+			this.$updateLightMode("#preview");
+		},
+	},
+	mounted: function () {
+		this.$updateLightMode("#preview");
 	},
 };
 </script>
@@ -107,12 +112,12 @@ export default {
 #preview {
 	height: 100%;
 	width: 100%;
+	color: $accent-color;
 
 	#preview-header {
 		font-family: $alt-font;
 		font-size: 1.2rem;
 		line-height: 1.2rem;
-		color: $accent-color;
 		text-decoration: underline;
 		margin-bottom: 16px;
 	}
@@ -131,7 +136,6 @@ export default {
 	#target-name {
 		font-family: $alt-font;
 		font-size: 1.2rem;
-		color: $accent-color;
 		letter-spacing: 2px;
 	}
 
@@ -163,5 +167,9 @@ export default {
 	.hidden {
 		display: none;
 	}
+}
+
+#preview.light-mode {
+	color: $light-accent-color;
 }
 </style>

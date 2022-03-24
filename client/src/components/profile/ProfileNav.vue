@@ -11,6 +11,9 @@
 </template>
 
 <script>
+// Vuex for light mode
+import { mapGetters } from "vuex";
+
 export default {
 	name: "ProfileNav",
     props: {
@@ -33,6 +36,18 @@ export default {
             this.onClick("medals");
         },
     },
+    computed: {
+		// Map Vuex function for light mode
+		...mapGetters(["lightMode"]),
+	},
+	watch: {
+		lightMode: function () {
+			this.$updateLightMode("#profile-nav");
+		},
+	},
+	mounted: function () {
+		this.$updateLightMode("#profile-nav");
+	},
 };
 </script>
 
@@ -58,6 +73,8 @@ export default {
 			border: 2px solid $accent-color;
 			border-bottom: none;
             transition: all 0.2s ease;
+            // Disable transitions on color change
+            transition: color 0s ease;
             // Center button text
 			display: flex;
 			justify-content: center;
@@ -67,7 +84,6 @@ export default {
 		.active-button {
 			background: $accent-color;
 			color: $main-color;
-			border: none;
 		}
 	}
 
@@ -76,6 +92,25 @@ export default {
 		background: $accent-color;
 		border: none;
 	}
+}
+
+#profile-nav.light-mode {
+    #nav-buttons {
+        .nav-button {
+            background: $light-main-color;
+            color: $light-accent-color;
+            border-color: $light-accent-color;
+        }
+
+        .active-button {
+            background: $light-accent-color;
+            color: $light-main-color;
+        }
+    }
+
+    #separator {
+        background: $light-accent-color;
+    }
 }
 
 // Sticky hover

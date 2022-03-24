@@ -16,6 +16,9 @@
 </template>
 
 <script>
+// Vuex for light mode
+import { mapGetters } from "vuex";
+
 export default {
 	name: "ProfileStats",
 	props: {
@@ -33,6 +36,18 @@ export default {
 			streak: localStorage.streak,
 		};
 	},
+	computed: {
+		// Map Vuex function for light mode
+		...mapGetters(["lightMode"]),
+	},
+	watch: {
+		lightMode: function () {
+			this.$updateLightMode("#profile-stats");
+		},
+	},
+	mounted: function () {
+		this.$updateLightMode("#profile-stats");
+	},
 };
 </script>
 
@@ -44,7 +59,7 @@ export default {
 	justify-content: space-between;
 
 	.profile-stat {
-		color: white;
+		color: $accent-color;
 
 		.stat-label {
 			font-size: 2rem;
@@ -63,6 +78,12 @@ export default {
 	}
 }
 
+#profile-stats.light-mode {
+	.profile-stat {
+		color: $light-accent-color;
+	}
+}
+
 // Mobile layout
 @media screen and (max-width: $mobile) {
 	#profile-stats {
@@ -71,23 +92,23 @@ export default {
 
 		.profile-stat {
 			margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 
 			.stat-label {
 				font-size: 1.5rem;
 				margin-bottom: 0;
-                width: 120px;
-                text-align: right;
-                margin-right: 16px;
+				width: 120px;
+				text-align: right;
+				margin-right: 16px;
 			}
 
-            .stat-count {
-                font-size: 2rem;
-                line-height: 2rem;
-                width: 50px;
-            }
+			.stat-count {
+				font-size: 2rem;
+				line-height: 2rem;
+				width: 50px;
+			}
 		}
 	}
 }
