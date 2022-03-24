@@ -93,7 +93,7 @@ export default {
 
 .medal.light-mode {
     .medal-text {
-        color: $light-accent-color;
+        color: $light-accent-color !important;
     }
 }
 </style>

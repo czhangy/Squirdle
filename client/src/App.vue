@@ -74,7 +74,7 @@ html {
 }
 
 html.light-mode {
-	// Handle background on overscroll
+	// Handle background on overscroll, !important for mobile
 	background: $light-main-color !important;
 
 	#app {
