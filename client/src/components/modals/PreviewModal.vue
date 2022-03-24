@@ -146,7 +146,7 @@ export default {
 		width: 75%;
 
 		.target-tile {
-			border: 1px solid $tile-color;
+			background: $tile-color;
 			height: 50px;
 			width: 50px;
 			display: flex;
