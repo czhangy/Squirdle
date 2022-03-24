@@ -75,7 +75,7 @@ html {
 
 html.light-mode {
 	// Handle background on overscroll
-	background: $light-main-color;
+	background: $light-main-color !important;
 
 	#app {
 		background: $light-main-color;
