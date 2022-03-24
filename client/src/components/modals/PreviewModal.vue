@@ -1,7 +1,7 @@
 <template>
 	<Modal id="preview-modal" ref="preview-modal" modalID="preview-modal">
 		<div id="preview">
-			<h2 id="preview-header">Today's Pokémon</h2>
+			<h2 id="preview-header">Current Pokémon</h2>
 			<img
 				id="target-sprite"
 				alt="Target Pokemon"
@@ -18,6 +18,14 @@
 				{{ target.name }}
 			</p>
 			<p v-else id="target-name">???</p>
+			<div id="preview-labels" :class="gameOver ? 'show' : 'hidden'">
+				<label class="preview-label">Guess</label>
+				<label class="preview-label">Gen</label>
+				<label class="preview-label">Type</label>
+				<label class="preview-label">Stage</label>
+				<label class="preview-label">Len.</label>
+			</div>
+			<hr id="separator" :class="gameOver ? 'show' : 'hidden'" />
 			<div
 				v-if="target"
 				id="tile-container"
@@ -139,6 +147,30 @@ export default {
 		letter-spacing: 2px;
 	}
 
+    #preview-labels {
+		display: flex;
+		justify-content: space-evenly;
+        width: 75%;
+        margin: 0 auto;
+        margin-top: 8px;
+
+		.preview-label {
+			color: $accent-color;
+			letter-spacing: 1px;
+			width: 20%;
+            font-size: 0.9rem;
+            text-align: center;
+		}
+	}
+
+	#separator {
+		height: 1px;
+		background: $accent-color;
+		margin: 8px auto;
+		border: none;
+        width: 75%;
+	}
+
 	#tile-container {
 		justify-content: space-between;
 		margin: 8px auto;
@@ -146,7 +178,7 @@ export default {
 		width: 75%;
 
 		.target-tile {
-			border: 1px solid $tile-color;
+			background: $tile-color;
 			height: 50px;
 			width: 50px;
 			display: flex;
@@ -171,5 +203,13 @@ export default {
 
 #preview.light-mode {
 	color: $light-accent-color;
+
+    #preview-labels > .preview-label {
+        color: $light-accent-color;
+    }
+
+    #separator {
+        background: $light-accent-color;
+    }
 }
 </style>

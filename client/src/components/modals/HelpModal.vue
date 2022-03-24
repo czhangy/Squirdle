@@ -32,6 +32,14 @@
 			</div>
 			<div id="page-2" class="page right-page">
 				<h2 id="help-header">EXAMPLES</h2>
+				<div class="help-labels">
+					<label class="help-label">Guess</label>
+					<label class="help-label">Gen</label>
+					<label class="help-label">Type</label>
+					<label class="help-label">Stage</label>
+					<label class="help-label">Len.</label>
+				</div>
+				<hr class="labels-separator" />
 				<div class="tile-container">
 					<div class="tile">
 						<img
@@ -103,6 +111,14 @@
 			</div>
 			<div id="page-3" class="page right-page">
 				<h2 id="help-header">EXAMPLES</h2>
+				<div class="help-labels">
+					<label class="help-label">Guess</label>
+					<label class="help-label">Gen</label>
+					<label class="help-label">Type</label>
+					<label class="help-label">Stage</label>
+					<label class="help-label">Len.</label>
+				</div>
+				<hr class="labels-separator" />
 				<div class="tile-container">
 					<div class="tile">
 						<img
@@ -172,6 +188,14 @@
 			</div>
 			<div id="page-4" class="page right-page">
 				<h2 id="help-header">EXAMPLES</h2>
+				<div class="help-labels">
+					<label class="help-label">Guess</label>
+					<label class="help-label">Gen</label>
+					<label class="help-label">Type</label>
+					<label class="help-label">Stage</label>
+					<label class="help-label">Len.</label>
+				</div>
+				<hr class="labels-separator" />
 				<div class="tile-container">
 					<div class="tile">
 						<img
@@ -243,6 +267,14 @@
 			</div>
 			<div id="page-5" class="page right-page">
 				<h2 id="help-header">EXAMPLES</h2>
+				<div class="help-labels">
+					<label class="help-label">Guess</label>
+					<label class="help-label">Gen</label>
+					<label class="help-label">Type</label>
+					<label class="help-label">Stage</label>
+					<label class="help-label">Len.</label>
+				</div>
+				<hr class="labels-separator" />
 				<div class="tile-container">
 					<div class="tile">
 						<img
@@ -491,6 +523,29 @@ export default {
 			letter-spacing: 2px;
 			text-decoration: underline;
 			margin-bottom: 32px;
+		}
+
+		.help-labels {
+			display: flex;
+			justify-content: space-evenly;
+			margin: 0 auto;
+            width: 85%;
+
+			.help-label {
+				color: $accent-color;
+				letter-spacing: 1px;
+				width: 20%;
+				font-size: 0.9rem;
+				text-align: center;
+			}
+		}
+
+		.labels-separator {
+			height: 1px;
+			background: $accent-color;
+			margin: 8px auto;
+			border: none;
+            width: 85%;
 		}
 
 		.tile-container {
