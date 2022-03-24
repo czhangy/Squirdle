@@ -80,10 +80,15 @@ export default {
 		},
 		// Dropdown controls
 		openDropdown: function () {
-			document
-				.getElementById("dropdown-overlay")
-				.classList.add("show-overlay");
-			document.getElementById("dropdown").classList.add("show-dropdown");
+			// No dropdown on hard mode
+			if (!this.hardMode) {
+				document
+					.getElementById("dropdown-overlay")
+					.classList.add("show-overlay");
+				document
+					.getElementById("dropdown")
+					.classList.add("show-dropdown");
+			}
 		},
 		closeDropdown: function () {
 			document
@@ -152,7 +157,13 @@ export default {
 	},
 	computed: {
 		// Map Vuex function
-		...mapGetters(["lightMode", "gameOver", "numGuesses", "pokemon"]),
+		...mapGetters([
+			"lightMode",
+			"hardMode",
+			"gameOver",
+			"numGuesses",
+			"pokemon",
+		]),
 	},
 	watch: {
 		filteredList: function () {
@@ -323,20 +334,20 @@ export default {
 				background: $light-focus-color;
 			}
 
-            &::placeholder {
-                color: lighten(grey, 20);
-            }
+			&::placeholder {
+				color: lighten(grey, 20);
+			}
 		}
 
-        .dropdown > .dropdown-option {
-            background: $light-main-color;
-            color: $light-accent-color;
-        }
+		.dropdown > .dropdown-option {
+			background: $light-main-color;
+			color: $light-accent-color;
+		}
 	}
 
-    #guess-button {
-        color: $light-accent-color;
-    }
+	#guess-button {
+		color: $light-accent-color;
+	}
 }
 
 // Sticky hover
@@ -351,7 +362,7 @@ export default {
 		}
 	}
 
-    #guess-dropdown.light-mode {
+	#guess-dropdown.light-mode {
 		#dropdown-container > .dropdown > .dropdown-option:hover {
 			background: $light-focus-color;
 		}

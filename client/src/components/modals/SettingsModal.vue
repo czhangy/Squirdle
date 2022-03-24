@@ -63,36 +63,26 @@ export default {
 		// Slider control
 		toggleLightMode: function () {
 			const slider = document.getElementsByClassName("slider")[0];
-			// Toggle on
-			if (!this.lightMode) {
-				slider.classList.add("active");
-				localStorage.setItem("lightMode", "true");
-				this.setLightMode(true);
-			} else {
-				slider.classList.remove("active");
-				localStorage.setItem("lightMode", "false");
-				this.setLightMode(false);
-			}
+			// Toggle state
+			localStorage.setItem("lightMode", !this.lightMode);
+			this.setLightMode(!this.lightMode);
+            // Change slider display
+			if (this.lightMode) slider.classList.add("active");
+            else slider.classList.remove("active");
 		},
 		toggleHardMode: function () {
-            alert("This feature is a WIP");
-            return;
 			const slider = document.getElementsByClassName("slider")[1];
-			// Toggle on
-			if (!this.hardMode) {
-				slider.classList.add("active");
-				localStorage.setItem("hardMode", "true");
-				this.setHardMode(true);
-			} else {
-				slider.classList.remove("active");
-				localStorage.setItem("hardMode", "false");
-				this.setHardMode(false);
-			}
+			// Toggle state
+			localStorage.setItem("hardMode", !this.hardMode);
+			this.setHardMode(!this.hardMode);
+            // Change slider display
+			if (this.hardMode) slider.classList.add("active");
+            else slider.classList.remove("active");
 		},
 		// Initializes sliders to stored position
 		initSliders: function () {
 			const sliders = document.getElementsByClassName("slider");
-			// Use local storage as Vuex isn't updated at mount
+			// Use local storage since Vuex isn't updated at mount
 			if (JSON.parse(localStorage.lightMode))
 				sliders[0].classList.add("active");
 			if (JSON.parse(localStorage.hardMode))
