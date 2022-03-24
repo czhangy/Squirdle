@@ -173,7 +173,7 @@ export default {
 			let dropdown = document.getElementById("dropdown");
 			if (this.filteredList.length === 0)
 				dropdown.style.borderBottomWidth = "0";
-			else dropdown.style.borderBottomWidth = "2px";
+			else dropdown.style.borderBottomWidth = "1px";
 		},
 		guess: function () {
 			// Update filters on input
@@ -240,7 +240,7 @@ export default {
 			background: transparent;
 			height: var(--input-height);
 			width: 300px;
-			border: 2px solid $tile-color;
+			border: 1px solid $tile-color;
 			border-radius: 0;
 			font-family: $alt-font;
 			color: $accent-color;
@@ -260,7 +260,7 @@ export default {
 			width: 100%;
 			position: absolute;
 			overflow-y: scroll;
-			border: 2px solid $tile-color;
+			border: 1px solid $tile-color;
 			border-top: none;
 			// Initialize to hidden
 			border-bottom-width: 0;
@@ -273,7 +273,7 @@ export default {
 				cursor: pointer;
 				// Separators
 				border: none;
-				border-bottom: 2px solid $tile-color;
+				border-bottom: 1px solid $tile-color;
 				background: $main-color;
 				color: $accent-color;
 				font-family: $alt-font;
@@ -307,7 +307,7 @@ export default {
 	}
 
 	#guess-button {
-		border: 2px solid $tile-color;
+		border: 1px solid $tile-color;
 		border-left: none;
 		border-radius: 0;
 		height: var(--input-height);
