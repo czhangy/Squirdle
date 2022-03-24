@@ -18,6 +18,9 @@
 </template>
 
 <script>
+// Vuex for light mode
+import { mapGetters } from "vuex";
+
 // Import global constants
 import { INVALID, DUPLICATE } from "@/constants.js";
 
@@ -51,6 +54,18 @@ export default {
 			}, 750);
 		},
 	},
+    computed: {
+		// Map Vuex function for light mode
+		...mapGetters(["lightMode"]),
+	},
+	watch: {
+		lightMode: function () {
+			this.$updateLightMode('#error');
+		},
+	},
+	mounted: function () {
+        this.$updateLightMode('#error');
+	},
 };
 </script>
 
@@ -64,5 +79,11 @@ export default {
 		font-size: 1.5rem;
 		letter-spacing: 2px;
 	}
+}
+
+#error.light-mode {
+    #error-msg {
+        color: $light-accent-color;
+    }
 }
 </style>

@@ -176,7 +176,7 @@ export default {
 		},
 	},
 	mounted: async function () {
-		this.$initLightMode("#squirdle");
+		this.$updateLightMode("#squirdle");
 		// Initial fetch of all pokemon
 		if (this.pokemon.length === 0) await this.fetchPokemonList();
 		this.generateNewTarget(this.pokemon);

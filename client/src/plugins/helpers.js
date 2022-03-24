@@ -34,16 +34,7 @@ export default {
 			else if (name === "nidoran♂") return "nidoran_m";
 			else return name;
 		};
-		// Set light mode on component mount
-		app.config.globalProperties.$initLightMode = (component) => {
-			if (JSON.parse(localStorage.lightMode))
-				document.querySelector(component).classList.add("light-mode");
-			else
-				document
-					.querySelector(component)
-					.classList.remove("light-mode");
-		};
-		// Set light mode on settings change
+		// Set light mode on mount and watch
 		app.config.globalProperties.$updateLightMode = (component) => {
 			if (JSON.parse(localStorage.lightMode))
 				document.querySelector(component).classList.add("light-mode");

@@ -87,10 +87,10 @@ export default {
 				this.setHardMode(false);
 			}
 		},
-        // Initializes sliders to stored position
+		// Initializes sliders to stored position
 		initSliders: function () {
 			const sliders = document.getElementsByClassName("slider");
-            // Use local storage as Vuex isn't updated at mount
+			// Use local storage as Vuex isn't updated at mount
 			if (localStorage.lightMode) sliders[0].classList.add("active");
 			if (localStorage.hardMode) sliders[1].classList.add("active");
 		},
@@ -112,9 +112,15 @@ export default {
 		// Map Vuex functions for light/hard mode checking
 		...mapGetters(["lightMode", "hardMode"]),
 	},
+	watch: {
+		lightMode: function () {
+			this.$updateLightMode("#settings");
+		},
+	},
 	mounted: function () {
 		// Set sliders to initial position
-        this.initSliders();
+		this.initSliders();
+		this.$updateLightMode("#settings");
 	},
 };
 </script>
@@ -123,13 +129,13 @@ export default {
 #settings {
 	height: 100%;
 	width: 100%;
+	color: $accent-color;
 
 	#settings-header {
 		font-family: $alt-font;
 		font-size: 1.5rem;
 		line-height: 1.5rem;
 		letter-spacing: 2px;
-		color: $accent-color;
 		text-decoration: underline;
 		margin-bottom: 32px;
 	}
@@ -141,7 +147,6 @@ export default {
 		margin-bottom: 16px;
 
 		.settings-text {
-			color: $accent-color;
 			text-align: left;
 			letter-spacing: 1px;
 			width: 30%;
@@ -185,7 +190,7 @@ export default {
 			font-family: $alt-font;
 			font-size: 1.2rem;
 			line-height: 1.2rem;
-			background: $main-color;
+			background: transparent;
 			border: 2px solid $accent-color;
 			// Center button text
 			display: flex;
@@ -195,12 +200,32 @@ export default {
 	}
 }
 
+#settings.light-mode {
+	color: $light-accent-color;
+
+	#settings-buttons {
+		#share-button {
+			#share-icon {
+				filter: invert(100%);
+			}
+
+			#share-text {
+				color: $light-accent-color;
+			}
+		}
+
+		.settings-button {
+			color: $light-accent-color;
+			border-color: $light-accent-color;
+		}
+	}
+}
+
 // Sticky hover
 @media (hover: hover) {
 	#settings > #settings-buttons {
 		.settings-button:hover {
 			background: $accent-color;
-			border: none;
 			color: $main-color;
 		}
 
@@ -208,10 +233,18 @@ export default {
 			#share-icon {
 				filter: invert(100%);
 			}
+		}
+	}
 
-			#share-text {
-				// Negate bounce from border
-				top: -22px;
+	#settings.light-mode > #settings-buttons {
+		.settings-button:hover {
+			background: $light-accent-color;
+			color: $light-main-color;
+		}
+
+		#share-button:hover {
+			#share-icon {
+				filter: none;
 			}
 		}
 	}

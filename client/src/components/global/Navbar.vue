@@ -90,7 +90,7 @@ export default {
 	},
 	mounted: function () {
 		this.createPopup();
-        this.$initLightMode('#navbar');
+        this.$updateLightMode('#navbar');
 	},
 };
 </script>

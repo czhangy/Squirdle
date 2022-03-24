@@ -10,7 +10,7 @@
 export default {
 	name: "PageNotFound",
 	mounted: function () {
-		this.$initLightMode('#page-not-found');
+		this.$updateLightMode('#page-not-found');
 	},
 };
 </script>
