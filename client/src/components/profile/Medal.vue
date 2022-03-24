@@ -63,9 +63,9 @@ export default {
 	}
 
 	.medal-text {
-		color: white;
+		color: $accent-color;
 		text-align: left;
-		filter: brightness(30%);
+		
 		width: 70%;
 
 		.medal-title {
@@ -81,12 +81,19 @@ export default {
 }
 
 .obtained {
+    // Separate filters so the borders aren't dimmed
 	.medal-icon {
 		filter: brightness(100%);
 	}
 
     .medal-text {
         filter: brightness(100%);
+    }
+}
+
+.medal.light-mode {
+    .medal-text {
+        color: $light-accent-color;
     }
 }
 </style>

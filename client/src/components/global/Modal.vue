@@ -32,7 +32,7 @@ export default {
 	},
 	methods: {
         // Set light mode on mount
-		initLightMode: function () {
+		updateLightMode: function () {
 			const modal =
 				document.getElementsByClassName("modal")[this.modalID];
 			if (JSON.parse(localStorage.lightMode))
@@ -59,14 +59,11 @@ export default {
 	},
 	watch: {
 		lightMode: function () {
-			const modal =
-				document.getElementsByClassName("modal")[this.modalID];
-			if (this.lightMode) modal.classList.add("light-mode");
-			else modal.classList.remove("light-mode");
+			this.updateLightMode();
 		},
 	},
 	mounted: function () {
-		this.initLightMode();
+		this.updateLightMode();
 	},
 };
 </script>
