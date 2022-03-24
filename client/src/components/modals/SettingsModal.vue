@@ -75,6 +75,8 @@ export default {
 			}
 		},
 		toggleHardMode: function () {
+            alert("This feature is a WIP");
+            return;
 			const slider = document.getElementsByClassName("slider")[1];
 			// Toggle on
 			if (!this.hardMode) {

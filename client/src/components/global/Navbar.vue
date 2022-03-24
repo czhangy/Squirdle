@@ -73,7 +73,7 @@ export default {
         // Pop up help modal
 		createPopup: function () {
             // Automatically pop up how to play on game screen on first play
-			if (JSON.parse(localStorage.seen).length === 0)
+			if (!localStorage.seen)
 				setTimeout(() => {
 					this.openHelpModal();
 				}, 500);

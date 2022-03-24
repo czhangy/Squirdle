@@ -147,19 +147,19 @@ export default {
 		letter-spacing: 2px;
 	}
 
-    #preview-labels {
+	#preview-labels {
 		display: flex;
 		justify-content: space-evenly;
-        width: 75%;
-        margin: 0 auto;
-        margin-top: 8px;
+		width: 75%;
+		margin: 0 auto;
+		margin-top: 8px;
 
 		.preview-label {
 			color: $accent-color;
 			letter-spacing: 1px;
 			width: 20%;
-            font-size: 0.9rem;
-            text-align: center;
+			font-size: 0.9rem;
+			text-align: center;
 		}
 	}
 
@@ -168,7 +168,7 @@ export default {
 		background: $accent-color;
 		margin: 8px auto;
 		border: none;
-        width: 75%;
+		width: 75%;
 	}
 
 	#tile-container {
@@ -196,7 +196,8 @@ export default {
 		display: flex;
 	}
 
-	.hidden {
+	.hidden,
+	#preview-labels.hidden {
 		display: none;
 	}
 }
@@ -204,12 +205,12 @@ export default {
 #preview.light-mode {
 	color: $light-accent-color;
 
-    #preview-labels > .preview-label {
-        color: $light-accent-color;
-    }
+	#preview-labels > .preview-label {
+		color: $light-accent-color;
+	}
 
-    #separator {
-        background: $light-accent-color;
-    }
+	#separator {
+		background: $light-accent-color;
+	}
 }
 </style>

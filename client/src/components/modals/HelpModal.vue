@@ -532,7 +532,6 @@ export default {
             width: 85%;
 
 			.help-label {
-				color: $accent-color;
 				letter-spacing: 1px;
 				width: 20%;
 				font-size: 0.9rem;
@@ -638,6 +637,10 @@ export default {
 
 	.page {
 		color: $light-accent-color;
+
+        .labels-separator {
+            background: $light-accent-color;
+        }
 
 		.credit-text > .text-link {
 			color: $light-accent-color;

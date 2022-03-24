@@ -33,7 +33,7 @@ export default {
 	},
 	data() {
 		return {
-			streak: localStorage.streak,
+			streak: localStorage.streak ? localStorage.streak : 0,
 		};
 	},
 	computed: {

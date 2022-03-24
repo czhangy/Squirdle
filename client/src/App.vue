@@ -42,6 +42,7 @@ export default {
 	},
 	mounted: function () {
 		this.restoreGameState();
+        this.$updateLightMode('html');
 	},
 };
 </script>
