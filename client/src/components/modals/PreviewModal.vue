@@ -1,7 +1,7 @@
 <template>
 	<Modal id="preview-modal" ref="preview-modal" modalID="preview-modal">
 		<div id="preview">
-			<h2 id="preview-header">Today's Pokémon</h2>
+			<h2 id="preview-header">Current Pokémon</h2>
 			<img
 				id="target-sprite"
 				alt="Target Pokemon"
