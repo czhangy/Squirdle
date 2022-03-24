@@ -6,7 +6,9 @@
 			:onError="displayError"
 			:onSubmit="handleGuess"
 		/>
-		<button v-else id="reset-button" @click="handleGameReset">Reset</button>
+		<button v-else id="reset-button" @click="handleGameReset">
+			<img src="@/assets/icons/reset.png" alt="" id="reset-icon" />Reset
+		</button>
 		<GameGrid ref="game-grid" />
 	</div>
 </template>
@@ -163,7 +165,7 @@ export default {
 	computed: {
 		// Map Vuex functions
 		...mapGetters([
-            "lightMode",
+			"lightMode",
 			"numGuesses",
 			"gameOver",
 			"pokemon",
@@ -199,8 +201,19 @@ export default {
 		line-height: 2rem;
 		border: 2px solid $accent-color;
 		background: transparent;
+        margin: 0 auto;
 		margin-bottom: 36px;
 		cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        #reset-icon {
+            height: 36px;
+            filter: invert(100%);
+            margin-right: 20px;
+        }
+
 	}
 }
 
@@ -208,6 +221,10 @@ export default {
 	#reset-button {
 		color: $light-accent-color;
 		border: 2px solid $light-accent-color;
+
+        #reset-icon {
+            filter: none;
+        }
 	}
 }
 
@@ -229,12 +246,20 @@ export default {
 		background: $accent-color;
 		border: none;
 		color: $main-color;
+
+        #reset-icon {
+            filter: none;
+        }
 	}
 
 	#squirdle.light-mode > #reset-button:hover {
 		background: $light-accent-color;
 		border: none;
 		color: $light-main-color;
+
+        #reset-icon {
+            filter: invert(100%);
+        }
 	}
 }
 </style>
