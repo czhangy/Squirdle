@@ -4,6 +4,9 @@
 </template>
 
 <script>
+// Vuex
+import { mapMutations } from "vuex";
+
 // Import global component
 import Navbar from "@/components/global/Navbar.vue";
 
@@ -12,10 +15,26 @@ export default {
 	components: {
 		Navbar,
 	},
+	methods: {
+		// Map Vuex functions
+		...mapMutations(["setLightMode", "setHardMode"]),
+		// Set game state based on local storage
+		restoreGameState: function () {
+			// Restore light mode
+			if (localStorage.lightMode)
+				this.setLightMode(JSON.parse(localStorage.lightMode));
+			// Restore hard mode
+			if (localStorage.hardMode)
+				this.setHardMode(JSON.parse(localStorage.hardMode));
+		},
+	},
 	computed: {
 		validRoute: function () {
 			return this.$route.name !== "PageNotFound";
 		},
+	},
+	mounted: function () {
+		this.restoreGameState();
 	},
 };
 </script>

@@ -4,11 +4,11 @@
 			<h2 id="settings-header">SETTINGS</h2>
 			<div class="setting">
 				<p class="settings-text">Light Mode</p>
-				<Slider :sliderID="0" setting="lightMode" />
+				<Slider :onClick="toggleLightMode" />
 			</div>
-            <div class="setting">
+			<div class="setting">
 				<p class="settings-text">Hard Mode</p>
-				<Slider :sliderID="1" setting="hardMode" />
+				<Slider :onClick="toggleHardMode" />
 			</div>
 			<div id="settings-buttons">
 				<router-link
@@ -37,6 +37,9 @@
 </template>
 
 <script>
+// Vuex for settings persistence
+import { mapMutations, mapGetters } from "vuex";
+
 // Import global components
 import Modal from "@/components/global/Modal.vue";
 import Slider from "@/components/global/Slider.vue";
@@ -48,12 +51,48 @@ export default {
 		Slider,
 	},
 	methods: {
+		// Map Vuex functions for light/hard mode toggle
+		...mapMutations(["setLightMode", "setHardMode"]),
 		// Modal controls
 		openModal: function () {
 			this.$refs["settings-modal"].openModal();
 		},
 		closeModal: function () {
 			this.$refs["settings-modal"].closeModal();
+		},
+		// Slider control
+		toggleLightMode: function () {
+			const slider = document.getElementsByClassName("slider")[0];
+			// Toggle on
+			if (!this.lightMode) {
+				slider.classList.add("active");
+				localStorage.setItem("lightMode", "true");
+				this.setLightMode(true);
+			} else {
+				slider.classList.remove("active");
+				localStorage.setItem("lightMode", "false");
+				this.setLightMode(false);
+			}
+		},
+		toggleHardMode: function () {
+			const slider = document.getElementsByClassName("slider")[1];
+			// Toggle on
+			if (!this.hardMode) {
+				slider.classList.add("active");
+				localStorage.setItem("hardMode", "true");
+				this.setHardMode(true);
+			} else {
+				slider.classList.remove("active");
+				localStorage.setItem("hardMode", "false");
+				this.setHardMode(false);
+			}
+		},
+        // Initializes sliders to stored position
+		initSliders: function () {
+			const sliders = document.getElementsByClassName("slider");
+            // Use local storage as Vuex isn't updated at mount
+			if (localStorage.lightMode) sliders[0].classList.add("active");
+			if (localStorage.hardMode) sliders[1].classList.add("active");
 		},
 		// Share site
 		handleShare: function () {
@@ -68,6 +107,14 @@ export default {
 				} Pokémon in Squirdle!\nTry it out yourself here: https://squirdle.herokuapp.com`
 			);
 		},
+	},
+	computed: {
+		// Map Vuex functions for light/hard mode checking
+		...mapGetters(["lightMode", "hardMode"]),
+	},
+	mounted: function () {
+		// Set sliders to initial position
+        this.initSliders();
 	},
 };
 </script>
@@ -91,7 +138,7 @@ export default {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-        margin-bottom: 16px;
+		margin-bottom: 16px;
 
 		.settings-text {
 			color: $accent-color;

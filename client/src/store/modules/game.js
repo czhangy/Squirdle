@@ -2,6 +2,8 @@
 let state = {
     numGuesses: 0,
 	gameOver: false,
+    lightMode: false,
+    hardMode: false,
 };
 
 // Define state modifiers
@@ -18,12 +20,20 @@ let mutations = {
 	endGame: (state) => {
 		state.gameOver = true;
 	},
+    setLightMode: (state, status) => {
+        state.lightMode = status;
+    },
+    setHardMode: (state, status) => {
+        state.hardMode = status;
+    },
 };
 
 // Define getters
 let getters = {
     numGuesses: (state) => state.numGuesses,
 	gameOver: (state) => state.gameOver,
+	lightMode: (state) => state.lightMode,
+	hardMode: (state) => state.hardMode,
 };
 
 // Export
