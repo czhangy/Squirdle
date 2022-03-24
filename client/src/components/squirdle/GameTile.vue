@@ -92,8 +92,8 @@ export default {
 			}
 		}
 
-		.hint {
-			background-color: $hint-color;
+		.close {
+			background-color: $close-color;
 		}
 
 		.correct {

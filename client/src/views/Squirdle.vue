@@ -157,7 +157,7 @@ export default {
 			const tiles = document.getElementsByClassName("game-tile-back");
 			for (let i = 0; i < tiles.length; i++) {
 				tileContainers[i].classList.remove("rotated");
-				tiles[i].classList.remove("hint");
+				tiles[i].classList.remove("close");
 				tiles[i].classList.remove("correct");
 			}
 		},

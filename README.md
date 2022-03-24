@@ -19,6 +19,7 @@ This project is still under development. The base game is functional, but featur
 - [ ] Add tooltips
 - [ ] Implement persistence on refresh
 - [ ] Add hard mode setting
+- [ ] Fix light mode text bug on medals
 - [ ] Add Gen. V - VIII to the database
 - [ ] Add Gen. V - VII medals
 

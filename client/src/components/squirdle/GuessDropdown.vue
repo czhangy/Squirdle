@@ -80,10 +80,15 @@ export default {
 		},
 		// Dropdown controls
 		openDropdown: function () {
-			document
-				.getElementById("dropdown-overlay")
-				.classList.add("show-overlay");
-			document.getElementById("dropdown").classList.add("show-dropdown");
+			// No dropdown on hard mode
+			if (!this.hardMode) {
+				document
+					.getElementById("dropdown-overlay")
+					.classList.add("show-overlay");
+				document
+					.getElementById("dropdown")
+					.classList.add("show-dropdown");
+			}
 		},
 		closeDropdown: function () {
 			document
@@ -117,6 +122,19 @@ export default {
 			else if (this.guesses.includes(this.guess)) return DUPLICATE;
 			else return VALID;
 		},
+		// Check hard mode criteria - only call in hard mode
+		validHardModeGuess: function (pokemon) {
+			// Check past correct tiles
+			if (this.correct[0] && !this.$isCorrectGen(pokemon, this.target))
+				return false;
+			if (this.correct[1] && !this.$isCorrectType(pokemon, this.target))
+				return false;
+			if (this.correct[2] && !this.$isCorrectStage(pokemon, this.target))
+				return false;
+			if (this.correct[3] && !this.$isCorrectLength(pokemon, this.target))
+				return false;
+			return true;
+		},
 		// On submit
 		submitGuess: function () {
 			// Standardize capitalization
@@ -135,6 +153,12 @@ export default {
 			else {
 				// Guess is valid
 				axios.get(`/api/pokemon/${this.guess}`).then((response) => {
+					const pokemon = response.data;
+					// Perform hard mode check
+					if (this.hardMode && !this.validHardModeGuess(pokemon)) {
+						this.onError(INVALID);
+						return;
+					}
 					// Add to prior guesses
 					this.guesses.push(this.guess);
 					// Clear guess
@@ -145,14 +169,22 @@ export default {
 					).placeholder = `Guess ${
 						this.numGuesses + 2
 					} of ${MAX_GUESSES}`;
-					this.onSubmit(response.data);
+					this.onSubmit(pokemon);
 				});
 			}
 		},
 	},
 	computed: {
 		// Map Vuex function
-		...mapGetters(["lightMode", "gameOver", "numGuesses", "pokemon"]),
+		...mapGetters([
+			"lightMode",
+			"hardMode",
+			"correct",
+			"gameOver",
+			"numGuesses",
+			"pokemon",
+			"target",
+		]),
 	},
 	watch: {
 		filteredList: function () {
@@ -162,7 +194,7 @@ export default {
 			let dropdown = document.getElementById("dropdown");
 			if (this.filteredList.length === 0)
 				dropdown.style.borderBottomWidth = "0";
-			else dropdown.style.borderBottomWidth = "2px";
+			else dropdown.style.borderBottomWidth = "1px";
 		},
 		guess: function () {
 			// Update filters on input
@@ -229,7 +261,7 @@ export default {
 			background: transparent;
 			height: var(--input-height);
 			width: 300px;
-			border: 2px solid $tile-color;
+			border: 1px solid $tile-color;
 			border-radius: 0;
 			font-family: $alt-font;
 			color: $accent-color;
@@ -245,11 +277,11 @@ export default {
 
 		.dropdown {
 			display: none;
-			max-height: 500px;
+			max-height: 400px;
 			width: 100%;
 			position: absolute;
 			overflow-y: scroll;
-			border: 2px solid $tile-color;
+			border: 1px solid $tile-color;
 			border-top: none;
 			// Initialize to hidden
 			border-bottom-width: 0;
@@ -262,7 +294,7 @@ export default {
 				cursor: pointer;
 				// Separators
 				border: none;
-				border-bottom: 2px solid $tile-color;
+				border-bottom: 1px solid $tile-color;
 				background: $main-color;
 				color: $accent-color;
 				font-family: $alt-font;
@@ -296,7 +328,7 @@ export default {
 	}
 
 	#guess-button {
-		border: 2px solid $tile-color;
+		border: 1px solid $tile-color;
 		border-left: none;
 		border-radius: 0;
 		height: var(--input-height);
@@ -323,20 +355,20 @@ export default {
 				background: $light-focus-color;
 			}
 
-            &::placeholder {
-                color: lighten(grey, 20);
-            }
+			&::placeholder {
+				color: lighten(grey, 20);
+			}
 		}
 
-        .dropdown > .dropdown-option {
-            background: $light-main-color;
-            color: $light-accent-color;
-        }
+		.dropdown > .dropdown-option {
+			background: $light-main-color;
+			color: $light-accent-color;
+		}
 	}
 
-    #guess-button {
-        color: $light-accent-color;
-    }
+	#guess-button {
+		color: $light-accent-color;
+	}
 }
 
 // Sticky hover
@@ -351,7 +383,7 @@ export default {
 		}
 	}
 
-    #guess-dropdown.light-mode {
+	#guess-dropdown.light-mode {
 		#dropdown-container > .dropdown > .dropdown-option:hover {
 			background: $light-focus-color;
 		}
