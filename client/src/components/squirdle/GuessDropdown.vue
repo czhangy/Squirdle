@@ -256,7 +256,7 @@ export default {
 
 		.dropdown {
 			display: none;
-			max-height: 500px;
+			max-height: 400px;
 			width: 100%;
 			position: absolute;
 			overflow-y: scroll;
