@@ -15,6 +15,9 @@
 </template>
 
 <script>
+// Vuex for light mode
+import { mapGetters } from "vuex";
+
 export default {
 	name: "Modal",
 	props: {
@@ -28,6 +31,14 @@ export default {
 		},
 	},
 	methods: {
+        // Set light mode on mount
+		initLightMode: function () {
+			const modal =
+				document.getElementsByClassName("modal")[this.modalID];
+			if (JSON.parse(localStorage.lightMode))
+				modal.classList.add("light-mode");
+			else modal.classList.remove("light-mode");
+		},
 		// Modal controls
 		openModal: function () {
 			document.getElementById(this.modalID).classList.add("overlay");
@@ -41,6 +52,21 @@ export default {
 					.classList.remove("overlay");
 			}, 400);
 		},
+	},
+	computed: {
+		// Map Vuex function for light mode
+		...mapGetters(["lightMode"]),
+	},
+	watch: {
+		lightMode: function () {
+			const modal =
+				document.getElementsByClassName("modal")[this.modalID];
+			if (this.lightMode) modal.classList.add("light-mode");
+			else modal.classList.remove("light-mode");
+		},
+	},
+	mounted: function () {
+		this.initLightMode();
 	},
 };
 </script>
@@ -113,5 +139,15 @@ export default {
 .overlay {
 	// Overlay all other content
 	z-index: $modal;
+}
+
+.modal.light-mode {
+	.modal-content {
+		background: $light-main-color;
+	}
+
+	.modal-close {
+		filter: invert(100%);
+	}
 }
 </style>

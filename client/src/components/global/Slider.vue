@@ -9,9 +9,9 @@ export default {
 	name: "Slider",
 	props: {
 		onClick: {
-            type: Function,
-            required: true,
-        }
+			type: Function,
+			required: true,
+		},
 	},
 };
 </script>
@@ -20,28 +20,27 @@ export default {
 .slider {
 	cursor: pointer;
 	width: 50px;
-	height: 25px;
 	background: grey;
-	border: 2px solid $accent-color;
+	border: 2px solid white;
 	border-radius: 20px;
-	padding: 0 2px;
+	padding: 2px;
 	display: flex;
 	align-items: center;
 
 	.slider-thumb {
-		background: $accent-color;
+		background: white;
 		height: 18px;
 		width: 18px;
 		border-radius: 50%;
-        transition: all 0.2s ease;
+		transition: all 0.2s ease;
 	}
 }
 
 .active {
 	background: #4cbb17;
 
-    .slider-thumb {
-        transform: translateX(24px);
-    }
+	.slider-thumb {
+		transform: translateX(24px);
+	}
 }
 </style>

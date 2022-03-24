@@ -162,9 +162,21 @@ export default {
 	},
 	computed: {
 		// Map Vuex functions
-		...mapGetters(["numGuesses", "gameOver", "pokemon", "target"]),
+		...mapGetters([
+            "lightMode",
+			"numGuesses",
+			"gameOver",
+			"pokemon",
+			"target",
+		]),
+	},
+	watch: {
+		lightMode: function () {
+			this.$updateLightMode("#squirdle");
+		},
 	},
 	mounted: async function () {
+		this.$initLightMode("#squirdle");
 		// Initial fetch of all pokemon
 		if (this.pokemon.length === 0) await this.fetchPokemonList();
 		this.generateNewTarget(this.pokemon);
@@ -186,9 +198,16 @@ export default {
 		letter-spacing: 1px;
 		line-height: 2rem;
 		border: 2px solid $accent-color;
-		background: $main-color;
+		background: transparent;
 		margin-bottom: 36px;
 		cursor: pointer;
+	}
+}
+
+#squirdle.light-mode {
+	#reset-button {
+		color: $light-accent-color;
+		border: 2px solid $light-accent-color;
 	}
 }
 
@@ -210,6 +229,12 @@ export default {
 		background: $accent-color;
 		border: none;
 		color: $main-color;
+	}
+
+	#squirdle.light-mode > #reset-button:hover {
+		background: $light-accent-color;
+		border: none;
+		color: $light-main-color;
 	}
 }
 </style>

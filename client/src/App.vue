@@ -5,7 +5,7 @@
 
 <script>
 // Vuex
-import { mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 // Import global component
 import Navbar from "@/components/global/Navbar.vue";
@@ -29,8 +29,15 @@ export default {
 		},
 	},
 	computed: {
+		// Map Vuex function for light mode
+		...mapGetters(["lightMode"]),
 		validRoute: function () {
 			return this.$route.name !== "PageNotFound";
+		},
+	},
+	watch: {
+		lightMode: function () {
+			this.$updateLightMode('html');
 		},
 	},
 	mounted: function () {
@@ -63,5 +70,14 @@ export default {
 html {
 	// Handle background on overscroll
 	background: $main-color;
+}
+
+html.light-mode {
+	// Handle background on overscroll
+	background: $light-main-color;
+
+	#app {
+		background: $light-main-color;
+	}
 }
 </style>
