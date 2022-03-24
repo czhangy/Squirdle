@@ -91,8 +91,10 @@ export default {
 		initSliders: function () {
 			const sliders = document.getElementsByClassName("slider");
 			// Use local storage as Vuex isn't updated at mount
-			if (localStorage.lightMode) sliders[0].classList.add("active");
-			if (localStorage.hardMode) sliders[1].classList.add("active");
+			if (JSON.parse(localStorage.lightMode))
+				sliders[0].classList.add("active");
+			if (JSON.parse(localStorage.hardMode))
+				sliders[1].classList.add("active");
 		},
 		// Share site
 		handleShare: function () {
