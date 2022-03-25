@@ -154,7 +154,7 @@ export default {
 		pokemon: function () {
 			if (this.pokemon) this.updateRow();
 		},
-		// When the game resets, reset component state
+		// Reset component state on game reset
 		gameOver: function () {
 			if (!this.gameOver) this.resetRow();
 		},

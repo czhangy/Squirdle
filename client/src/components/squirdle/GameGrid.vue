@@ -9,7 +9,11 @@
 		</div>
 		<hr id="separator" />
 		<div id="game-grid-container">
-			<GameRow :pokemon="guess" v-for="(guess, i) in guesses" :key="i" />
+			<GameRow
+				v-for="(contents, i) in rowContents"
+				:key="i"
+				:pokemon="contents"
+			/>
 		</div>
 	</div>
 </template>
@@ -35,30 +39,29 @@ export default {
 			VISIBLE_SIZE,
 			MAX_GUESSES,
 			// State
-			guesses: Array(6).fill(null),
+			rowContents: Array(MAX_GUESSES).fill(null),
 		};
 	},
 	methods: {
 		// Main function
-		updateGrid: function (pokemon) {
-			this.assignRows(pokemon);
+		updateGrid: function () {
+			this.assignRows(this.storedGuesses.length - 1);
 			this.scrollGrid();
 		},
 		// Reset function
 		resetGrid: function () {
-			// Reset component state
-			this.guesses = Array(6).fill(null);
+			this.rowContents = Array(MAX_GUESSES).fill(null);
+		},
+		// Persist function
+		persistGrid: function () {
+			for (let i = 0; i < this.storedGuesses.length; i++)
+				this.assignRows(i);
+			this.scrollGrid();
 		},
 		// Assign Pokemon to rows and create new rows if necessary
-		assignRows: function (pokemon) {
-			// Assign to the first unassigned row
-			this.guesses[this.storedGuesses.length - 1] = pokemon;
-			// Make new row if necessary and allowed
-			if (
-				this.storedGuesses.length === this.guesses.length &&
-				this.guesses.length !== MAX_GUESSES
-			)
-				this.guesses.push(null);
+		assignRows: function (ind) {
+			// Assign newest guess to the first unassigned row
+			this.rowContents[ind] = this.storedGuesses[ind];
 		},
 		// Handle grid scroll if out of view
 		scrollGrid: function () {
@@ -70,10 +73,10 @@ export default {
 				this.$nextTick(() => {
 					// Delay to allow current row to finish animation
 					setTimeout(() => {
-                        // Scroll newest row to bottom of grid
+						// Scroll newest row to bottom of grid
 						document
 							.getElementsByClassName("game-row")
-							[this.guesses.length - 1].scrollIntoView({
+							[this.storedGuesses.length].scrollIntoView({
 								behavior: "smooth",
 								block: "end",
 							});
@@ -87,14 +90,21 @@ export default {
 		...mapGetters(["lightMode", "gameOver", "storedGuesses", "target"]),
 	},
 	watch: {
+		// Reset component state on game reset
 		gameOver: function () {
 			if (!this.gameOver) this.resetGrid();
 		},
+		// Change styling to light mode on toggle
 		lightMode: function () {
 			this.$updateLightMode("#game-grid");
 		},
+		// Update grid on persist
+		storedGuesses: function () {
+			this.persistGrid();
+		},
 	},
 	mounted: function () {
+		// Change styling to light mode on mount
 		this.$updateLightMode("#game-grid");
 	},
 };
