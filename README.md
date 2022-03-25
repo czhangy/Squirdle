@@ -16,7 +16,6 @@ This project is still under development. The base game is functional, but featur
 
 #### To Do:
 
-- [ ] Implement persistence on refresh
 - [ ] Refactor
 - [ ] Add tooltips
 - [ ] Fix light mode text bug on medals
