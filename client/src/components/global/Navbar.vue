@@ -70,9 +70,9 @@ export default {
 		openSettingsModal: function () {
 			this.$refs["settings-modal"].openModal();
 		},
-        // Pop up help modal
+		// Pop up help modal on site's first visit
 		createPopup: function () {
-            // Automatically pop up how to play on game screen on first play
+			// Check if the local storage contains a completed game
 			if (!localStorage.seen)
 				setTimeout(() => {
 					this.openHelpModal();
@@ -84,13 +84,14 @@ export default {
 		...mapGetters(["lightMode"]),
 	},
 	watch: {
+		// Light mode styling on toggle
 		lightMode: function () {
-			this.$updateLightMode('#navbar');
+			this.$updateLightMode("#navbar");
 		},
 	},
 	mounted: function () {
 		this.createPopup();
-        this.$updateLightMode('#navbar');
+		this.$updateLightMode("#navbar");
 	},
 };
 </script>

@@ -21,17 +21,19 @@ import { mapGetters } from "vuex";
 export default {
 	name: "Modal",
 	props: {
+        // Specifies which modal is mounted
 		modalID: {
 			type: String,
 			required: true,
 		},
+        // Specifies if the modal should have an 'X' icon
 		isClosable: {
 			type: Boolean,
 			default: true,
 		},
 	},
 	methods: {
-        // Set light mode on mount
+        // Set light mode styling of modal content background
 		updateLightMode: function () {
 			const modal =
 				document.getElementsByClassName("modal")[this.modalID];
@@ -58,6 +60,7 @@ export default {
 		...mapGetters(["lightMode"]),
 	},
 	watch: {
+        // Light mode styling on toggle
 		lightMode: function () {
 			this.updateLightMode();
 		},

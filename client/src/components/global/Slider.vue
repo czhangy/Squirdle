@@ -8,6 +8,7 @@
 export default {
 	name: "Slider",
 	props: {
+        // Function that is executed when the slider is toggled
 		onClick: {
 			type: Function,
 			required: true,
