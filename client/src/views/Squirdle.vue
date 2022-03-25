@@ -6,7 +6,7 @@
 			:onError="displayError"
 			:onSubmit="handleGuess"
 		/>
-		<button v-else id="reset-button" @click="handleGameReset">
+		<button v-else id="reset-button" @click="resetGame">
 			<img src="@/assets/icons/reset.png" alt="" id="reset-icon" />Reset
 		</button>
 		<GameGrid ref="game-grid" />
@@ -43,30 +43,48 @@ export default {
 		};
 	},
 	methods: {
-		// Map Vuex functions
+		// Map Vuex functions for state modification
 		...mapMutations([
-			"resetGuesses",
-			"incrementGuesses",
+			"storeGuess",
+			"setTarget",
 			"startGame",
 			"endGame",
+			"setGame",
 		]),
+		// Map Vuex functions for data generation
 		...mapActions(["fetchPokemonList", "generateNewTarget"]),
-		// Trigger error modal
-		displayError: function (errorCode) {
-			this.errorCode = errorCode;
-			this.$refs["error-modal"].openModal();
+		// Initialization function
+		initGame: async function () {
+			// Initial fetch of all pokemon
+			if (this.pokemon.length === 0) await this.fetchPokemonList();
+			// Retrieve game saved in local storage
+			if (localStorage.target) {
+				this.setGame();
+				this.setTarget(JSON.parse(localStorage.target));
+			} else {
+				this.startGame();
+				this.generateNewTarget(this.pokemon);
+			}
 		},
-		// Guess handler
+		// Reset function
+		resetGame: function () {
+			// Generate a new target Pokemon
+			this.generateNewTarget(this.pokemon);
+			// Update Vuex state
+			this.startGame();
+		},
+		// Execute on guess
 		handleGuess: function (pokemon) {
-			this.incrementGuesses();
+			// Store guess into history
+			this.storeGuess(pokemon);
 			// Check for game over
 			if (
 				pokemon.name === this.target.name ||
-				this.numGuesses === MAX_GUESSES
+				this.storedGuesses.length === MAX_GUESSES
 			)
 				this.handleGameOver(pokemon.name === this.target.name);
 			// Update display
-			this.$refs["game-grid"].updateGrid(pokemon);
+			this.$refs["game-grid"].updateGrid();
 		},
 		// Handle game end conditions
 		handleGameOver: function (win) {
@@ -75,12 +93,14 @@ export default {
 			input.placeholder = "";
 			input.disabled = true;
 			document.getElementById("guess-button").disabled = true;
+			// Update local storage
 			this.setLocalStorage(win);
-			// Pop up user modal
+			// Update Vuex game state
 			setTimeout(() => {
 				this.endGame();
 			}, 2500);
 		},
+		// Store target into local storage on game end for stats
 		setLocalStorage: function (win) {
 			// "Catch" Pokemon if win
 			if (win) {
@@ -145,43 +165,32 @@ export default {
 				localStorage.setItem("seen", JSON.stringify(seen));
 			}
 		},
-		// Handle game reset conditions
-		handleGameReset: function () {
-			// Generate a new target Pokemon
-			this.generateNewTarget(this.pokemon);
-			// Update Vuex state
-			this.startGame();
-			this.resetGuesses();
-			const tileContainers =
-				document.getElementsByClassName("game-tile-inner");
-			const tiles = document.getElementsByClassName("game-tile-back");
-			for (let i = 0; i < tiles.length; i++) {
-				tileContainers[i].classList.remove("rotated");
-				tiles[i].classList.remove("close");
-				tiles[i].classList.remove("correct");
-			}
+		// Trigger error modal
+		displayError: function (errorCode) {
+			this.errorCode = errorCode;
+			this.$refs["error-modal"].openModal();
 		},
 	},
 	computed: {
-		// Map Vuex functions
+		// Map Vuex functions for state
 		...mapGetters([
 			"lightMode",
-			"numGuesses",
+			"storedGuesses",
 			"gameOver",
 			"pokemon",
 			"target",
 		]),
 	},
 	watch: {
+		// Light mode styling on toggle
 		lightMode: function () {
 			this.$updateLightMode("#squirdle");
 		},
 	},
-	mounted: async function () {
+	mounted: function () {
+		// Light mode styling on mount
 		this.$updateLightMode("#squirdle");
-		// Initial fetch of all pokemon
-		if (this.pokemon.length === 0) await this.fetchPokemonList();
-		this.generateNewTarget(this.pokemon);
+		this.initGame();
 	},
 };
 </script>
@@ -201,19 +210,18 @@ export default {
 		line-height: 2rem;
 		border: 2px solid $accent-color;
 		background: transparent;
-        margin: 0 auto;
+		margin: 0 auto;
 		margin-bottom: 36px;
 		cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 
-        #reset-icon {
-            height: 36px;
-            filter: invert(100%);
-            margin-right: 20px;
-        }
-
+		#reset-icon {
+			height: 36px;
+			filter: invert(100%);
+			margin-right: 20px;
+		}
 	}
 }
 
@@ -222,9 +230,9 @@ export default {
 		color: $light-accent-color;
 		border: 2px solid $light-accent-color;
 
-        #reset-icon {
-            filter: none;
-        }
+		#reset-icon {
+			filter: none;
+		}
 	}
 }
 
@@ -247,9 +255,9 @@ export default {
 		border: none;
 		color: $main-color;
 
-        #reset-icon {
-            filter: none;
-        }
+		#reset-icon {
+			filter: none;
+		}
 	}
 
 	#squirdle.light-mode > #reset-button:hover {
@@ -257,9 +265,9 @@ export default {
 		border: none;
 		color: $light-main-color;
 
-        #reset-icon {
-            filter: invert(100%);
-        }
+		#reset-icon {
+			filter: invert(100%);
+		}
 	}
 }
 </style>

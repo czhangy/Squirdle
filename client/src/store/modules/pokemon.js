@@ -14,6 +14,7 @@ let mutations = {
 	},
 	setTarget: (state, newTarget) => {
 		state.target = newTarget;
+		localStorage.setItem("target", JSON.stringify(newTarget));
 	},
 };
 
@@ -27,14 +28,14 @@ let actions = {
 		commit("setPokemon", pokemon);
 	},
 	generateNewTarget: async ({ commit, state }, pokemon) => {
-        let newTarget;
+		let newTarget;
 		// Randomly select dex number
 		const ind = Math.floor(Math.random() * 493);
 		// Fetch target Pokemon by name
 		await axios.get(`/api/pokemon/${pokemon[ind]}`).then((response) => {
 			newTarget = response.data;
 		});
-        commit("setTarget", newTarget);
+		commit("setTarget", newTarget);
 	},
 };
 

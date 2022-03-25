@@ -9,7 +9,9 @@
 			<input
 				id="guess-input"
 				type="text"
-				:placeholder="`Guess 1 of ${MAX_GUESSES}`"
+				:placeholder="`Guess ${
+					storedGuesses.length + 1
+				} of ${MAX_GUESSES}`"
 				spellcheck="false"
 				v-model="guess"
 				@input="filterDropdown"
@@ -60,7 +62,6 @@ export default {
 			DUPLICATE,
 			// State
 			guess: "",
-			guesses: [],
 			filteredList: [],
 		};
 	},
@@ -119,19 +120,36 @@ export default {
 			// Check if valid Pokemon
 			if (!this.pokemon.includes(this.guess)) return INVALID;
 			// Check if Pokemon already guessed
-			else if (this.guesses.includes(this.guess)) return DUPLICATE;
+			else if (
+				this.storedGuesses
+					.map((pokemon) => pokemon.name)
+					.includes(this.guess)
+			)
+				return DUPLICATE;
 			else return VALID;
 		},
 		// Check hard mode criteria - only call in hard mode
 		validHardModeGuess: function (pokemon) {
 			// Check past correct tiles
-			if (this.correct[0] && !this.$isCorrectGen(pokemon, this.target))
+			if (
+				this.correctFound[0] &&
+				!this.$isCorrectGen(pokemon, this.target)
+			)
 				return false;
-			if (this.correct[1] && !this.$isCorrectType(pokemon, this.target))
+			if (
+				this.correctFound[1] &&
+				!this.$isCorrectType(pokemon, this.target)
+			)
 				return false;
-			if (this.correct[2] && !this.$isCorrectStage(pokemon, this.target))
+			if (
+				this.correctFound[2] &&
+				!this.$isCorrectStage(pokemon, this.target)
+			)
 				return false;
-			if (this.correct[3] && !this.$isCorrectLength(pokemon, this.target))
+			if (
+				this.correctFound[3] &&
+				!this.$isCorrectLength(pokemon, this.target)
+			)
 				return false;
 			return true;
 		},
@@ -159,16 +177,8 @@ export default {
 						this.onError(INVALID);
 						return;
 					}
-					// Add to prior guesses
-					this.guesses.push(this.guess);
 					// Clear guess
 					this.guess = "";
-					// Update placeholder
-					document.getElementById(
-						"guess-input"
-					).placeholder = `Guess ${
-						this.numGuesses + 2
-					} of ${MAX_GUESSES}`;
 					this.onSubmit(pokemon);
 				});
 			}
@@ -179,9 +189,9 @@ export default {
 		...mapGetters([
 			"lightMode",
 			"hardMode",
-			"correct",
+			"correctFound",
 			"gameOver",
-			"numGuesses",
+			"storedGuesses",
 			"pokemon",
 			"target",
 		]),
@@ -200,11 +210,8 @@ export default {
 			// Update filters on input
 			this.filterDropdown();
 		},
-		gameOver: function () {
-			// Reset component state
-			if (!this.gameOver) this.guesses = [];
-		},
 		lightMode: function () {
+			// Update light mode on toggle
 			this.$updateLightMode("#guess-dropdown");
 		},
 	},
