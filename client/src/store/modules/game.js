@@ -1,6 +1,6 @@
 // Define model
 let state = {
-	numGuesses: 0,
+    storedGuesses: [],
 	gameOver: false,
 	correctFound: [false, false, false, false],
 	lightMode: false,
@@ -10,10 +10,10 @@ let state = {
 // Define state modifiers
 let mutations = {
 	resetGuesses: (state) => {
-		state.numGuesses = 0;
+        state.guesses = [];
 	},
-	incrementGuesses: (state) => {
-		state.numGuesses++;
+	storeGuess: (state, guess) => {
+        state.storedGuesses.push(guess);
 	},
 	updateCorrectFound: (state, ind) => {
 		state.correctFound[ind] = true;
@@ -35,7 +35,7 @@ let mutations = {
 
 // Define getters
 let getters = {
-	numGuesses: (state) => state.numGuesses,
+    storedGuesses: (state) => state.storedGuesses,
 	gameOver: (state) => state.gameOver,
 	correctFound: (state) => state.correctFound,
 	lightMode: (state) => state.lightMode,

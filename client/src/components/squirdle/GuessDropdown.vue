@@ -167,7 +167,7 @@ export default {
 					document.getElementById(
 						"guess-input"
 					).placeholder = `Guess ${
-						this.numGuesses + 2
+						this.storedGuesses.length + 2
 					} of ${MAX_GUESSES}`;
 					this.onSubmit(pokemon);
 				});
@@ -181,7 +181,7 @@ export default {
 			"hardMode",
 			"correct",
 			"gameOver",
-			"numGuesses",
+			"storedGuesses",
 			"pokemon",
 			"target",
 		]),

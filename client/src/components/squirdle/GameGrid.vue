@@ -52,10 +52,10 @@ export default {
 		// Assign Pokemon to rows and create new rows if necessary
 		assignRows: function (pokemon) {
 			// Assign to the first unassigned row
-			this.guesses[this.numGuesses - 1] = pokemon;
+			this.guesses[this.storedGuesses.length - 1] = pokemon;
 			// Make new row if necessary and allowed
 			if (
-				this.numGuesses === this.guesses.length &&
+				this.storedGuesses.length === this.guesses.length &&
 				this.guesses.length !== MAX_GUESSES
 			)
 				this.guesses.push(null);
@@ -63,8 +63,8 @@ export default {
 		// Handle grid scroll if out of view
 		scrollGrid: function () {
 			if (
-				this.numGuesses >= VISIBLE_SIZE &&
-				this.numGuesses <= MAX_GUESSES
+				this.storedGuesses.length >= VISIBLE_SIZE &&
+				this.storedGuesses.length <= MAX_GUESSES
 			) {
 				// Delay to allow new row to render
 				this.$nextTick(() => {
@@ -84,7 +84,7 @@ export default {
 	},
 	computed: {
 		// Map Vuex functions for game state
-		...mapGetters(["lightMode", "gameOver", "numGuesses", "target"]),
+		...mapGetters(["lightMode", "gameOver", "storedGuesses", "target"]),
 	},
 	watch: {
 		gameOver: function () {

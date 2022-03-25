@@ -46,7 +46,7 @@ export default {
 		// Map Vuex functions
 		...mapMutations([
 			"resetGuesses",
-			"incrementGuesses",
+			"storeGuess",
 			"startGame",
 			"endGame",
 		]),
@@ -58,11 +58,12 @@ export default {
 		},
 		// Guess handler
 		handleGuess: function (pokemon) {
-			this.incrementGuesses();
+            // Store guess into Vuex state history
+			this.storeGuess(pokemon);
 			// Check for game over
 			if (
 				pokemon.name === this.target.name ||
-				this.numGuesses === MAX_GUESSES
+				this.storedGuesses.length === MAX_GUESSES
 			)
 				this.handleGameOver(pokemon.name === this.target.name);
 			// Update display
@@ -158,7 +159,7 @@ export default {
 		// Map Vuex functions
 		...mapGetters([
 			"lightMode",
-			"numGuesses",
+			"storedGuesses",
 			"gameOver",
 			"pokemon",
 			"target",
