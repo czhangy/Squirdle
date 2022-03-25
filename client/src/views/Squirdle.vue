@@ -152,14 +152,6 @@ export default {
 			// Update Vuex state
 			this.startGame();
 			this.resetGuesses();
-			const tileContainers =
-				document.getElementsByClassName("game-tile-inner");
-			const tiles = document.getElementsByClassName("game-tile-back");
-			for (let i = 0; i < tiles.length; i++) {
-				tileContainers[i].classList.remove("rotated");
-				tiles[i].classList.remove("close");
-				tiles[i].classList.remove("correct");
-			}
 		},
 	},
 	computed: {

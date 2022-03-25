@@ -2,7 +2,7 @@
 let state = {
 	numGuesses: 0,
 	gameOver: false,
-	correct: [false, false, false, false],
+	correctFound: [false, false, false, false],
 	lightMode: false,
 	hardMode: false,
 };
@@ -15,9 +15,9 @@ let mutations = {
 	incrementGuesses: (state) => {
 		state.numGuesses++;
 	},
-    updateCorrect: (state, ind) => {
-        state.correct[ind] = true;
-    },
+	updateCorrectFound: (state, ind) => {
+		state.correctFound[ind] = true;
+	},
 	startGame: (state) => {
 		state.gameOver = false;
 		state.correct = [false, false, false, false];
@@ -37,7 +37,7 @@ let mutations = {
 let getters = {
 	numGuesses: (state) => state.numGuesses,
 	gameOver: (state) => state.gameOver,
-	correct: (state) => state.correct,
+	correctFound: (state) => state.correctFound,
 	lightMode: (state) => state.lightMode,
 	hardMode: (state) => state.hardMode,
 };

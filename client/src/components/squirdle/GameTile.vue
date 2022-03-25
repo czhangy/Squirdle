@@ -1,46 +1,55 @@
 <template>
 	<div class="game-tile">
-		<div class="game-tile-inner">
+		<div class="game-tile-inner" :class="{rotated: rotated}">
 			<div class="game-tile-front" />
-			<div class="game-tile-back">
-				<img v-if="tileType === SPRITE" class="tile-sprite" alt="Box Sprite" />
-                <p v-if="tileType === TEXT" class="tile-text" />
-				<img
-					v-if="tileType === MONOTYPE || tileType === DUALTYPE"
-					class="monotype"
-					alt="Type 1 Plaque"
-				/>
-				<img
-					v-if="tileType === DUALTYPE"
-					class="dualtype"
-					alt="Type 2 Plaque"
-				/>
+			<div
+				class="game-tile-back"
+				:class="{ close: close, correct: correct }"
+			>
+				<p class="tile-text">{{ content }}</p>
+				<div class="img-container">
+					<img
+						v-for="(src, i) in srcs"
+						:key="i"
+						:src="src"
+						class="tile-img"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-// Import global constants
-import { SPRITE, TEXT, MONOTYPE, DUALTYPE } from "@/constants.js";
-
 export default {
 	name: "GameTile",
 	props: {
-		tileType: {
-			type: Number,
-			required: true,
+        // Content for text tiles
+		content: {
+			type: null,
+			default: "",
 		},
+        // Src link(s) for image tiles
+		srcs: {
+			type: Array,
+			default: [],
+		},
+        // If the tile contents are close to the target
+		close: {
+			type: Boolean,
+			default: false,
+		},
+        // If the tile contents match the target
+		correct: {
+			type: Boolean,
+			default: false,
+		},
+        // If the tile has been flipped over
+        rotated: {
+            type: Boolean,
+            default: false,
+        }
 	},
-    data() {
-        return {
-            // Global constants
-            SPRITE,
-            TEXT,
-            MONOTYPE,
-            DUALTYPE,
-        };
-    }
 };
 </script>
 
@@ -49,7 +58,7 @@ export default {
 	background-color: transparent;
 	height: 65px;
 	width: 65px;
-    z-index: $tiles;
+	z-index: $tiles;
 
 	.rotated {
 		transform: rotateX(180deg);
@@ -80,15 +89,22 @@ export default {
 		.game-tile-back {
 			transform: rotateX(180deg);
 			display: flex;
-            flex-direction: column;
+			flex-direction: column;
 			justify-content: space-evenly;
 			align-items: center;
 			background-color: $tile-color;
 
 			.tile-text {
 				font-size: 2rem;
-                font-family: $alt-font;
-                color: white;
+				font-family: $alt-font;
+				color: white;
+			}
+
+			.img-container {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-evenly;
+				height: 100%;
 			}
 		}
 
