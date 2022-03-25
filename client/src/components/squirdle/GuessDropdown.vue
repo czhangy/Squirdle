@@ -10,7 +10,9 @@
 				id="guess-input"
 				type="text"
 				:placeholder="`Guess ${
-					storedGuesses.length + 1
+					storedGuesses.length < MAX_GUESSES
+						? storedGuesses.length + 1
+						: MAX_GUESSES
 				} of ${MAX_GUESSES}`"
 				spellcheck="false"
 				v-model="guess"

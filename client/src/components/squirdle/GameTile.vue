@@ -1,13 +1,13 @@
 <template>
 	<div class="game-tile">
-		<div class="game-tile-inner" :class="{rotated: rotated}">
+		<div class="game-tile-inner" :class="{ rotated: rotated }">
 			<div class="game-tile-front" />
 			<div
 				class="game-tile-back"
 				:class="{ close: close, correct: correct }"
 			>
-				<p class="tile-text">{{ content }}</p>
-				<div class="img-container">
+				<p v-if="content !== ''" class="tile-text">{{ content }}</p>
+				<div v-if="srcs.length > 0" class="img-container">
 					<img
 						v-for="(src, i) in srcs"
 						:key="i"
@@ -24,31 +24,31 @@
 export default {
 	name: "GameTile",
 	props: {
-        // Content for text tiles
+		// Content for text tiles
 		content: {
 			type: null,
 			default: "",
 		},
-        // Src link(s) for image tiles
+		// Src link(s) for image tiles
 		srcs: {
 			type: Array,
 			default: [],
 		},
-        // If the tile contents are close to the target
+		// If the tile contents are close to the target
 		close: {
 			type: Boolean,
 			default: false,
 		},
-        // If the tile contents match the target
+		// If the tile contents match the target
 		correct: {
 			type: Boolean,
 			default: false,
 		},
-        // If the tile has been flipped over
-        rotated: {
-            type: Boolean,
-            default: false,
-        }
+		// If the tile has been flipped over
+		rotated: {
+			type: Boolean,
+			default: false,
+		},
 	},
 };
 </script>
@@ -96,6 +96,7 @@ export default {
 
 			.tile-text {
 				font-size: 2rem;
+                line-height: 2rem;
 				font-family: $alt-font;
 				color: white;
 			}
