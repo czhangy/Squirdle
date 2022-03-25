@@ -56,20 +56,20 @@ export default {
 		// Initialization function
 		initGame: async function () {
 			// Initial fetch of all pokemon
-			if (this.pokemon.length === 0) await this.fetchPokemonList();
+			if (this.pokemonList.length === 0) await this.fetchPokemonList();
 			// Retrieve game saved in local storage
 			if (localStorage.target) {
 				this.setGame();
 				this.setTarget(JSON.parse(localStorage.target));
 			} else {
 				this.startGame();
-				this.generateNewTarget(this.pokemon);
+				this.generateNewTarget(this.pokemonList);
 			}
 		},
 		// Reset function
 		resetGame: function () {
 			// Generate a new target Pokemon
-			this.generateNewTarget(this.pokemon);
+			this.generateNewTarget(this.pokemonList);
 			// Update Vuex state
 			this.startGame();
 		},
@@ -177,7 +177,7 @@ export default {
 			"lightMode",
 			"storedGuesses",
 			"gameOver",
-			"pokemon",
+			"pokemonList",
 			"target",
 		]),
 	},

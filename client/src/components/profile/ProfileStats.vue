@@ -22,16 +22,18 @@ import { mapGetters } from "vuex";
 export default {
 	name: "ProfileStats",
 	props: {
+        // Dex indices of all caught Pokemon
 		caught: {
 			type: Array,
 			required: true,
 		},
+        // Dex indices of all seen Pokemon
 		seen: {
 			type: Array,
 			required: true,
 		},
 	},
-	data() {
+	data: function () {
 		return {
 			streak: localStorage.streak ? localStorage.streak : 0,
 		};
@@ -41,6 +43,7 @@ export default {
 		...mapGetters(["lightMode"]),
 	},
 	watch: {
+        // Light mode styling on toggle
 		lightMode: function () {
 			this.$updateLightMode("#profile-stats");
 		},

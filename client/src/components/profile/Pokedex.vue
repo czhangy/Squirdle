@@ -1,6 +1,6 @@
 <template>
 	<div id="pokedex">
-		<div v-for="i in pokemon" :key="i" class="pokedex-entry">
+		<div v-for="i in pokemonList" :key="i" class="pokedex-entry">
 			<img alt="" class="pokedex-sprite" />
 			<p class="alt-entry" />
 		</div>
@@ -14,10 +14,12 @@ import { mapGetters } from "vuex";
 export default {
 	name: "Pokedex",
 	props: {
+        // Dex indices of all caught Pokemon
 		caught: {
 			type: Array,
 			required: true,
 		},
+        // Dex indices of all seen Pokemon
 		seen: {
 			type: Array,
 			required: true,
@@ -32,7 +34,7 @@ export default {
 				sprites[
 					i
 				].src = `https://www.serebii.net/pokedex-swsh/icon/${dexNum}.png`;
-				// Handle entries based on status
+				// Show entries based on status
 				if (this.caught.includes(i)) continue;
 				if (this.seen.includes(i))
 					sprites[i].classList.add("silhouette");
@@ -47,13 +49,15 @@ export default {
 	},
 	computed: {
 		// Map Vuex functions for light mode and data
-		...mapGetters(["lightMode", "pokemon"]),
+		...mapGetters(["lightMode", "pokemonList"]),
 	},
 	watch: {
 		// Set sprites when page initially loads
 		caught: function () {
+            // Delay to allow for rendering
 			this.$nextTick(() => this.setSprites());
 		},
+        // Light mode styling on toggle
 		lightMode: function () {
 			this.$updateLightMode("#pokedex");
 		},

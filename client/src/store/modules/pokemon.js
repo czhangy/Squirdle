@@ -3,14 +3,14 @@ import axios from "axios";
 
 // Define model
 let state = {
-	pokemon: [],
+	pokemonList: [],
 	target: null,
 };
 
 // Define state modifiers
 let mutations = {
-	setPokemon: (state, pokemon) => {
-		state.pokemon = pokemon;
+	setPokemonList: (state, pokemonList) => {
+		state.pokemonList = pokemonList;
 	},
 	setTarget: (state, newTarget) => {
 		state.target = newTarget;
@@ -21,18 +21,18 @@ let mutations = {
 // Define business logic
 let actions = {
 	fetchPokemonList: async ({ commit, state }) => {
-		let pokemon = [];
+		let pokemonList = [];
 		await axios.get("/api/pokemon/").then((response) => {
-			pokemon = response.data;
+			pokemonList = response.data;
 		});
-		commit("setPokemon", pokemon);
+		commit("setPokemonList", pokemonList);
 	},
-	generateNewTarget: async ({ commit, state }, pokemon) => {
+	generateNewTarget: async ({ commit, state }, pokemonList) => {
 		let newTarget;
 		// Randomly select dex number
 		const ind = Math.floor(Math.random() * 493);
 		// Fetch target Pokemon by name
-		await axios.get(`/api/pokemon/${pokemon[ind]}`).then((response) => {
+		await axios.get(`/api/pokemon/${pokemonList[ind]}`).then((response) => {
 			newTarget = response.data;
 		});
 		commit("setTarget", newTarget);
@@ -41,7 +41,7 @@ let actions = {
 
 // Define getters
 let getters = {
-	pokemon: (state) => state.pokemon,
+	pokemonList: (state) => state.pokemonList,
 	target: (state) => state.target,
 };
 

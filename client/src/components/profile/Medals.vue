@@ -22,10 +22,12 @@ export default {
 		Medal,
 	},
 	props: {
+        // Dex indices of all caught Pokemon
 		caught: {
 			type: Array,
 			required: true,
 		},
+        // Dex indices of all seen Pokemon
 		seen: {
 			type: Array,
 			required: true,
@@ -199,6 +201,7 @@ export default {
 		};
 	},
 	methods: {
+        // Checks requirements for each medal
 		checkMedalReqs: function () {
 			// Catch total medals
 			if (localStorage.caught) {
@@ -323,6 +326,7 @@ export default {
 			)
 				this.obtained[31] = true;
 		},
+        // Updates light mode styling on each medal
 		updateLightMode: function () {
 			const medals = document.getElementsByClassName("medal");
 			if (JSON.parse(localStorage.lightMode))
@@ -338,13 +342,14 @@ export default {
 		...mapGetters(["lightMode"]),
 	},
 	watch: {
+        // Light mode styling on toggle
 		lightMode: function () {
 			this.updateLightMode();
 		},
 	},
 	mounted: function () {
 		this.checkMedalReqs();
-        // Next tick to style after re-rendering
+        // Next tick to style after re-rendering of obtained medals
         this.$nextTick(() => this.updateLightMode());
 	},
 };

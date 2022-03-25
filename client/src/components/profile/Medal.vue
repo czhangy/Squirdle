@@ -30,10 +30,12 @@
 export default {
 	name: "Medal",
 	props: {
+        // Boolean value that determines if the medal has been obtained
 		obtained: {
 			type: Boolean,
 			default: false,
 		},
+        // Object containing medal information
 		medal: {
 			type: Object,
 			required: true,

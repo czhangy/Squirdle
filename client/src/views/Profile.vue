@@ -41,11 +41,11 @@ export default {
 		},
 	},
 	computed: {
-		...mapGetters(["pokemon"]),
+		...mapGetters(["pokemonList"]),
 	},
 	mounted: async function () {
 		// Initial fetch of all pokemon
-		if (this.pokemon.length === 0) await this.fetchPokemonList();
+		if (this.pokemonList.length === 0) await this.fetchPokemonList();
 		// Fetch data from local storage
 		this.caught = JSON.parse(localStorage.caught);
 		this.seen = JSON.parse(localStorage.seen);

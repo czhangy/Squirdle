@@ -1,10 +1,20 @@
 <template>
 	<div id="profile-nav">
 		<div id="nav-buttons">
-			<button id="pokedex-button" class="nav-button active-button" @click="handlePokedexNav">
+			<button
+				id="pokedex-button"
+				class="nav-button active-button"
+				@click="handlePokedexNav"
+			>
 				POKÉDEX
 			</button>
-			<button id="medals-button" class="nav-button" @click="handleMedalsNav">MEDALS</button>
+			<button
+				id="medals-button"
+				class="nav-button"
+				@click="handleMedalsNav"
+			>
+				MEDALS
+			</button>
 		</div>
 		<hr id="separator" />
 	</div>
@@ -16,31 +26,42 @@ import { mapGetters } from "vuex";
 
 export default {
 	name: "ProfileNav",
-    props: {
-        onClick: {
-            type: Function,
-            required: true,
-        }
-    },
-    methods: {
-        handlePokedexNav: function () {
-            // Handle button styling
-            document.getElementById("pokedex-button").classList.add("active-button");
-            document.getElementById("medals-button").classList.remove("active-button");
-            this.onClick("pokedex");
-        },
-        handleMedalsNav: function () {
-            // Handle button styling
-            document.getElementById("medals-button").classList.add("active-button");
-            document.getElementById("pokedex-button").classList.remove("active-button");
-            this.onClick("medals");
-        },
-    },
-    computed: {
+	props: {
+		// Function that executes in Profile on button click
+		onClick: {
+			type: Function,
+			required: true,
+		},
+	},
+	methods: {
+		// Nav controls
+		handlePokedexNav: function () {
+			// Handle button styling
+			document
+				.getElementById("pokedex-button")
+				.classList.add("active-button");
+			document
+				.getElementById("medals-button")
+				.classList.remove("active-button");
+			this.onClick("pokedex");
+		},
+		handleMedalsNav: function () {
+			// Handle button styling
+			document
+				.getElementById("medals-button")
+				.classList.add("active-button");
+			document
+				.getElementById("pokedex-button")
+				.classList.remove("active-button");
+			this.onClick("medals");
+		},
+	},
+	computed: {
 		// Map Vuex function for light mode
 		...mapGetters(["lightMode"]),
 	},
 	watch: {
+		// Light mode styling on toggle
 		lightMode: function () {
 			this.$updateLightMode("#profile-nav");
 		},
@@ -63,7 +84,7 @@ export default {
 
 		.nav-button {
 			cursor: pointer;
-            height: 60px;
+			height: 60px;
 			width: 150px;
 			font-family: $alt-font;
 			font-size: 1.5rem;
@@ -72,10 +93,10 @@ export default {
 			color: $accent-color;
 			border: 2px solid $accent-color;
 			border-bottom: none;
-            transition: all 0.2s ease;
-            // Disable transitions on color change
-            transition: color 0s ease;
-            // Center button text
+			transition: all 0.2s ease;
+			// Disable transitions on color change
+			transition: color 0s ease;
+			// Center button text
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -95,37 +116,37 @@ export default {
 }
 
 #profile-nav.light-mode {
-    #nav-buttons {
-        .nav-button {
-            background: $light-main-color;
-            color: $light-accent-color;
-            border-color: $light-accent-color;
-        }
+	#nav-buttons {
+		.nav-button {
+			background: $light-main-color;
+			color: $light-accent-color;
+			border-color: $light-accent-color;
+		}
 
-        .active-button {
-            background: $light-accent-color;
-            color: $light-main-color;
-        }
-    }
+		.active-button {
+			background: $light-accent-color;
+			color: $light-main-color;
+		}
+	}
 
-    #separator {
-        background: $light-accent-color;
-    }
+	#separator {
+		background: $light-accent-color;
+	}
 }
 
 // Sticky hover
 @media (hover: hover) {
-    #profile-nav > #nav-buttons > .nav-button:hover {
-        margin-top: -10px;
-        height: 70px;
-    }
+	#profile-nav > #nav-buttons > .nav-button:hover {
+		margin-top: -10px;
+		height: 70px;
+	}
 }
 
 // Mobile layout
 @media screen and (max-width: $mobile) {
-    #profile-nav {
-        // Chill on spacing
-        margin-top: 32px;
-    }
+	#profile-nav {
+		// Chill on spacing
+		margin-top: 32px;
+	}
 }
 </style>

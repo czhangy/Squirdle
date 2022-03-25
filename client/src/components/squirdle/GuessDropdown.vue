@@ -75,7 +75,7 @@ export default {
 				sprites[
 					i
 				].src = `https://www.serebii.net/pokedex-swsh/icon/${this.$formatDexNum(
-					this.pokemon.findIndex(
+					this.pokemonList.findIndex(
 						(name) => name === this.filteredList[i]
 					) + 1
 				)}.png`;
@@ -107,7 +107,7 @@ export default {
 			if (this.guess === "") this.filteredList = [];
 			// Filter by substring
 			else
-				this.filteredList = this.pokemon.filter((name) =>
+				this.filteredList = this.pokemonList.filter((name) =>
 					name.includes(this.guess.toLowerCase())
 				);
 		},
@@ -120,7 +120,7 @@ export default {
 		// Handle validation
 		validateGuess: function () {
 			// Check if valid Pokemon
-			if (!this.pokemon.includes(this.guess)) return INVALID;
+			if (!this.pokemonList.includes(this.guess)) return INVALID;
 			// Check if Pokemon already guessed
 			else if (
 				this.storedGuesses
@@ -194,7 +194,7 @@ export default {
 			"correctFound",
 			"gameOver",
 			"storedGuesses",
-			"pokemon",
+			"pokemonList",
 			"target",
 		]),
 	},
