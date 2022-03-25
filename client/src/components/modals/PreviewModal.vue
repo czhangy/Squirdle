@@ -98,6 +98,7 @@ export default {
 	watch: {
 		// Dynamically set images when target is generated
 		target: function () {
+            // Delay to allow tiles to render
 			this.$nextTick(() => {
 				this.setImages();
 			});
@@ -106,6 +107,7 @@ export default {
 		gameOver: function () {
 			if (this.gameOver) this.openModal();
 		},
+        // Light mode styling on toggle
 		lightMode: function () {
 			this.$updateLightMode("#preview");
 		},

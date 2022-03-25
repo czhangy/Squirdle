@@ -21,7 +21,7 @@
 // Vuex for light mode
 import { mapGetters } from "vuex";
 
-// Import global constants
+// Import global constants for error code processing
 import { INVALID, DUPLICATE } from "@/constants.js";
 
 // Import global component
@@ -33,12 +33,13 @@ export default {
 		Modal,
 	},
 	props: {
+        // Error code that identifies the correct error message
 		errorCode: {
 			type: Number,
 			required: true,
 		},
 	},
-	data() {
+	data: function () {
 		return {
 			// Global constants
 			INVALID,
@@ -46,8 +47,9 @@ export default {
 		};
 	},
 	methods: {
+        // Modal control
 		openModal: function () {
-			// Display as pop-up
+			// Pop up and close automatically
 			this.$refs["error-modal"].openModal();
 			setTimeout(() => {
 				this.$refs["error-modal"].closeModal();
@@ -59,6 +61,7 @@ export default {
 		...mapGetters(["lightMode"]),
 	},
 	watch: {
+        // Light mode styling on toggle
 		lightMode: function () {
 			this.$updateLightMode('#error');
 		},

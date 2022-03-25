@@ -1,12 +1,12 @@
 <template>
-	<div class="slider" @click="onClick">
-		<div class="slider-thumb" />
+	<div class="toggle-switch" @click="onClick">
+		<div class="switch-thumb" />
 	</div>
 </template>
 
 <script>
 export default {
-	name: "Slider",
+	name: "ToggleSwitch",
 	props: {
         // Function that is executed when the slider is toggled
 		onClick: {
@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.slider {
+.toggle-switch {
 	cursor: pointer;
 	width: 50px;
 	background: grey;
@@ -28,7 +28,7 @@ export default {
 	display: flex;
 	align-items: center;
 
-	.slider-thumb {
+	.switch-thumb {
 		background: white;
 		height: 18px;
 		width: 18px;
@@ -40,7 +40,7 @@ export default {
 .active {
 	background: #4cbb17;
 
-	.slider-thumb {
+	.switch-thumb {
 		transform: translateX(24px);
 	}
 }

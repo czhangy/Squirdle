@@ -48,9 +48,11 @@ let mutations = {
 	},
 	setLightMode: (state, status) => {
 		state.lightMode = status;
+        localStorage.setItem("lightMode", status);
 	},
 	setHardMode: (state, status) => {
 		state.hardMode = status;
+        localStorage.setItem("hardMode", status);
 	},
 };
 

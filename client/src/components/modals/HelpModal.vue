@@ -18,7 +18,7 @@
 			<div id="page-1" class="page show display">
 				<h2 id="help-header">HOW TO PLAY</h2>
 				<p class="help-text">
-					Guess the <strong>SQUIRDLE</strong> in 6 tries
+					Guess the <strong>SQUIRDLE</strong> in {{ MAX_GUESSES }} tries
 					<br />
 					(hint: it's probably <em>not</em> Squirtle)
 					<br />
@@ -411,6 +411,9 @@
 // Vuex for light mode
 import { mapGetters } from "vuex";
 
+// Import global constant for game bounds
+import { MAX_GUESSES } from "@/constants.js";
+
 // Import global component
 import Modal from "@/components/global/Modal.vue";
 
@@ -421,6 +424,9 @@ export default {
 	},
 	data() {
 		return {
+            // Global constant
+            MAX_GUESSES,
+            // State
 			page: 1,
 		};
 	},
@@ -458,6 +464,7 @@ export default {
 		...mapGetters(["lightMode"]),
 	},
 	watch: {
+        // Light mode styling on toggle
 		lightMode: function () {
 			this.$updateLightMode("#help");
 		},

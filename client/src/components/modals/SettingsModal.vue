@@ -4,11 +4,11 @@
 			<h2 id="settings-header">SETTINGS</h2>
 			<div class="setting">
 				<p class="settings-text">Light Mode</p>
-				<Slider :onClick="toggleLightMode" />
+				<ToggleSwitch :onClick="toggleLightMode" />
 			</div>
 			<div class="setting">
 				<p class="settings-text">Hard Mode</p>
-				<Slider :onClick="toggleHardMode" />
+				<ToggleSwitch :onClick="toggleHardMode" />
 			</div>
 			<div id="settings-buttons">
 				<router-link
@@ -42,16 +42,16 @@ import { mapMutations, mapGetters } from "vuex";
 
 // Import global components
 import Modal from "@/components/global/Modal.vue";
-import Slider from "@/components/global/Slider.vue";
+import ToggleSwitch from "@/components/global/ToggleSwitch.vue";
 
 export default {
 	name: "SettingsModal",
 	components: {
 		Modal,
-		Slider,
+		ToggleSwitch,
 	},
 	methods: {
-		// Map Vuex functions for light/hard mode toggle
+		// Map Vuex functions for mode toggle
 		...mapMutations(["setLightMode", "setHardMode"]),
 		// Modal controls
 		openModal: function () {
@@ -60,39 +60,37 @@ export default {
 		closeModal: function () {
 			this.$refs["settings-modal"].closeModal();
 		},
-		// Slider control
+		// Toggle switch controls
 		toggleLightMode: function () {
-			const slider = document.getElementsByClassName("slider")[0];
+			const toggle = document.getElementsByClassName("toggle-switch")[0];
 			// Toggle state
-			localStorage.setItem("lightMode", !this.lightMode);
 			this.setLightMode(!this.lightMode);
-            // Change slider display
-			if (this.lightMode) slider.classList.add("active");
-            else slider.classList.remove("active");
+			// Change toggle switch display
+			if (this.lightMode) toggle.classList.add("active");
+			else toggle.classList.remove("active");
 		},
 		toggleHardMode: function () {
-			const slider = document.getElementsByClassName("slider")[1];
+			const toggle = document.getElementsByClassName("toggle-switch")[1];
 			// Toggle state
-			localStorage.setItem("hardMode", !this.hardMode);
 			this.setHardMode(!this.hardMode);
-            // Change slider display
-			if (this.hardMode) slider.classList.add("active");
-            else slider.classList.remove("active");
+			// Change toggle switch display
+			if (this.hardMode) toggle.classList.add("active");
+			else toggle.classList.remove("active");
 		},
-		// Initializes sliders to stored position
-		initSliders: function () {
-			const sliders = document.getElementsByClassName("slider");
+		// Initializes toggle switches to stored position
+		initToggleSwitches: function () {
+			const toggles = document.getElementsByClassName("toggle-switch");
 			// Use local storage since Vuex isn't updated at mount
 			if (JSON.parse(localStorage.lightMode))
-				sliders[0].classList.add("active");
+				toggles[0].classList.add("active");
 			if (JSON.parse(localStorage.hardMode))
-				sliders[1].classList.add("active");
+				toggles[1].classList.add("active");
 		},
-		// Share site
+		// Handle share button click
 		handleShare: function () {
-			// Show text
+			// Show confirmation text
 			document.getElementById("share-text").style.opacity = "1";
-			// Copy to clipboard
+			// Copy share text to clipboard
 			return navigator.clipboard.writeText(
 				`I've caught ${
 					localStorage.caught
@@ -103,17 +101,17 @@ export default {
 		},
 	},
 	computed: {
-		// Map Vuex functions for light/hard mode checking
+		// Map Vuex functions for mode checking
 		...mapGetters(["lightMode", "hardMode"]),
 	},
 	watch: {
+		// Light mode styling on toggle
 		lightMode: function () {
 			this.$updateLightMode("#settings");
 		},
 	},
 	mounted: function () {
-		// Set sliders to initial position
-		this.initSliders();
+		this.initToggleSwitches();
 		this.$updateLightMode("#settings");
 	},
 };
