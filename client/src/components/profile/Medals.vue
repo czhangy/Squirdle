@@ -329,7 +329,7 @@ export default {
         // Updates light mode styling on each medal
 		updateLightMode: function () {
 			const medals = document.getElementsByClassName("medal");
-			if (JSON.parse(localStorage.lightMode))
+			if (localStorage.lightMode && JSON.parse(localStorage.lightMode))
 				for (let i = 0; i < medals.length; i++)
 					medals[i].classList.add("light-mode");
             else

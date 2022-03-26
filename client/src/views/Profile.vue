@@ -47,8 +47,8 @@ export default {
 		// Initial fetch of all pokemon
 		if (this.pokemonList.length === 0) await this.fetchPokemonList();
 		// Fetch data from local storage
-		this.caught = JSON.parse(localStorage.caught);
-		this.seen = JSON.parse(localStorage.seen);
+		this.caught = localStorage.caught ? JSON.parse(localStorage.caught) : [];
+		this.seen = localStorage.seen ? JSON.parse(localStorage.seen) : [];
 	},
 };
 </script>
