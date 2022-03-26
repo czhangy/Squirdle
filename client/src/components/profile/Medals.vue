@@ -321,7 +321,7 @@ export default {
 				this.obtained[30] = true;
 			// Rattata check
 			if (
-				localStorage.caught &&
+				localStorage.normal &&
 				JSON.parse(localStorage.normal).includes(18)
 			)
 				this.obtained[31] = true;
