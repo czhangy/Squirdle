@@ -81,9 +81,9 @@ export default {
 		initToggleSwitches: function () {
 			const toggles = document.getElementsByClassName("toggle-switch");
 			// Use local storage since Vuex isn't updated at mount
-			if (JSON.parse(localStorage.lightMode))
+			if (localStorage.lightMode && JSON.parse(localStorage.lightMode))
 				toggles[0].classList.add("active");
-			if (JSON.parse(localStorage.hardMode))
+			if (localStorage.hardMode && JSON.parse(localStorage.hardMode))
 				toggles[1].classList.add("active");
 		},
 		// Handle share button click
