@@ -1,10 +1,10 @@
 <template>
-	<form id="feedback-form" @submit.prevent="submitFeedback">
+	<form id="feedback-form" ref="form" @submit.prevent="submitFeedback">
 		<h2 id="feedback-header">FEEDBACK</h2>
 		<label for="subject" class="form-label">Subject</label>
-		<input id="subject" v-model="subject" class="form-input" />
+		<input id="subject" v-model="subject" name="subject" class="form-input" />
 		<label for="message" class="form-label">Message</label>
-		<textarea id="message" v-model="message" class="form-input" />
+		<textarea id="message" v-model="message" name="message" class="form-input" />
 		<input type="submit" id="feedback-submit" value="SUBMIT" />
 	</form>
 </template>
@@ -13,6 +13,9 @@
 // Vuex for light mode
 import { mapGetters } from "vuex";
 
+// Import library for email
+import emailjs from "@emailjs/browser";
+
 export default {
 	name: "FeedbackForm",
 	data: function () {
@@ -20,6 +23,26 @@ export default {
 			subject: "",
 			message: "",
 		};
+	},
+	methods: {
+        // Send email using form
+		submitFeedback: function () {
+			emailjs
+				.sendForm(
+					"service_npxdd6d",
+					"template_u9dkwey",
+					this.$refs.form,
+					"user_gWrfu7e48Jcu4pRpqXqUi"
+				)
+				.then(
+					(result) => {
+						console.log("SUCCESS!", result.text);
+					},
+					(error) => {
+						console.log("FAILED...", error.text);
+					}
+				);
+		},
 	},
 	computed: {
 		// Map Vuex function for light mode
@@ -124,7 +147,7 @@ export default {
 		color: $main-color;
 	}
 
-    #feedback-form.light-mode > #feedback-submit:hover {
+	#feedback-form.light-mode > #feedback-submit:hover {
 		background: $light-accent-color;
 		color: $light-main-color;
 	}
