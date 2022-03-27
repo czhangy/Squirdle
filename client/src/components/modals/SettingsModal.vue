@@ -1,36 +1,56 @@
 <template>
 	<Modal id="settings-modal" ref="settings-modal" modalID="settings-modal">
 		<div id="settings">
-			<h2 id="settings-header">SETTINGS</h2>
-			<div class="setting">
-				<p class="settings-text">Light Mode</p>
-				<ToggleSwitch :onClick="toggleLightMode" />
+			<div id="main-page" class="page show display">
+				<h2 id="settings-header">SETTINGS</h2>
+				<div class="setting">
+					<p class="settings-text">Light Mode</p>
+					<ToggleSwitch :onClick="toggleLightMode" />
+				</div>
+				<div class="setting">
+					<p class="settings-text">Hard Mode</p>
+					<ToggleSwitch :onClick="toggleHardMode" />
+				</div>
+				<div id="settings-buttons">
+					<div id="buttons-row">
+						<router-link
+							to="/profile"
+							id="profile-button"
+							class="settings-button"
+							@click="closeModal"
+							>GO TO PROFILE</router-link
+						>
+						<button
+							id="share-button"
+							class="settings-button"
+							@click="handleShare"
+						>
+							<img
+								src="@/assets/icons/share.png"
+								alt=""
+								id="share-icon"
+							/>
+							SHARE
+							<p id="share-text">Copied to clipboard!</p>
+						</button>
+					</div>
+					<button
+						id="feedback-button"
+						class="settings-button"
+						@click="setPage('main-page', 'feedback-page')"
+					>
+						SEND FEEDBACK
+					</button>
+				</div>
 			</div>
-			<div class="setting">
-				<p class="settings-text">Hard Mode</p>
-				<ToggleSwitch :onClick="toggleHardMode" />
-			</div>
-			<div id="settings-buttons">
-				<router-link
-					to="/profile"
-					id="profile-button"
-					class="settings-button"
-					@click="closeModal"
-					>GO TO PROFILE</router-link
-				>
+			<div id="feedback-page" class="page right-page">
 				<button
-					id="share-button"
-					class="settings-button"
-					@click="handleShare"
+					id="back-button"
+					@click="setPage('feedback-page', 'main-page')"
 				>
-					<img
-						src="@/assets/icons/share.png"
-						alt=""
-						id="share-icon"
-					/>
-					SHARE
-					<p id="share-text">Copied to clipboard!</p>
+					←
 				</button>
+				<FeedbackForm />
 			</div>
 		</div>
 	</Modal>
@@ -43,12 +63,14 @@ import { mapMutations, mapGetters } from "vuex";
 // Import global components
 import Modal from "@/components/global/Modal.vue";
 import ToggleSwitch from "@/components/global/ToggleSwitch.vue";
+import FeedbackForm from "@/components/global/FeedbackForm.vue";
 
 export default {
 	name: "SettingsModal",
 	components: {
 		Modal,
 		ToggleSwitch,
+		FeedbackForm,
 	},
 	methods: {
 		// Map Vuex functions for mode toggle
@@ -99,6 +121,29 @@ export default {
 				} Pokémon in Squirdle!\nTry it out yourself here: https://squirdle.herokuapp.com`
 			);
 		},
+		// Handle page nav
+		setPage: function (oldID, newID) {
+			const curPage = document.getElementById(oldID);
+			// Fade out
+			curPage.classList.remove("show");
+			// Move to correct side
+			if (oldID === "main-page") curPage.classList.add("left-page");
+			else curPage.classList.add("right-page");
+			setTimeout(() => {
+				// Remove from flow
+				curPage.classList.remove("display");
+				const newPage = document.getElementById(newID);
+				// Add to flow and fade in
+				newPage.classList.add("display");
+				setTimeout(() => {
+					newPage.classList.add("show");
+					// Remove from prior side
+					if (newID === "feedback-page")
+						newPage.classList.remove("right-page");
+					else newPage.classList.remove("left-page");
+				}, 50);
+			}, 250);
+		},
 	},
 	computed: {
 		// Map Vuex functions for mode checking
@@ -122,6 +167,7 @@ export default {
 	height: 100%;
 	width: 100%;
 	color: $accent-color;
+	position: relative;
 
 	#settings-header {
 		font-family: $alt-font;
@@ -146,35 +192,7 @@ export default {
 	}
 
 	#settings-buttons {
-		display: flex;
-		justify-content: space-between;
 		margin-top: 48px;
-
-		#profile-button {
-			width: 190px;
-			text-decoration: none;
-		}
-
-		#share-button {
-			width: 150px;
-			cursor: pointer;
-			position: relative;
-
-			#share-icon {
-				height: 24px;
-				margin-right: 16px;
-			}
-
-			#share-text {
-				font-size: 0.8rem;
-				letter-spacing: 1px;
-				position: absolute;
-				top: -24px;
-				font-family: $main-font;
-				color: $accent-color;
-				opacity: 0;
-			}
-		}
 
 		.settings-button {
 			color: $accent-color;
@@ -188,7 +206,77 @@ export default {
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			cursor: pointer;
 		}
+
+		#buttons-row {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 10px;
+
+			#profile-button {
+				width: 190px;
+				text-decoration: none;
+			}
+
+			#share-button {
+				width: 150px;
+				position: relative;
+
+				#share-icon {
+					height: 24px;
+					margin-right: 16px;
+				}
+
+				#share-text {
+					font-size: 0.8rem;
+					letter-spacing: 1px;
+					position: absolute;
+					top: -24px;
+					font-family: $main-font;
+					color: $accent-color;
+					opacity: 0;
+				}
+			}
+		}
+
+		#feedback-button {
+			width: 100%;
+		}
+	}
+
+	#back-button {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: none;
+		border: none;
+		color: $accent-color;
+		font-size: 1.2rem;
+		line-height: 1.2rem;
+		cursor: pointer;
+	}
+
+	.page {
+		display: none;
+		transition: all 0.25s ease;
+		opacity: 0;
+	}
+
+	.left-page {
+		transform: translateX(-30px);
+	}
+
+	.right-page {
+		transform: translateX(30px);
+	}
+
+	.show {
+		opacity: 1;
+	}
+
+	.display {
+		display: block;
 	}
 }
 
@@ -211,32 +299,40 @@ export default {
 			border-color: $light-accent-color;
 		}
 	}
+
+	#back-button {
+		color: $light-accent-color;
+	}
 }
 
 // Sticky hover
 @media (hover: hover) {
-	#settings > #settings-buttons {
-		.settings-button:hover {
-			background: $accent-color;
-			color: $main-color;
-		}
+	#settings {
+		#settings-buttons {
+			.settings-button:hover {
+				background: $accent-color;
+				color: $main-color;
+			}
 
-		#share-button:hover {
-			#share-icon {
-				filter: invert(100%);
+			#share-button:hover {
+				#share-icon {
+					filter: invert(100%);
+				}
 			}
 		}
 	}
 
-	#settings.light-mode > #settings-buttons {
-		.settings-button:hover {
-			background: $light-accent-color;
-			color: $light-main-color;
-		}
+	#settings.light-mode {
+		#settings-buttons {
+			.settings-button:hover {
+				background: $light-accent-color;
+				color: $light-main-color;
+			}
 
-		#share-button:hover {
-			#share-icon {
-				filter: none;
+			#share-button:hover {
+				#share-icon {
+					filter: none;
+				}
 			}
 		}
 	}
