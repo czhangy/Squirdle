@@ -1,7 +1,7 @@
 <template>
 	<div id="squirdle">
 		<ErrorModal ref="error-modal" :errorCode="errorCode" />
-		<GuessDropdown
+		<GameDropdown
 			v-if="!gameOver"
 			:onError="displayError"
 			:onSubmit="handleGuess"
@@ -24,14 +24,14 @@ import { mapMutations, mapActions, mapGetters } from "vuex";
 import ErrorModal from "@/components/modals/ErrorModal.vue";
 
 // Import game components
-import GuessDropdown from "@/components/squirdle/GuessDropdown.vue";
+import GameDropdown from "@/components/squirdle/GameDropdown.vue";
 import GameGrid from "@/components/squirdle/GameGrid.vue";
 
 export default {
 	name: "Squirdle",
 	components: {
 		ErrorModal,
-		GuessDropdown,
+		GameDropdown,
 		GameGrid,
 	},
 	data() {

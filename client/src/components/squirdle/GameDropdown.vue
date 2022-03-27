@@ -1,5 +1,5 @@
 <template>
-	<div id="guess-dropdown">
+	<div id="game-dropdown">
 		<div
 			id="dropdown-overlay"
 			class="dropdown-overlay"
@@ -7,7 +7,7 @@
 		/>
 		<div id="dropdown-container" class="overlay">
 			<input
-				id="guess-input"
+				id="game-input"
 				type="text"
 				:placeholder="`Guess ${
 					storedGuesses.length < MAX_GUESSES
@@ -31,7 +31,7 @@
 				</button>
 			</div>
 		</div>
-		<button id="guess-button" @click="submitGuess">→</button>
+		<button id="game-submit" @click="submitGuess">→</button>
 	</div>
 </template>
 
@@ -44,7 +44,7 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 
 export default {
-	name: "GuessDropdown",
+	name: "GameDropdown",
 	props: {
 		onError: {
 			type: Function,
@@ -214,22 +214,22 @@ export default {
 		},
 		lightMode: function () {
 			// Update light mode on toggle
-			this.$updateLightMode("#guess-dropdown");
+			this.$updateLightMode("#game-dropdown");
 		},
 	},
 	mounted: function () {
 		// Enable Enter submission
 		document
-			.getElementById("guess-input")
+			.getElementById("game-input")
 			.addEventListener("keyup", (e) => {
 				if (e.code === "Enter") this.submitGuess();
 			});
-		this.$updateLightMode("#guess-dropdown");
+		this.$updateLightMode("#game-dropdown");
 	},
 	beforeUnmount: function () {
 		// Clean up
 		document
-			.getElementById("guess-input")
+			.getElementById("game-input")
 			.removeEventListener("keyup", (e) => {
 				if (e.code === "Enter") this.submitGuess();
 			});
@@ -238,7 +238,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#guess-dropdown {
+#game-dropdown {
 	// Var
 	--input-height: 60px;
 	display: flex;
@@ -266,12 +266,11 @@ export default {
 		// Overlap tiles
 		z-index: $dropdown;
 
-		#guess-input {
+		#game-input {
 			background: transparent;
 			height: var(--input-height);
 			width: 300px;
 			border: 1px solid $tile-color;
-			border-radius: 0;
 			font-family: $alt-font;
 			color: $accent-color;
 			font-size: 2rem;
@@ -336,7 +335,7 @@ export default {
 		}
 	}
 
-	#guess-button {
+	#game-submit {
 		border: 1px solid $tile-color;
 		border-left: none;
 		border-radius: 0;
@@ -355,9 +354,9 @@ export default {
 	}
 }
 
-#guess-dropdown.light-mode {
+#game-dropdown.light-mode {
 	#dropdown-container {
-		#guess-input {
+		#game-input {
 			color: $light-accent-color;
 
 			&:focus {
@@ -375,29 +374,29 @@ export default {
 		}
 	}
 
-	#guess-button {
+	#game-submit {
 		color: $light-accent-color;
 	}
 }
 
 // Sticky hover
 @media (hover: hover) {
-	#guess-dropdown {
+	#game-dropdown {
 		#dropdown-container > .dropdown > .dropdown-option:hover {
 			background: $focus-color;
 		}
 
-		#guess-button:hover:enabled {
+		#game-submit:hover:enabled {
 			background: $focus-color;
 		}
 	}
 
-	#guess-dropdown.light-mode {
+	#game-dropdown.light-mode {
 		#dropdown-container > .dropdown > .dropdown-option:hover {
 			background: $light-focus-color;
 		}
 
-		#guess-button:hover:enabled {
+		#game-submit:hover:enabled {
 			background: $light-focus-color;
 		}
 	}
@@ -405,10 +404,10 @@ export default {
 
 // Mobile design
 @media screen and (max-width: $mobile) {
-	#guess-dropdown {
+	#game-dropdown {
 		--input-height: 45px;
 
-		#dropdown-container > #guess-input {
+		#dropdown-container > #game-input {
 			font-size: 1.5rem;
 		}
 	}
