@@ -321,7 +321,7 @@ export default {
 				this.obtained[30] = true;
 			// Rattata check
 			if (
-				localStorage.caught &&
+				localStorage.normal &&
 				JSON.parse(localStorage.normal).includes(18)
 			)
 				this.obtained[31] = true;
@@ -329,7 +329,7 @@ export default {
         // Updates light mode styling on each medal
 		updateLightMode: function () {
 			const medals = document.getElementsByClassName("medal");
-			if (JSON.parse(localStorage.lightMode))
+			if (localStorage.lightMode && JSON.parse(localStorage.lightMode))
 				for (let i = 0; i < medals.length; i++)
 					medals[i].classList.add("light-mode");
             else

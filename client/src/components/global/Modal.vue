@@ -37,7 +37,7 @@ export default {
 		updateLightMode: function () {
 			const modal =
 				document.getElementsByClassName("modal")[this.modalID];
-			if (JSON.parse(localStorage.lightMode))
+			if (localStorage.lightMode && JSON.parse(localStorage.lightMode))
 				modal.classList.add("light-mode");
 			else modal.classList.remove("light-mode");
 		},
