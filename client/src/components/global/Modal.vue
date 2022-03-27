@@ -120,6 +120,7 @@ export default {
 		height: 32px;
 		width: 32px;
 		cursor: pointer;
+        z-index: $modal-x;
 	}
 }
 

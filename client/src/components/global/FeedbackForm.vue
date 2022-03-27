@@ -2,9 +2,19 @@
 	<form id="feedback-form" ref="form" @submit.prevent="submitFeedback">
 		<h2 id="feedback-header">FEEDBACK</h2>
 		<label for="subject" class="form-label">Subject</label>
-		<input id="subject" v-model="subject" name="subject" class="form-input" />
+		<input
+			id="subject"
+			v-model="subject"
+			name="subject"
+			class="form-input"
+		/>
 		<label for="message" class="form-label">Message</label>
-		<textarea id="message" v-model="message" name="message" class="form-input" />
+		<textarea
+			id="message"
+			v-model="message"
+			name="message"
+			class="form-input"
+		/>
 		<input type="submit" id="feedback-submit" value="SUBMIT" />
 	</form>
 </template>
@@ -25,8 +35,12 @@ export default {
 		};
 	},
 	methods: {
-        // Send email using form
+		// Send email using form
 		submitFeedback: function () {
+			// Disable button
+			const button = document.getElementById("feedback-submit");
+			button.disabled = true;
+			button.value = "SUBMITTING...";
 			emailjs
 				.sendForm(
 					"service_npxdd6d",
@@ -35,12 +49,8 @@ export default {
 					"user_gWrfu7e48Jcu4pRpqXqUi"
 				)
 				.then(
-					(result) => {
-						console.log("SUCCESS!", result.text);
-					},
-					(error) => {
-						console.log("FAILED...", error.text);
-					}
+					() => (button.value = "SENT!"),
+					() => (button.value = "ERROR")
 				);
 		},
 	},
@@ -106,7 +116,7 @@ export default {
 	#feedback-submit {
 		color: $accent-color;
 		height: 50px;
-		width: 150px;
+		width: 200px;
 		margin: 0 auto;
 		font-family: $alt-font;
 		font-size: 1.2rem;
@@ -118,6 +128,10 @@ export default {
 		justify-content: center;
 		align-items: center;
 		cursor: pointer;
+
+        &:disabled {
+            cursor: default;
+        }
 	}
 }
 
@@ -142,12 +156,12 @@ export default {
 
 // Sticky hover
 @media (hover: hover) {
-	#feedback-form > #feedback-submit:hover {
+	#feedback-form > #feedback-submit:hover:enabled {
 		background: $accent-color;
 		color: $main-color;
 	}
 
-	#feedback-form.light-mode > #feedback-submit:hover {
+	#feedback-form.light-mode > #feedback-submit:hover:enabled {
 		background: $light-accent-color;
 		color: $light-main-color;
 	}
