@@ -12,11 +12,10 @@ The most up-to-date version of Squirdle is currently deployed at: https://squird
 
 ## Project Status
 
-This project is still under development. The base game is functional, but features are still being planned and added and more data is still being collected.
+This project is still under development. The base game and features are functional, but quality of life changes are still being planned and more data is still being collected.
 
 #### To Do:
 
-- [ ] Refactor
 - [ ] Add tooltips
 - [ ] Fix light mode text bug on medals
 - [ ] Add Gen. V - VIII to the database
