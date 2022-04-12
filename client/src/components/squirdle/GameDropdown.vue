@@ -83,6 +83,7 @@ export default {
 		},
 		// Dropdown controls
 		openDropdown: function () {
+			console.log(this.hardMode);
 			// No dropdown on hard mode
 			if (!this.hardMode) {
 				document
@@ -162,7 +163,7 @@ export default {
 			// Close dropdown
 			this.closeDropdown();
 			// Disable button temporarily
-			let button = document.getElementById("guess-button");
+			let button = document.getElementById("game-submit");
 			button.disabled = true;
 			setTimeout(() => {
 				button.disabled = false;
@@ -219,11 +220,9 @@ export default {
 	},
 	mounted: function () {
 		// Enable Enter submission
-		document
-			.getElementById("game-input")
-			.addEventListener("keyup", (e) => {
-				if (e.code === "Enter") this.submitGuess();
-			});
+		document.getElementById("game-input").addEventListener("keyup", (e) => {
+			if (e.code === "Enter") this.submitGuess();
+		});
 		this.$updateLightMode("#game-dropdown");
 	},
 	beforeUnmount: function () {
@@ -271,6 +270,7 @@ export default {
 			height: var(--input-height);
 			width: 300px;
 			border: 1px solid $tile-color;
+			border-radius: 0;
 			font-family: $alt-font;
 			color: $accent-color;
 			font-size: 2rem;
