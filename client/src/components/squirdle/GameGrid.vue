@@ -76,7 +76,9 @@ export default {
 						// Scroll newest row to bottom of grid
 						document
 							.getElementsByClassName("game-row")
-							[this.storedGuesses.length].scrollIntoView({
+							[
+								Math.min(this.storedGuesses.length, 7)
+							].scrollIntoView({
 								behavior: "smooth",
 								block: "end",
 							});

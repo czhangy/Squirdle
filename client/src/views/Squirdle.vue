@@ -89,10 +89,10 @@ export default {
 		// Handle game end conditions
 		handleGameOver: function (win) {
 			// Disable input fields
-			const input = document.getElementById("guess-input");
+			const input = document.getElementById("game-input");
 			input.placeholder = "";
 			input.disabled = true;
-			document.getElementById("guess-button").disabled = true;
+			document.getElementById("game-submit").disabled = true;
 			// Update local storage
 			this.setLocalStorage(win);
 			// Update Vuex game state

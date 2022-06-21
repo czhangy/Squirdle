@@ -83,7 +83,6 @@ export default {
 		},
 		// Dropdown controls
 		openDropdown: function () {
-			console.log(this.hardMode);
 			// No dropdown on hard mode
 			if (!this.hardMode) {
 				document
