@@ -273,6 +273,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 -   [Awesome README](https://github.com/matiassingers/awesome-readme)
 -   [Shields.io](https://shields.io/)
 -   [Serebii](https://www.serebii.net/)
--   [**PokéAPI**](https://pokeapi.co/)
+-   [PokéAPI](https://pokeapi.co/)
 -   [Project Pokémon](https://projectpokemon.org/)
 
